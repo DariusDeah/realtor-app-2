@@ -1,17 +1,30 @@
-import type { NextPage } from 'next'
-import Header from '../components/Header'
-import HomeDisplays from '../components/HomeDisplays'
-import Map from '../components/Map'
-
+import type { NextPage } from "next";
+import { useEffect, useState } from "react";
+import Header from "../components/Header";
+import HomeDisplays from "../components/HomeDisplays";
+import Map from "../components/Map";
+import { fetchProperties } from "../utils/requests";
 
 const Home: NextPage = () => {
-  return (
-   <div className='flex'>
-    <Header/>
-    <HomeDisplays/>
-    <Map/>
-   </div>
-  )
-}
+  const [mapToggled, setMapToggled] = useState(false);
+  const [homes, setHome] = useState(null);
+  console.log(homes);
+  const handleMapToggle = (isToggled: boolean) => {
+    setMapToggled(isToggled);
+  };
 
-export default Home
+  return (
+    <div className="lg:flex">
+      <Header />
+
+      <HomeDisplays
+        updateHomeState={setHome}
+        mapToggleFunction={handleMapToggle}
+        mapToggleState={mapToggled}
+      />
+      {mapToggled && homes && <Map markerObjects={homes} />}
+    </div>
+  );
+};
+
+export default Home;

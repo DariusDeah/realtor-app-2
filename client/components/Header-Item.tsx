@@ -2,14 +2,14 @@ import React from "react";
 
 type Props = {
   icon: any;
-  title: string;
+  title?: string;
 };
 
 function HeaderItem({ icon, title }: Props) {
   return (
-    <div>
-      {icon}
-      {title}
+    <div className="cursor-pointer hover:bg-slate-100 p-2 rounded-md flex flex-col">
+      <div className="justify-center align-middle">{icon}</div>
+      {title && title}
     </div>
   );
 }
