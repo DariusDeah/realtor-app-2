@@ -10,6 +10,10 @@
   .selectable:hover {
     background-color: rgb(241 245 249);
   }
+  .selected {
+    background-color: rgb(241 245 249);
+    border: solid black 2px;
+  }
 }
 * {
   padding: 0%;

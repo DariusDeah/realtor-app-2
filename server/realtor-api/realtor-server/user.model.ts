@@ -6,11 +6,13 @@ export class User {
     password: string;
     profile_img_url: string;
     favorite_homes?: any[];
-    membership_status: 'premium' | 'base';
+    membership_status: 'Premium' | 'Base';
     recently_viewed?: any[];
     timezone: string;
     zip_code: string;
+    state: string;
     is_active: boolean;
+    searching_for_type: 'Houses' | 'Apartments';
     constructor(data: User) {
         this.full_name = data.full_name;
         this.email = data.email;
@@ -18,10 +20,12 @@ export class User {
         this.id = nanoid();
         this.profile_img_url = data.profile_img_url || '';
         this.favorite_homes = data.favorite_homes || [];
-        this.membership_status = data.membership_status || 'base';
+        this.membership_status = data.membership_status || 'Base';
         this.recently_viewed = data.recently_viewed || [];
         this.timezone = data.timezone || '';
         this.zip_code = data.zip_code || '';
         this.is_active = true;
+        this.state = data.state || '';
+        this.searching_for_type = data.searching_for_type || 'Houses';
     }
 }

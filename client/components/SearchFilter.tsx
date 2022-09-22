@@ -52,15 +52,29 @@ function SearchFilter({
   ) : (
     <button
       onClick={() => toggleMapFunction(true)}
-      className="btn-sm rounded-lg bg-white text-blue-400 active:bg-blue-400 active:text-white"
+      className="btn-sm rounded-lg bg-white text-blue-400 active:bg-blue-400 active:text-white flex"
     >
       View Map
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
+        />
+      </svg>
     </button>
   );
 
   return (
-    <div className="px-2 space-y-5">
-      <div className="flex justify-between ">
+    <div className="px-2 space-y-5 ">
+      <div className="flex justify-between   ">
         <div className="p-2 bg-slate-100 w-fit space-x-2 rounded-lg font-semibold">
           <button className="btn-sm rounded-lg bg-white text-blue-400 active:bg-blue-400 active:text-white">
             Rent
@@ -92,7 +106,7 @@ function SearchFilter({
           <input placeholder="California" ref={locationRef} />
         </div>
       </div>
-      <div className="bg-slate-100 p-4 font-semibold flex flex-wrap lg:justify-between align-middle">
+      <div className="bg-slate-100 p-4 font-semibold flex flex-wrap lg:justify-between items-center">
         <button className="btn .btn:active:hover" onClick={handleSearch}>
           Search
         </button>

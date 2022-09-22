@@ -12,7 +12,7 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/8036a73c8cf9517ebf37e7e575bfe61a
+      CodeUri: s3://realtor-api-prod/c88f9808c5eb4c7b5b214067ab04957f
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -35,7 +35,7 @@ Resources:
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/5e51494049ccd0e28c070966a32e8c05
+      CodeUri: s3://realtor-api-prod/f145853b4a8493f6fe577d61df51a5c8
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:

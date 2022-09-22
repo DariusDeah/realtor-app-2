@@ -1,7 +1,8 @@
-import { axios } from "./axios.conif";
+import { API_KEY, axios, SERVER_API } from "./axios.conif";
 import { Homes } from "../models/home";
 import { SearchParams } from "../types/searchParams";
 import { homeTestData } from "./mock-data";
+import { UserDTO } from "../models/userDTO";
 
 export async function fetchProperties({
   query,
@@ -20,15 +21,20 @@ export async function fetchProperties({
 
   const homes = JSON.parse(res.data);
   const modifiedHomes: any[] = homes.props.map((home: any) => new Homes(home));
-  return modifiedHomes;
+  return [homeTestData];
 }
 
 export async function fetchProperty(homeId: string) {
-  // const res = await axios.get("/property", {
-  //   params: {
-  //     zpid: homeId,
-  //   },
-  // });
+  const res = await axios.get("/property", {
+    params: {
+      zpid: homeId,
+    },
+  });
   // return JSON.parse(res.data);
   return homeTestData;
+}
+
+export async function signup(apiData: any) {
+  const res = await SERVER_API.post(`/signup`, JSON.stringify(apiData));
+  return res;
 }

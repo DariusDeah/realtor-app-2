@@ -7,9 +7,11 @@ type Props = {
 
 function HeaderItem({ icon, title }: Props) {
   return (
-    <div className="cursor-pointer hover:bg-slate-100 p-2 rounded-md flex flex-col">
-      <div className="justify-center align-middle">{icon}</div>
-      {title && title}
+    <div
+      className="selectable flex flex-col tooltip hover:tooltip-open tooltip-right z-50 py-1.5 "
+      data-tip={title}
+    >
+      <div>{icon}</div>
     </div>
   );
 }

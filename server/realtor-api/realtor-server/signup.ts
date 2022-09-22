@@ -16,6 +16,8 @@ import { User } from './user.model';
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let response: APIGatewayProxyResult;
     try {
+        console.log({ event }, { context });
+
         if (!event.body) {
             throw new Error('user required');
         }
@@ -38,14 +40,26 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         //api response
         response = {
             statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+            },
             body: JSON.stringify({
-                message: 'Sucessful Signup',
+                message: 'Successful Signup',
                 data: createdUser,
             }),
         };
     } catch (err) {
         console.log(err);
         response = {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+            },
             statusCode: 500,
             body: JSON.stringify({
                 message: err,
