@@ -6,6 +6,7 @@ import { API_KEY, SERVER_API } from "../utils/axios.conif";
 import { signup } from "../utils/requests";
 import useAutosave from "./hooks/Autosave";
 import useLocalSave from "./hooks/useLocalSave";
+import Alert, { AlertTypes } from "./ui/Alert";
 import MultiHomeUI from "./ui/Multi-Home";
 import SingleHomeUI from "./ui/Single-Home";
 
@@ -33,6 +34,7 @@ function SignupForm({}: Props) {
   const photoUrlRef = useRef<HTMLInputElement>(userData.photoUrl || null);
   const zipcodeRef = useRef<HTMLInputElement>(userData.zipcode || null);
   const stateRef = useRef<HTMLSelectElement>(userData.state || null);
+  let alert;
 
   const { isSaved, addToLocalStorage } = useLocalSave();
 
@@ -129,7 +131,8 @@ function SignupForm({}: Props) {
         timezone: timezone || prevState.timezone,
       };
     });
-    alert("Are you sure you're ready to submit this form?");
+    // alert("Are you sure you're ready to submit this form?");
+
     console.log("form submitting");
     setCompletedSteps((prevState: any) => {
       return [...new Set([...prevState, currentStep])];
@@ -442,6 +445,7 @@ function SignupForm({}: Props) {
     <div className=" border-2 lg:max-w-screen-lg w-screen rounded-lg lg:mx-4 ">
       {/* Steps */}
       <div className="flex flex-col items-center mt-4 ">
+        {alert}
         <ul className="steps lg:text-lg text-sm">
           <li className={`step ${generateStepColor(1)}`} value={1}>
             Register
@@ -472,7 +476,7 @@ function SignupForm({}: Props) {
               Back
             </button>
             {currentStep === 3 ? (
-              <button className={`btn  `} type="submit">
+              <button className={`btn btn-primary `} type="submit">
                 Finish
               </button>
             ) : (

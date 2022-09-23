@@ -20,7 +20,8 @@
     "**/*.ts",
     "**/*.tsx",
     "__test__/HouseCard.test.js",
-    "__test__/HouseCard.test.js"
+    "__test__/HouseCard.test.js",
+    "pages/_document.ts"
   ],
   "exclude": ["node_modules"]
 }

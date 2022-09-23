@@ -14,6 +14,8 @@ function SearchFilter({
   submitRequestFunction,
 }: Props) {
   const [currentFilters, setCurrentFilters] = useState<any[] | null>(null);
+  const [isShowingFilters, setIsShowingFilters] = useState(false);
+
   const locationRef = useRef<HTMLInputElement>(null);
   const bathroomRef = useRef<HTMLSelectElement>(null);
   const bedroomRef = useRef<HTMLSelectElement>(null);
@@ -38,7 +40,6 @@ function SearchFilter({
     const filterValues = Object.values(filters).filter(
       (filterValue) => filterValue !== null && filterValue.toString().length
     );
-    console.log(filterValues);
     setCurrentFilters(filterValues);
   };
 
@@ -73,9 +74,9 @@ function SearchFilter({
   );
 
   return (
-    <div className="px-2 space-y-5 ">
+    <div className="px-2 space-y-5  ">
       <div className="flex justify-between   ">
-        <div className="p-2 bg-slate-100 w-fit space-x-2 rounded-lg font-semibold">
+        <div className="p-2 bg-slate-100 w-fit space-x-2 rounded-lg font-semibold ">
           <button className="btn-sm rounded-lg bg-white text-blue-400 active:bg-blue-400 active:text-white">
             Rent
           </button>
@@ -106,82 +107,92 @@ function SearchFilter({
           <input placeholder="California" ref={locationRef} />
         </div>
       </div>
-      <div className="bg-slate-100 p-4 font-semibold flex flex-wrap lg:justify-between items-center">
-        <button className="btn .btn:active:hover" onClick={handleSearch}>
-          Search
-        </button>
-        <ul className="flex space-x-8 flex-wrap">
-          <li>
-            <p>Bedrooms</p>
-            <select name="" id="" className="select" ref={bedroomRef}>
-              <option value="0">N/A</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5+</option>
-            </select>
-          </li>
-          <li>
-            <p>Bathrooms</p>
-            <select name="" id="" className="select" ref={bathroomRef}>
-              <option value="0">N/A</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5+</option>
-            </select>
-          </li>
-          <li>
-            <p>Home Type</p>
-            <select name="" id="" className="select" ref={homeTypeRef}>
-              {Home_Types.map((homeType) => (
-                <option value={homeType} key={homeType}>
-                  {homeType}
-                </option>
-              ))}
-            </select>
-          </li>
+      {isShowingFilters && (
+        <div className="bg-slate-100 p-4 font-semibold flex lg:flex-wrap flex-wrap-reverse lg:justify-between lg:items-center space-y-6 ">
+          <button className="btn .btn:active:hover" onClick={handleSearch}>
+            Search
+          </button>
+          <ul className="flex space-x-8 flex-wrap">
+            <li>
+              <p>Bedrooms</p>
+              <select name="" id="" className="select" ref={bedroomRef}>
+                <option value="0">N/A</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5+</option>
+              </select>
+            </li>
+            <li>
+              <p>Bathrooms</p>
+              <select name="" id="" className="select" ref={bathroomRef}>
+                <option value="0">N/A</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5+</option>
+              </select>
+            </li>
+            <li>
+              <p>Home Type</p>
+              <select name="" id="" className="select" ref={homeTypeRef}>
+                {Home_Types.map((homeType) => (
+                  <option value={homeType} key={homeType}>
+                    {homeType}
+                  </option>
+                ))}
+              </select>
+            </li>
 
-          <div>
-            <label htmlFor="">Price Range</label>
-            <input
-              ref={priceRangeRef}
-              type="range"
-              min="0"
-              max="200000"
-              className="range"
-              step="50000"
-            />
-            <div className="w-full flex justify-between text-xs px-2 space-x-3">
-              <span>0</span>
-              <span>50,000+</span>
-              <span>100,000+</span>
-              <span>150,000+</span>
-              <span>200,000+</span>
+            <div>
+              <label htmlFor="">Price Range</label>
+              <input
+                ref={priceRangeRef}
+                type="range"
+                min="0"
+                max="200000"
+                className="range"
+                step="50000"
+              />
+              <div className="w-full flex justify-between text-xs px-2 space-x-3">
+                <span>0</span>
+                <span>50,000+</span>
+                <span>100,000+</span>
+                <span>150,000+</span>
+                <span>200,000+</span>
+              </div>
             </div>
-          </div>
-          <li>
-            <p>Sort</p>
-            <select name="" id="" className="select" ref={sortRef}>
-              <option value="">N/A</option>
-              <option value="Price_High_Low">High to Low</option>
-              <option value="Price_Low_High">Low to High</option>
-              <option value="Newest">Newest</option>
-              <option value="Square_Feet">Square Feet</option>
-            </select>
-          </li>
-        </ul>
-        <div className="md:flex hidden ">{toggleMapBtn}</div>
-      </div>
+            <li>
+              <p>Sort</p>
+              <select name="" id="" className="select" ref={sortRef}>
+                <option value="">N/A</option>
+                <option value="Price_High_Low">High to Low</option>
+                <option value="Price_Low_High">Low to High</option>
+                <option value="Newest">Newest</option>
+                <option value="Square_Feet">Square Feet</option>
+              </select>
+            </li>
+          </ul>
+          <div className="md:flex hidden ">{toggleMapBtn}</div>
+        </div>
+      )}
       <div>
-        <h4>
-          current filters:
-          {currentFilters?.map((filter) => (
-            <span className="badge mx-1">{filter}</span>
-          ))}
-        </h4>
+        <button
+          className="btn btn-xs"
+          onClick={() => setIsShowingFilters(!isShowingFilters)}
+        >
+          {isShowingFilters ? "Hide Filters" : "Show Filters"}
+        </button>
+        {isShowingFilters && (
+          <h4>
+            current filters:
+            {currentFilters?.map((filter) => (
+              <span className="badge mx-1">{filter}</span>
+            ))}
+          </h4>
+        )}
       </div>
     </div>
   );

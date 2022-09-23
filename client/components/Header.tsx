@@ -1,11 +1,15 @@
 import Image from "next/image";
 import React from "react";
 import HeaderItem from "./Header-Item";
+import Router from "next/router";
 
 function Header() {
   return (
-    <div className="flex lg:flex-col w-screen  lg:justify-between p-5  lg:w-16 lg:h-screen justify-between lg:space-y-9 border-r-2 border-slate-200 align-middle ">
-      <div className="lg:align-top inline-flex flex-col items-center justify-center border-b-2 ">
+    <div className="flex lg:flex-col w-screen  lg:justify-between p-5  lg:w-16 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-slate-200 align-middle ">
+      <div
+        className="lg:align-top inline-flex cursor-pointer flex-col items-center justify-center lg:border-b-2 "
+        onClick={() => Router.push("/")}
+      >
         <img
           className="object-contain w-10 h-10 "
           src="https://cdn-icons-png.flaticon.com/512/2159/2159323.png"
