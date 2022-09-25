@@ -1,7 +1,10 @@
 import Router from "next/router";
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { User } from "../models/user";
 import { UserDTO } from "../models/userDTO";
+import { useAppDispatch, useAppSelector } from "../redux";
+import { selectUser, signUpUser } from "../redux/user.reducer";
 import { API_KEY, SERVER_API } from "../utils/axios.conif";
 import { signup } from "../utils/requests";
 import useAutosave from "./hooks/Autosave";
@@ -16,6 +19,8 @@ const MAX_STEPS = 4;
 const MIN_STEPS = 1;
 
 function SignupForm({}: Props) {
+  const dispatch = useAppDispatch();
+
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [userData, setUserData] = useState<User | any>({});
@@ -134,26 +139,26 @@ function SignupForm({}: Props) {
     // alert("Are you sure you're ready to submit this form?");
 
     console.log("form submitting");
-    setCompletedSteps((prevState: any) => {
-      return [...new Set([...prevState, currentStep])];
-    });
 
-    setCurrentStep((prev: number) => {
-      console.log(currentStep);
-      if (currentStep < MAX_STEPS) return prev++;
-      return currentStep;
-    });
+    // if (res.status == 200) {
+    //   setCompletedSteps((prevState: number[]) => {
+    //     return [...prevState, currentStep];
+    //   });
 
-    const reqBody = new UserDTO(userData);
-    const res = await signup({ ...reqBody });
-
-    if (res.status == 200) {
-      setCompletedSteps((prevState: number[]) => {
-        return [...prevState, currentStep];
+    //   setCurrentStep((prevState: number) => {
+    //     if (currentStep < MAX_STEPS) return prevState + 1;
+    //     return currentStep;
+    //   });
+    const res = await dispatch(signUpUser(userData));
+    console.log(res);
+    if (res.meta.requestStatus.includes("fulfilled")) {
+      setCompletedSteps((prevState: any) => {
+        return [...new Set([...prevState, currentStep])];
       });
 
-      setCurrentStep((prevState: number) => {
-        if (currentStep < MAX_STEPS) return prevState + 1;
+      setCurrentStep((prev: number) => {
+        console.log(currentStep);
+        if (currentStep < MAX_STEPS) return prev++;
         return currentStep;
       });
 

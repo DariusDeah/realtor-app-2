@@ -2,8 +2,12 @@ import Image from "next/image";
 import React from "react";
 import HeaderItem from "./Header-Item";
 import Router from "next/router";
+import { useAppSelector } from "../redux";
+import { selectUser } from "../redux/user.reducer";
 
 function Header() {
+  const user = useAppSelector(selectUser);
+  console.log({ user });
   return (
     <div className="flex lg:flex-col w-screen  lg:justify-between p-5  lg:w-16 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-slate-200 align-middle ">
       <div

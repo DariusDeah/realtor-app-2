@@ -2,7 +2,6 @@ export class User {
   id: string;
   fullName: string;
   email: string;
-  password: string;
   photoUrl: string;
   favoriteHomes?: any[];
   membershipStatus: "premium" | "base";
@@ -14,7 +13,6 @@ export class User {
   constructor(data: User) {
     this.fullName = data.fullName;
     this.email = data.email;
-    this.password = data.password;
     this.id = data.id;
     this.photoUrl = data.photoUrl || "";
     this.favoriteHomes = data.favoriteHomes || [];
