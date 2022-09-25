@@ -7,7 +7,6 @@ import { selectUser } from "../redux/user.reducer";
 
 function Header() {
   const user = useAppSelector(selectUser);
-  console.log({ user });
   return (
     <div className="flex lg:flex-col w-screen  lg:justify-between p-5  lg:w-16 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-slate-200 align-middle ">
       <div
@@ -79,6 +78,7 @@ function Header() {
           title="Favs"
         />
         <HeaderItem
+          onClick={() => Router.push("account/settings")}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -100,42 +100,51 @@ function Header() {
               />
             </svg>
           }
-          title="Preferences"
+          title="Settings"
         />
       </div>
-      <div className="lg:align-bottom lg:inline-flex lg:flex-col items-center justify-center lg:border-t-2 flex ">
-        <HeaderItem
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 "
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-              />
-            </svg>
-          }
-          title="Logout"
-        />
-        <div className="">
+      {user ? (
+        <div className="lg:align-bottom lg:inline-flex lg:flex-col items-center justify-center lg:border-t-2 flex ">
           <HeaderItem
             icon={
-              <div className="avatar lg:align-bottom inline-flex flex-col items-center justify-center lg:border-b-2">
-                <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 ">
-                  <img src="https://placeimg.com/192/192/people" />
-                </div>
-              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 "
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                />
+              </svg>
             }
-            title="Me"
+            title="Logout"
           />
+          <div className="">
+            <HeaderItem
+              icon={
+                <div className="avatar lg:align-bottom inline-flex flex-col items-center justify-center ">
+                  <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 ">
+                    <img src={user.user.photoUrl} />
+                  </div>
+                </div>
+              }
+              title="Me"
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => Router.push("/login")}
+        >
+          Login
+        </button>
+      )}
     </div>
   );
 }
