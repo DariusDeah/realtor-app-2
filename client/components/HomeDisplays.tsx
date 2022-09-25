@@ -3,6 +3,7 @@ import { fetchProperties } from "../utils/requests";
 import { SearchParams } from "../types/searchParams";
 import HouseCard from "./HouseCard";
 import SearchFilter from "./SearchFilter";
+import Loader from "./ui/Loader";
 
 type Props = {
   mapToggleFunction: (isToggle: boolean) => void;
@@ -49,7 +50,7 @@ function HomeDisplays({
             <HouseCard home={home} homeImg={home.imgSrc} key={home.zpId} />
           ))
         ) : (
-          <h1>Loading...</h1>
+          <Loader />
         )}
       </div>
     </div>

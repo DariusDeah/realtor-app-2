@@ -1,17 +1,18 @@
 import Image from "next/image";
 import React from "react";
 import HeaderItem from "./Header-Item";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useAppSelector } from "../redux";
 import { selectUser } from "../redux/user.reducer";
 
 function Header() {
   const user = useAppSelector(selectUser);
+  const router = useRouter();
   return (
     <div className="flex lg:flex-col w-screen  lg:justify-between p-5  lg:w-16 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-slate-200 align-middle ">
       <div
         className="lg:align-top inline-flex cursor-pointer flex-col items-center justify-center lg:border-b-2 "
-        onClick={() => Router.push("/")}
+        onClick={() => router.push("/")}
       >
         <img
           className="object-contain w-10 h-10 "
@@ -21,6 +22,7 @@ function Header() {
       </div>
       <div className=" mt-0 md:space-y-4 md:align-middle flex justify-center lg:grid ">
         <HeaderItem
+          onClick={() => router.push("/gallery")}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -59,6 +61,7 @@ function Header() {
           title="Search"
         />
         <HeaderItem
+          onClick={() => router.push("/account/favorites")}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +81,7 @@ function Header() {
           title="Favs"
         />
         <HeaderItem
-          onClick={() => Router.push("account/settings")}
+          onClick={() => router.push("/account/settings")}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
