@@ -60,7 +60,7 @@ function Header() {
               />
             </svg>
           }
-          title="Search"
+          title="search"
         />
         <HeaderItem
           onClick={() => router.push("/account/favorites")}
@@ -80,7 +80,7 @@ function Header() {
               />
             </svg>
           }
-          title="Favs"
+          title="favorites"
         />
         <HeaderItem
           onClick={() => router.push("/account/settings")}

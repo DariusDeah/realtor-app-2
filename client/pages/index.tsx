@@ -1,6 +1,7 @@
 import { motion, Variants } from "framer-motion";
 import { NextPage } from "next";
 import Image from "next/image";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HouseCard from "../components/HouseCard";
 import { homeTestData } from "../utils/mock-data";
@@ -233,6 +234,7 @@ const Home: NextPage = () => {
             </motion.ul>
           </div>
         </section>
+        <Footer />
       </div>
     </div>
   );
