@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 
 type Props = {
   userData: any;
-  nextStepFunction: (data: any) => void;
+  nextStepFunction: (event: Event, data: any) => void;
 };
 
 function FormStep1({ userData, nextStepFunction }: Props) {
@@ -12,7 +12,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   const photoUrlRef = useRef<HTMLInputElement>(userData.photoUrl || null);
 
   const [isViewingPassword, setIsViewingPassword] = useState(false);
-  const handleUpdateUserData = () => {
+  const handleSubmit = (e: Event) => {
     const userSubmissionData = {
       fullName: fullNameRef.current?.value || userData.fullName,
       email: emailRef.current?.value || userData.email,
@@ -20,7 +20,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
       photoUrl: photoUrlRef.current?.value || userData.photoUrl,
     };
 
-    nextStepFunction(userSubmissionData);
+    nextStepFunction(e, userSubmissionData);
   };
   return (
     <>
