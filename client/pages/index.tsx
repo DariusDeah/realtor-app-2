@@ -30,6 +30,7 @@ const blockVariant = (delay: number) => {
   };
   return cardVariants;
 };
+
 type list = {
   title: string;
   subtitle: string;

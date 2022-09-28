@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import Header from "../components/Header";
-import SignupForm from "../components/Signup-Form";
+import SignupForm from "../components/SignupForm/Signup-Form";
 
 type Props = {};
 
