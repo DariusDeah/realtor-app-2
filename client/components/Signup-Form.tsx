@@ -41,7 +41,7 @@ function SignupForm({}: Props) {
   const stateRef = useRef<HTMLSelectElement>(userData.state || null);
   let alert;
 
-  const { isSaved, addToLocalStorage } = useLocalSave();
+  const { addToLocalStorage } = useLocalSave();
 
   useEffect(() => {
     setCurrentStep(
@@ -168,7 +168,7 @@ function SignupForm({}: Props) {
 
       setTimeout(() => {
         Router.push("/");
-      }, 3000);
+      }, 4000);
     }
   };
 

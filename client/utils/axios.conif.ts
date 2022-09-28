@@ -7,7 +7,11 @@ export const axios = new Axios({
     "X-RapidAPI-Host": "zillow-com1.p.rapidapi.com",
   },
 });
+const env = "prod";
 export const API_KEY = "yCs1jygXg1aJ1tUOlr2Ll2TdNKWC2Vl7uO4dy8s6";
 export const SERVER_API = new Axios({
-  baseURL: `https://se8lfty5f5.execute-api.us-west-2.amazonaws.com/Prod`,
+  baseURL:
+    env !== "dev"
+      ? `https://se8lfty5f5.execute-api.us-west-2.amazonaws.com/Prod`
+      : "http://127.0.0.1:3000/",
 });

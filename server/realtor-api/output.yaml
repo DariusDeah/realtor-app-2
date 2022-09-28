@@ -12,7 +12,7 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/c88f9808c5eb4c7b5b214067ab04957f
+      CodeUri: s3://realtor-api-prod/970ad9dd6e6abda036b40a8b455544ab
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -23,6 +23,9 @@ Resources:
           Properties:
             Path: /login
             Method: post
+      Environment:
+        Variables:
+          NODE_OPTIONS: ' --enable-source-maps'
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -35,7 +38,7 @@ Resources:
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/f145853b4a8493f6fe577d61df51a5c8
+      CodeUri: s3://realtor-api-prod/69b5c3b8ffdda692cac43fc17d91288c
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -46,6 +49,9 @@ Resources:
           Properties:
             Path: /signup
             Method: post
+      Environment:
+        Variables:
+          NODE_OPTIONS: ' --enable-source-maps'
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -68,6 +74,32 @@ Resources:
         KeyType: HASH
     Metadata:
       SamResourceId: UserTable
+  UnsplashFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://realtor-api-prod/68c11aad1e19f1ef24b11eb9427636c3
+      Handler: unsplash-proxy.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+      - x86_64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /unsplash-proxy
+            Method: get
+      Environment:
+        Variables:
+          NODE_OPTIONS: ' --enable-source-maps'
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - unsplash-proxy.ts
+        Minify: true
+        Sourcemap: true
+        Target: es2020
+      SamResourceId: UnsplashFunction
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL for Prod stage for Hello World function

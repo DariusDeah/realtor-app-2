@@ -1,7 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DynamoDB } from 'aws-sdk';
 import { createHmac } from 'node:crypto';
-import { User } from './user.model';
+import { headers } from './headers';
+import { User, UserFields } from './user.model';
+import { appendHeaders } from './utils/appendHeaders';
+import { hideFields } from './utils/hideFields';
+import { PasswordHandler } from './utils/password-handler';
 
 /**
  *
@@ -16,6 +20,7 @@ import { User } from './user.model';
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let response: APIGatewayProxyResult;
     try {
+        const env = 'dev';
         console.log({ event }, { context });
 
         if (!event.body) {
@@ -23,11 +28,11 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         }
 
         const dbClient = new DynamoDB.DocumentClient();
+
         const createdUser = new User(JSON.parse(event.body));
-        console.log(createdUser);
 
         // hash users password;
-        createdUser.password = createHmac('sha256', 'secret!!!').update(createdUser.password).digest('hex');
+        createdUser.password = await PasswordHandler.hashPassword(createdUser.password);
 
         //store in dynamo async
         await dbClient
@@ -37,29 +42,21 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             })
             .promise();
 
+        //hide password field
+        const safeModifiedUser = hideFields(createdUser, UserFields.password);
         //api response
         response = {
             statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'content-type': 'application/json',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-            },
+            headers: appendHeaders(),
             body: JSON.stringify({
                 message: 'Successful Signup',
-                data: createdUser,
+                data: safeModifiedUser,
             }),
         };
     } catch (err) {
         console.log(err);
         response = {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'content-type': 'application/json',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-            },
+            headers,
             statusCode: 500,
             body: JSON.stringify({
                 message: err,

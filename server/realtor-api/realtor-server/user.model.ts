@@ -29,3 +29,18 @@ export class User {
         this.searching_for_type = data.searching_for_type || 'Houses';
     }
 }
+export enum UserFields {
+    id = 'id',
+    full_name = 'full_name',
+    email = 'email',
+    password = 'password',
+    profile_img_url = 'profile_img_url',
+    favorite_homes = 'favorite_homes',
+    membership_status = 'membership_status',
+    recently_viewed = 'recently_viewed',
+    timezone = 'timezone',
+    zip_code = 'zip_code',
+    state = 'state',
+    is_active = 'is_active',
+    searching_for_type = 'searching_for_type',
+}

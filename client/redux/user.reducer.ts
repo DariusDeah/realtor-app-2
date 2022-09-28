@@ -23,25 +23,13 @@ interface UserState {
     zipcode: string;
     state: string;
     housingPreference: "House" | "Apartment";
-  };
+  } | null;
   success?: boolean | null;
   error?: boolean | null;
 }
 
 const initialState: UserState = {
-  user: {
-    id: "",
-    fullName: "",
-    email: "",
-    photoUrl: "",
-    favoriteHomes: [],
-    membershipStatus: "base",
-    recentlyViewed: [],
-    timezone: "",
-    zipcode: "",
-    state: "",
-    housingPreference: "Apartment",
-  },
+  user: null,
   success: null,
   error: null,
 };
@@ -88,7 +76,7 @@ export const userSlice = createSlice({
         console.log(action.payload);
         const parsedRes: AxiosResponse = JSON.parse(action.payload);
         console.log({ parsedRes });
-        state.user = parsedRes.data;
+        state.user = { ...new User(parsedRes.data) };
         console.log({ state });
       }
     );

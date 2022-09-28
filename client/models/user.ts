@@ -1,3 +1,5 @@
+import { UserDTO } from "./userDTO";
+
 export class User {
   id: string;
   fullName: string;
@@ -10,17 +12,19 @@ export class User {
   zipcode: string;
   state: string;
   housingPreference: "House" | "Apartment";
-  constructor(data: User) {
-    this.fullName = data.fullName;
+  constructor(data: User & UserDTO) {
+    this.fullName = data.fullName || data.full_name;
     this.email = data.email;
     this.id = data.id;
-    this.photoUrl = data.photoUrl || "";
-    this.favoriteHomes = data.favoriteHomes || [];
-    this.membershipStatus = data.membershipStatus || "base";
-    this.recentlyViewed = data.recentlyViewed || [];
+    this.photoUrl = data.photoUrl || data.profile_img_url;
+    this.favoriteHomes = data.favoriteHomes || data.favorite_homes || [];
+    this.membershipStatus =
+      data.membershipStatus || data.membership_status || "base";
+    this.recentlyViewed = data.recentlyViewed || data.recently_viewed || [];
     this.timezone = data.timezone || "";
-    this.zipcode = data.zipcode || "";
+    this.zipcode = data.zipcode || data.zip_code || "";
     this.state = data.state || "";
-    this.housingPreference = data.housingPreference || "House";
+    this.housingPreference =
+      data.housingPreference || data.housingPreference || "House";
   }
 }

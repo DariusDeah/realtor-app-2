@@ -3,6 +3,7 @@ import { Homes } from "../models/home";
 import { SearchParams } from "../types/searchParams";
 import { homeTestData } from "./mock-data";
 import { UserDTO } from "../models/userDTO";
+import { unsplashTestData } from "./unsplash-mockData";
 
 export async function fetchProperties({
   query,
@@ -37,4 +38,12 @@ export async function fetchProperty(homeId: string) {
 export async function signup(apiData: any) {
   const res = await SERVER_API.post(`/signup`, JSON.stringify(apiData));
   return res;
+}
+
+export async function fetchGalleryPhotos() {
+  // const res = await SERVER_API.get("/unsplash-proxy");
+  // const imgs = JSON.parse(res.data);
+  // console.log(imgs);
+  // return imgs.data;
+  return unsplashTestData;
 }

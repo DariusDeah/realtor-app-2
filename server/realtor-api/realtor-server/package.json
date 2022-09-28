@@ -8,7 +8,12 @@
     "license": "MIT",
     "dependencies": {
         "aws-sdk": "^2.1214.0",
-        "nanoid": "^4.0.0"
+        "axios": "^0.27.2",
+        "cookie-session": "^2.0.0",
+        "helmet": "^6.0.0",
+        "nanoid": "^4.0.0",
+        "node-fetch": "^3.2.10",
+        "unsplash-js": "^7.0.15"
     },
     "scripts": {
         "unit": "jest",

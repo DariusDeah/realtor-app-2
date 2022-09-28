@@ -8,8 +8,9 @@ import { selectUser } from "../redux/user.reducer";
 function Header() {
   const user = useAppSelector(selectUser);
   const router = useRouter();
+
   return (
-    <div className="flex lg:flex-col w-screen  lg:justify-between p-5  lg:w-16 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-slate-200 align-middle ">
+    <div className="flex lg:flex-col w-screen  lg:justify-between p-2 items-center lg:w-20 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-b-4 border-slate-200 align-middle  ">
       <div
         className="lg:align-top inline-flex cursor-pointer flex-col items-center justify-center lg:border-b-2 "
         onClick={() => router.push("/")}
@@ -20,28 +21,29 @@ function Header() {
         />
         <p>Pillow</p>
       </div>
-      <div className=" mt-0 md:space-y-4 md:align-middle flex justify-center lg:grid ">
+      <div className=" mt-0  items-center flex justify-center lg:grid ">
         <HeaderItem
           onClick={() => router.push("/gallery")}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
+              strokeWidth={1.5}
               stroke="currentColor"
-              strokeWidth={2}
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
               />
             </svg>
           }
           title="gallery"
         />
         <HeaderItem
+          onClick={() => router.push("/search")}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +108,7 @@ function Header() {
           title="Settings"
         />
       </div>
-      {user ? (
+      {user.user ? (
         <div className="lg:align-bottom lg:inline-flex lg:flex-col items-center justify-center lg:border-t-2 flex ">
           <HeaderItem
             icon={
@@ -141,12 +143,20 @@ function Header() {
           </div>
         </div>
       ) : (
-        <button
-          className="btn btn-sm btn-primary"
-          onClick={() => Router.push("/login")}
-        >
-          Login
-        </button>
+        <div>
+          <button
+            className="btn btn-xs btn-primary"
+            onClick={() => Router.push("/login")}
+          >
+            Login
+          </button>
+          <button
+            className="btn btn-xs btn-primary"
+            onClick={() => Router.push("/sign-up")}
+          >
+            Sign Up
+          </button>
+        </div>
       )}
     </div>
   );

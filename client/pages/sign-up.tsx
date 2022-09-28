@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import React from "react";
 import Header from "../components/Header";
 import SignupForm from "../components/Signup-Form";
@@ -6,9 +7,10 @@ import SignupForm from "../components/Signup-Form";
 type Props = {};
 
 function Signup({}: Props) {
+  const router = useRouter();
   return (
     <div className="lg:flex ">
-      <div className="selectable w-fit h-fit">
+      <div className="selectable w-fit h-fit" onClick={() => router.back()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -36,7 +38,8 @@ function Signup({}: Props) {
             <p>where you rest your head</p>
           </div>
         </div>
-        <div className="mt-10 ">
+        {/* TODO only the form component should be in the sign up form */}
+        <div className="my-10 ">
           <SignupForm />
         </div>
       </div>
