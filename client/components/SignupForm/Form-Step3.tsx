@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useState } from "react";
 import OnHoverAnimation from "../animations/OnHoverAnimation";
+import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
 import FormButton from "./FormButton";
 const MembershipComparisonTable = lazy(
   () => import("../MembershipComparisonTable")
@@ -15,10 +16,13 @@ function FormStep3({ userData, nextStepFunction, backStepFunction }: Props) {
   const [membershipStatus, setMembershipStatus] = useState<"Base" | "Premium">(
     userData.membershipStatus || null
   );
+  const addToLocalStorage = useUpdateLocalSave();
+
   const handleSubmit = (e: Event) => {
     const userSubmissionData = {
       membershipStatus,
     };
+    addToLocalStorage("User", userSubmissionData);
     nextStepFunction(e, userSubmissionData);
   };
   return (

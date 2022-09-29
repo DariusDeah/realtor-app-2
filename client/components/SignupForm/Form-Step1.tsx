@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useRef, useState } from "react";
+import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
 import FormButton from "./FormButton";
 
 type Props = {
@@ -12,6 +13,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   const emailRef = useRef<HTMLInputElement>(userData.email || null);
   const passwordRef = useRef<HTMLInputElement>(userData.password || null);
   const photoUrlRef = useRef<HTMLInputElement>(userData.photoUrl || null);
+  const addToLocalStorage = useUpdateLocalSave();
 
   const [isViewingPassword, setIsViewingPassword] = useState(false);
   const handleSubmit = (e: Event) => {
@@ -21,20 +23,25 @@ function FormStep1({ userData, nextStepFunction }: Props) {
       password: passwordRef.current?.value || userData.password,
       photoUrl: photoUrlRef.current?.value || userData.photoUrl,
     };
-
+    addToLocalStorage("User", userSubmissionData);
     nextStepFunction(e, userSubmissionData);
   };
+  const required = <p className="text-red-500 font-semibold p-1">* required</p>;
   return (
     <>
       <div className="form-control space-y-3">
         <h1 className="text-3xl font-medium">Help us get to know you 👏</h1>
-        <input
-          type="text"
-          placeholder="Full Name"
-          ref={fullNameRef}
-          value={userData.fullName}
-          className="input"
-        />
+        <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="Full Name"
+            ref={fullNameRef}
+            value={userData.fullName}
+            className="input"
+            required
+          />
+          {required}
+        </div>
 
         <input
           type="text"
@@ -57,14 +64,15 @@ function FormStep1({ userData, nextStepFunction }: Props) {
               d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25"
             />
           </svg>
-
           <input
             type="email"
             placeholder="Email"
             value={userData.email}
             className="input border-none"
             ref={emailRef}
+            required
           />
+          {required}
         </div>
         <div className="flex items-center">
           {isViewingPassword ? (
@@ -112,7 +120,9 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             placeholder="Password"
             className="input"
             ref={passwordRef}
+            required
           />
+          {required}
         </div>
       </div>
       <div className="flex justify-between mt-4  ">

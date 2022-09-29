@@ -23,7 +23,7 @@ function Header() {
       </div>
       <div className=" mt-0  items-center flex justify-center lg:grid ">
         <HeaderItem
-          onClick={() => router.push("/gallery")}
+          link="/gallery"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,7 @@ function Header() {
           title="gallery"
         />
         <HeaderItem
-          onClick={() => router.push("/search")}
+          link="/search"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ function Header() {
           title="search"
         />
         <HeaderItem
-          onClick={() => router.push("/account/favorites")}
+          link="/account/favorites"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +83,7 @@ function Header() {
           title="favorites"
         />
         <HeaderItem
-          onClick={() => router.push("/account/settings")}
+          link="/account/settings"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"

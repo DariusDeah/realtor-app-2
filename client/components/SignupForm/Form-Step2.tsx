@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import OnHoverAnimation from "../animations/OnHoverAnimation";
+import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
 import MultiHomeUI from "../ui/Multi-Home";
 import SingleHomeUI from "../ui/Single-Home";
 import FormButton from "./FormButton";
@@ -16,6 +17,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
   >(userData.housingPreference || null);
   const zipcodeRef = useRef<HTMLInputElement>(userData.zipcode || null);
   const stateRef = useRef<HTMLSelectElement>(userData.state || null);
+  const addToLocalStorage = useUpdateLocalSave();
 
   const handleSubmit = (e: Event) => {
     const userSubmissionData = {
@@ -23,6 +25,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
       zipcode: zipcodeRef.current.value,
       state: stateRef.current.value,
     };
+    addToLocalStorage("User", userSubmissionData);
     nextStepFunction(e, userSubmissionData);
   };
 

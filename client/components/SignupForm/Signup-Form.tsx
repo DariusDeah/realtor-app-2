@@ -1,10 +1,10 @@
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { User } from "../../models/user";
 import { useAppDispatch } from "../../redux";
 import { signUpUser } from "../../redux/user.reducer";
 import useLocalSave from "../hooks/useLocalSave";
-import FormButton from "./FormButton";
+import Alert, { AlertTypes } from "../ui/Alert";
 
 const FormStep1 = lazy(() => import("./Form-Step1"));
 const FormStep2 = lazy(() => import("./Form-Step2"));
@@ -21,15 +21,25 @@ function SignupForm({}: Props) {
   const router = useRouter();
   const { query } = useRouter();
   const currentStep = parseInt(query["step"]);
+  const [error, setError] = useState(false);
+  const MAX_STEPS = 4;
 
   const { addToLocalStorage } = useLocalSave();
 
   useEffect(() => {
-    // query["step"] = parseInt(window.localStorage.getItem("currentStep") ?? "1");
-    window.localStorage.setItem("currentStep", currentStep.toString());
-    // setCompletedSteps(
-    //   JSON.parse(window.localStorage.getItem("completedSteps") ?? "[]")
-    // );
+    //if there is no current query step set it to the step from local storage
+    if (!query["step"]) {
+      const currentStepInStorage = parseInt(
+        localStorage.getItem("currentStep") ?? "1"
+      );
+      router.push(`/sign-up?step=${currentStepInStorage}`, undefined, {
+        shallow: true,
+      });
+    }
+    //only save steps lower than max step count
+    if (parseInt(query["step"]) < MAX_STEPS) {
+      window.localStorage.setItem("currentStep", JSON.stringify(currentStep));
+    }
     setUserData(JSON.parse(window.localStorage.getItem("User") ?? "{}"));
     timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   }, [currentStep]);
@@ -46,13 +56,7 @@ function SignupForm({}: Props) {
     });
 
     addToLocalStorage({
-      items: [
-        { key: "currentStep", item: currentStep },
-        {
-          key: "User",
-          item: userData,
-        },
-      ],
+      items: [{ key: "currentStep", item: currentStep }],
     });
     console.log({ data }, { userData });
     router.push(`sign-up/?step=${currentStep + 1}`, undefined, {
@@ -77,24 +81,40 @@ function SignupForm({}: Props) {
     setUserData((prevState: any) => {
       return {
         ...prevState,
-
         timezone: timezone || prevState.timezone,
       };
     });
     // alert("Are you sure you're ready to submit this form?");
-
+    //validate form data
+    if (!isValidFormData()) {
+      setError(true);
+      return;
+    }
+    // throw new Error("fix form");
     const res = await dispatch(signUpUser(userData));
-    if (res.meta.requestStatus === "fulfilled") {
+    if (res.meta.requestStatus.includes("fulfilled")) {
       router.push("/sign-up?step=4", undefined, { shallow: true });
 
       window.localStorage.removeItem("User");
       window.localStorage.removeItem("currentStep");
-      window.localStorage.removeItem("completedSteps");
 
       setTimeout(() => {
         router.push("/");
       }, 4000);
     }
+  };
+
+  const isValidFormData = () => {
+    return (
+      userData.email &&
+      userData.email.length &&
+      userData.fullName &&
+      userData.fullName.length &&
+      userData.state &&
+      userData.state.length &&
+      userData.zipcode &&
+      userData.zipcode.length
+    );
   };
 
   const step4Content = (
@@ -108,6 +128,13 @@ function SignupForm({}: Props) {
 
   return (
     <div className=" border-2 lg:max-w-screen-lg w-screen rounded-lg lg:mx-4 ">
+      {error && (
+        <Alert
+          title="Error In Form"
+          description="please check the information you inputted into the forms "
+          type={AlertTypes.Error}
+        />
+      )}
       <div className="flex flex-col items-center mt-4 ">
         {/* Steps */}
         <Suspense fallback={<div>Loading steps...</div>}>
@@ -139,22 +166,6 @@ function SignupForm({}: Props) {
               {currentStep === 4 && step4Content}
             </Suspense>
           </div>
-          {/* <div className="flex justify-between mt-4  ">
-            <FormButton
-              title="Back"
-              style={`${
-                currentStep === MIN_STEPS ? "btn-disabled" : " btn-primary"
-              }`}
-              onClick={handleBackStep}
-            />
-            <FormButton
-              style={`btn btn-primary 
-              
-              `}
-              title={currentStep < 3 ? "Next" : "Finish"}
-              onClick={handleNextStep}
-            />
-          </div> */}
         </form>
       </div>
     </div>

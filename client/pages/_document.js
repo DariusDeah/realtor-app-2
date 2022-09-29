@@ -8,7 +8,7 @@ class MyDocument extends Document {
         <Head />
         <body>
           <Main />
-          <div id="alert-root" />
+          <div id="alert" />
           <NextScript />
         </body>
       </Html>
