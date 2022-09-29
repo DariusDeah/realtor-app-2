@@ -1,8 +1,9 @@
 import { motion, Variants } from "framer-motion";
 import { NextPage } from "next";
 import Image from "next/image";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import { homeTestData } from "../utils/mock-data";
 
 const Footer = lazy(() => import("../components/Footer"));
@@ -68,6 +69,7 @@ const list: list = [
   },
 ];
 const Home: NextPage = () => {
+  useEffect(() => {});
   return (
     <div className="lg:flex">
       <div className="sticky top-0 ">
@@ -134,9 +136,10 @@ const Home: NextPage = () => {
             width={1920}
           />
         </div>
+        <Navbar />
         <section className="lg:space-y-3 space-y-14 lg:mx-32">
           <Suspense fallback={<h1>Loading Content</h1>}>
-            <div className=" lg:p-24   ">
+            <div className=" lg:p-24   " id="Explore">
               <h1 className="lg:text-3xl font-semibold">Explore All</h1>
               <motion.ul
                 initial="offscreen"
@@ -155,7 +158,7 @@ const Home: NextPage = () => {
                 ))}
               </motion.ul>
             </div>
-            <div className="mx-auto p-24">
+            <div className="mx-auto p-24" id="New">
               <h1 className="text-3xl font-semibold">
                 New Homes {"&"} Apartments
               </h1>
@@ -180,9 +183,59 @@ const Home: NextPage = () => {
                 ))}
               </motion.ul>
             </div>
-            <div className=" lg:p-24 ">
-              <h1 className="text-3xl font-semibold underline underline-offset-1">
+            <div className=" lg:p-24 " id="Featured">
+              <h1 className="text-3xl font-semibold  underline-offset-1">
                 Featured
+              </h1>
+              <motion.ul
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.8 }}
+                className="flex justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+              >
+                {homes.map((home) => (
+                  <motion.li
+                    variants={blockVariant(Math.random() * 1)}
+                    className="flex overflow-x-auto"
+                    key={home.zpid}
+                  >
+                    <HouseCard
+                      home={home}
+                      homeImg={home.imgSrc}
+                      key={home.zpid}
+                    />
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+            <div className=" lg:p-24 " id="ForRent">
+              <h1 className="text-3xl font-semibold  underline-offset-1">
+                For Rent
+              </h1>
+              <motion.ul
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.8 }}
+                className="flex justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+              >
+                {homes.map((home) => (
+                  <motion.li
+                    variants={blockVariant(Math.random() * 1)}
+                    className="flex overflow-x-auto"
+                    key={home.zpid}
+                  >
+                    <HouseCard
+                      home={home}
+                      homeImg={home.imgSrc}
+                      key={home.zpid}
+                    />
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+            <div className=" lg:p-24 " id="ForSale">
+              <h1 className="text-3xl font-semibold  underline-offset-1">
+                For Sale
               </h1>
               <motion.ul
                 initial="offscreen"
