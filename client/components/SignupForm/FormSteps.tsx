@@ -1,14 +1,13 @@
 import React from "react";
 
 type Props = {
-  completedSteps: number[];
   currentStep: number;
 };
 
-function FormSteps({ completedSteps, currentStep }: Props) {
+function FormSteps({ currentStep }: Props) {
   const generateStepColor = (stepValue: number) => {
-    if (completedSteps.includes(stepValue)) return "step-primary";
-    if (currentStep === stepValue) return "step-secondary font-semibold";
+    if (stepValue <= currentStep) return "step-primary ";
+    if (currentStep === stepValue) return " font-semibold";
   };
   return (
     <ul className="steps lg:text-lg text-sm">

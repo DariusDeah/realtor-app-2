@@ -1,28 +1,40 @@
 import React, { useRef, useState } from "react";
+import OnHoverAnimation from "../animations/OnHoverAnimation";
 import MultiHomeUI from "../ui/Multi-Home";
 import SingleHomeUI from "../ui/Single-Home";
+import FormButton from "./FormButton";
 
 type Props = {
   userData: any;
   nextStepFunction: (event: Event, data: any) => void;
+  backStepFunction: (e: Event) => void;
 };
 
-function FormStep2({ userData, nextStepFunction }: Props) {
+function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
   const [housingPreference, setHousingPreference] = useState<
     "Houses" | "Apartments"
   >(userData.housingPreference || null);
   const zipcodeRef = useRef<HTMLInputElement>(userData.zipcode || null);
   const stateRef = useRef<HTMLSelectElement>(userData.state || null);
 
+  const handleSubmit = (e: Event) => {
+    const userSubmissionData = {
+      housingPreference,
+      zipcode: zipcodeRef.current.value,
+      state: stateRef.current.value,
+    };
+    nextStepFunction(e, userSubmissionData);
+  };
+
   return (
-    <form className="form-control space-y-3">
+    <div className="form-control space-y-3">
       <h1 className="text-3xl font-medium mb-4">
         What can we help you find? 🏡
       </h1>
       <div className="space-y-10">
         <p className="text-center text-xl">I'm looking for a </p>
         <div className="flex justify-between">
-          <div
+          <OnHoverAnimation
             className={`selectable w-36 ${
               housingPreference === "Houses" ||
               userData.housingPreference === "Houses"
@@ -33,8 +45,8 @@ function FormStep2({ userData, nextStepFunction }: Props) {
           >
             <SingleHomeUI />
             <p className="font-bold text-xl text-center mt-2">Home</p>
-          </div>
-          <div
+          </OnHoverAnimation>
+          <OnHoverAnimation
             className={`selectable w-36 ${
               housingPreference === "Apartments" ||
               userData.housingPreference === "Apartment"
@@ -45,7 +57,7 @@ function FormStep2({ userData, nextStepFunction }: Props) {
           >
             <MultiHomeUI />
             <p className="font-bold text-xl text-center mt-2">Apartment</p>
-          </div>
+          </OnHoverAnimation>
         </div>
         <p className="text-center text-lg">I'm from </p>
         <input
@@ -111,7 +123,19 @@ function FormStep2({ userData, nextStepFunction }: Props) {
           <option value="WY">Wyoming</option>
         </select>
       </div>
-    </form>
+      <div className="flex justify-between mt-4  ">
+        <FormButton
+          title="Back"
+          style={`${"btn"}`}
+          onClick={(e) => backStepFunction(e)}
+        />
+        <FormButton
+          style="btn btn-primary"
+          title="Next"
+          onClick={handleSubmit}
+        />
+      </div>
+    </div>
   );
 }
 

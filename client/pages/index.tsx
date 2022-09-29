@@ -70,7 +70,9 @@ const list: list = [
 const Home: NextPage = () => {
   return (
     <div className="lg:flex">
-      <Header />
+      <div className="sticky top-0 ">
+        <Header />
+      </div>
       <div className="">
         <div className=" w-full relative ">
           {/* Cover */}

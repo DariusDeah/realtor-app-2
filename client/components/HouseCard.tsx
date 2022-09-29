@@ -13,7 +13,7 @@ function HouseCard({ home, homeImg }: Props) {
   let cardHeartIcon = likedCard ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6  text-red-500 cursor-pointer"
+      className="h-7 w-7  text-red-500 cursor-pointer"
       viewBox="0 0 24 24"
       fill="currentColor"
       onClick={() => setLikedCard(false)}
@@ -43,60 +43,56 @@ function HouseCard({ home, homeImg }: Props) {
   );
 
   return (
-    <Link href={`/home-details/${home.zpid}`}>
-      <div className="card w-96 mx-1 my-2 bg-base-100 shadow-xl cursor-pointer">
+    <div className="card w-96 mx-1 my-2 bg-base-100 shadow-xl cursor-pointer">
+      <Link href={`/home-details/${home.zpid}`}>
         <figure>{<img src={homeImg} alt="home" />}</figure>
-        <div className="card-body">
-          <div className="flex justify-between">
-            <div>
-              <h4 className="text-gray-500 font-bold">
-                {" "}
-                <span className="text-blue-400 text-lg font-semibold">
-                  ${home.price}
-                </span>
-                {home.listingStatus === "FOR_RENT" ? "/mo" : ""}-{" "}
-                {home.currency}
-              </h4>
-            </div>
-            <div className="hover:bg-slate-200 p-2 rounded-lg ">
-              {cardHeartIcon}
-            </div>
-          </div>
+      </Link>
+      <div className="card-body">
+        <div className="flex justify-between">
           <div>
-            {typeof home.address === "string" ? (
-              <>
-                <h2 className="card-title">
-                  {home.address.split(",")[0]}
-                  <div className="badge bg-blue-400 border-none">Viewed</div>
-                </h2>
-                <p>
-                  {home.address.split(",")[1]} {home.address.split(",")[2]}
-                </p>
-              </>
-            ) : (
-              <>
-                <h2 className="card-title">
-                  {home.address.streetAddress}
-                  <div className="badge bg-blue-400 border-none">Viewed</div>
-                </h2>
-                <p>
-                  {home.address.city} {home.address.state}{" "}
-                  {home.address.zipcode}
-                </p>
-              </>
-            )}
-            <div className="card-actions justify-between mt-5">
-              <div className="badge badge-outline">Beds {home.bedrooms}</div>
-              <div className="badge badge-outline">Baths {home.bathrooms}</div>
-              <div className="badge badge-outline"> {home.propertyType}</div>
-              <div className="badge badge-outline">
-                {home.lotAreaValue} {home.lotAreaUnit}
-              </div>
+            <h4 className="text-gray-500 font-bold">
+              {" "}
+              <span className="text-blue-400 text-lg font-semibold">
+                ${home.price}
+              </span>
+              {home.listingStatus === "FOR_RENT" ? "/mo" : ""}- {home.currency}
+            </h4>
+          </div>
+          <div className="selectable z-50 ">{cardHeartIcon}</div>
+        </div>
+        <div>
+          {typeof home.address === "string" ? (
+            <>
+              <h2 className="card-title">
+                {home.address.split(",")[0]}
+                <div className="badge bg-blue-400 border-none">Viewed</div>
+              </h2>
+              <p>
+                {home.address.split(",")[1]} {home.address.split(",")[2]}
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="card-title">
+                {home.address.streetAddress}
+                <div className="badge bg-blue-400 border-none">Viewed</div>
+              </h2>
+              <p>
+                {home.address.city} {home.address.state} {home.address.zipcode}
+              </p>
+            </>
+          )}
+          <div className="card-actions justify-between mt-5">
+            <div className="badge badge-outline">Beds {home.bedrooms}</div>
+            <div className="badge badge-outline">Baths {home.bathrooms}</div>
+            <div className="badge badge-outline"> {home.propertyType}</div>
+            <div className="badge badge-outline">
+              {home.lotAreaValue} {home.lotAreaUnit}
             </div>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { User } from "../../models/user";
 import { useAppDispatch } from "../../redux";
@@ -13,29 +13,26 @@ const FormSteps = lazy(() => import("./FormSteps"));
 
 type Props = {};
 
-const MAX_STEPS = 4;
-const MIN_STEPS = 1;
-
 function SignupForm({}: Props) {
   const dispatch = useAppDispatch();
 
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [userData, setUserData] = useState<User | any>({});
-  const [timezone, setTimezone] = useState<string>("");
+  let timezone: string;
+  const router = useRouter();
+  const { query } = useRouter();
+  const currentStep = parseInt(query["step"]);
 
   const { addToLocalStorage } = useLocalSave();
 
   useEffect(() => {
-    setCurrentStep(
-      parseInt(window.localStorage.getItem("currentStep") ?? `${currentStep}`)
-    );
-    setCompletedSteps(
-      JSON.parse(window.localStorage.getItem("completedSteps") ?? "[]")
-    );
+    // query["step"] = parseInt(window.localStorage.getItem("currentStep") ?? "1");
+    window.localStorage.setItem("currentStep", currentStep.toString());
+    // setCompletedSteps(
+    //   JSON.parse(window.localStorage.getItem("completedSteps") ?? "[]")
+    // );
     setUserData(JSON.parse(window.localStorage.getItem("User") ?? "{}"));
-    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
-  }, []);
+    timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }, [currentStep]);
 
   const handleNextStep = (e: Event, data?: any) => {
     e.preventDefault();
@@ -44,50 +41,33 @@ function SignupForm({}: Props) {
       return {
         ...prevState,
         ...data,
-
-        timezone: timezone || prevState.timezone,
+        timezone,
       };
     });
-
-    setCompletedSteps((prevState: any) => {
-      return [...new Set([...prevState, currentStep])];
-    });
-
-    setCurrentStep((prev: number) => {
-      console.log(currentStep);
-      if (currentStep < MAX_STEPS) return (prev += 1);
-      return currentStep;
-    });
-    console.log(userData);
 
     addToLocalStorage({
       items: [
         { key: "currentStep", item: currentStep },
-        { key: "completedSteps", item: completedSteps },
         {
           key: "User",
           item: userData,
         },
       ],
     });
+    console.log({ data }, { userData });
+    router.push(`sign-up/?step=${currentStep + 1}`, undefined, {
+      shallow: true,
+    });
   };
 
   const handleBackStep = (e: Event) => {
     e.preventDefault();
-    setCompletedSteps((prevState: number[]) => {
-      return [...prevState, currentStep];
-    });
 
-    setCurrentStep((prevState: number) => {
-      if (currentStep > 1) return prevState - 1;
-      return currentStep;
-    });
-    console.log(currentStep, userData);
     addToLocalStorage({
-      items: [
-        { key: "currentStep", item: currentStep },
-        { key: "completedSteps", item: completedSteps },
-      ],
+      items: [{ key: "currentStep", item: currentStep }],
+    });
+    router.push(`sign-up/?step=${currentStep - 1}`, undefined, {
+      shallow: true,
     });
   };
 
@@ -104,23 +84,15 @@ function SignupForm({}: Props) {
     // alert("Are you sure you're ready to submit this form?");
 
     const res = await dispatch(signUpUser(userData));
-    if (res.meta.requestStatus.includes("fulfilled")) {
-      setCompletedSteps((prevState: any) => {
-        return [...new Set([...prevState, currentStep])];
-      });
-
-      setCurrentStep((prev: number) => {
-        console.log(currentStep);
-        if (currentStep < MAX_STEPS) return prev++;
-        return currentStep;
-      });
+    if (res.meta.requestStatus === "fulfilled") {
+      router.push("/sign-up?step=4", undefined, { shallow: true });
 
       window.localStorage.removeItem("User");
       window.localStorage.removeItem("currentStep");
       window.localStorage.removeItem("completedSteps");
 
       setTimeout(() => {
-        Router.push("/");
+        router.push("/");
       }, 4000);
     }
   };
@@ -139,10 +111,7 @@ function SignupForm({}: Props) {
       <div className="flex flex-col items-center mt-4 ">
         {/* Steps */}
         <Suspense fallback={<div>Loading steps...</div>}>
-          <FormSteps
-            completedSteps={completedSteps}
-            currentStep={currentStep}
-          />
+          <FormSteps currentStep={currentStep} />
         </Suspense>
         <form>
           <div className="form-control  space-y-4 w-screen lg:w-full mt-20 p-8 ">
@@ -157,21 +126,25 @@ function SignupForm({}: Props) {
                 <FormStep2
                   userData={userData}
                   nextStepFunction={handleNextStep}
+                  backStepFunction={handleBackStep}
                 />
               )}
               {currentStep === 3 && (
                 <FormStep3
                   userData={userData}
                   nextStepFunction={handleFormSubmit}
+                  backStepFunction={handleBackStep}
                 />
               )}
               {currentStep === 4 && step4Content}
             </Suspense>
           </div>
-          <div className="flex justify-between mt-4">
+          {/* <div className="flex justify-between mt-4  ">
             <FormButton
               title="Back"
-              style={`${currentStep === MIN_STEPS && "btn-disabled"}`}
+              style={`${
+                currentStep === MIN_STEPS ? "btn-disabled" : " btn-primary"
+              }`}
               onClick={handleBackStep}
             />
             <FormButton
@@ -181,7 +154,7 @@ function SignupForm({}: Props) {
               title={currentStep < 3 ? "Next" : "Finish"}
               onClick={handleNextStep}
             />
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

@@ -1,4 +1,6 @@
+import Link from "next/link";
 import React, { useRef, useState } from "react";
+import FormButton from "./FormButton";
 
 type Props = {
   userData: any;
@@ -112,6 +114,14 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             ref={passwordRef}
           />
         </div>
+      </div>
+      <div className="flex justify-between mt-4  ">
+        <FormButton title="Back" style={`${"btn-disabled"}`} />
+        <FormButton
+          style="btn btn-primary"
+          title="Next"
+          onClick={handleSubmit}
+        />
       </div>
     </>
   );

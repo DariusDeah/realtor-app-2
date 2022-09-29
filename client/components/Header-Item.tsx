@@ -23,13 +23,10 @@ function HeaderItem({ icon, title, onClick }: Props) {
         data-tip={title}
         onClick={onClick}
       >
-        <div
-          className={`${
-            asPath.includes(title.toLowerCase()) && "border-b-2 border-primary "
-          } p-2`}
-        >
-          {icon}
-        </div>
+        <div className="p-2">{icon}</div>
+        {asPath.includes(title) && (
+          <div className="h-1 bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+        )}
       </div>
     </div>
   );
