@@ -11,8 +11,10 @@ export class User {
   timezone: string;
   zipcode: string;
   state: string;
+  password?: string;
   housingPreference: "House" | "Apartment";
   constructor(data: User & UserDTO) {
+    //user class can be user to convert a assorted set of user realted data into a user object
     this.fullName = data.fullName || data.full_name;
     this.email = data.email;
     this.id = data.id;

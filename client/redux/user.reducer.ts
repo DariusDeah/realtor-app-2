@@ -34,22 +34,6 @@ const initialState: UserState = {
   error: null,
 };
 
-// const signUpUser =  createAsyncThunk('user/signup',async(state, action: PayloadAction<UserState>) => {
-//     const reqBody = new UserDTO(action.payload);
-//     let res;
-//     signup({ ...reqBody }).then((data) => {
-//       if (data.status === 200) {
-//         state = JSON.parse(data.data);
-//         state.success = true;
-//         res = data;
-//       } else {
-//         state.error = true;
-//         state.success = false;
-//       }
-//     });
-
-//     return res;
-//   })
 export const signUpUser = createAsyncThunk(
   "user/signup",
   async (userData: any, thunkApi) => {
@@ -63,7 +47,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<User>) => {
+    signIn: (state, action: PayloadAction<User & UserDTO>) => {
       state.user = { ...new User(action.payload) };
       state.success = true;
     },
@@ -72,9 +56,10 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       signUpUser.fulfilled,
-      (state, action: PayloadAction<UserState & AxiosResponse>) => {
-        console.log(action.payload);
-        const parsedRes: AxiosResponse = JSON.parse(action.payload);
+      (state, action: PayloadAction<string>) => {
+        const parsedRes: AxiosResponse<User & UserDTO> = JSON.parse(
+          action.payload
+        );
         console.log({ parsedRes });
         state.user = { ...new User(parsedRes.data) };
         console.log({ state });

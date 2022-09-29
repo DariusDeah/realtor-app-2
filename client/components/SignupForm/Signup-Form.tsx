@@ -20,7 +20,7 @@ function SignupForm({}: Props) {
   let timezone: string;
   const router = useRouter();
   const { query } = useRouter();
-  const currentStep = parseInt(query["step"]);
+  const currentStep = parseInt(query["step"] ? query["step"][0] : "1");
   const [error, setError] = useState(false);
   const MAX_STEPS = 4;
 
@@ -37,7 +37,7 @@ function SignupForm({}: Props) {
       });
     }
     //only save steps lower than max step count
-    if (parseInt(query["step"]) < MAX_STEPS) {
+    if (query["step"] && parseInt(query["step"][0]) < MAX_STEPS) {
       window.localStorage.setItem("currentStep", JSON.stringify(currentStep));
     }
     setUserData(JSON.parse(window.localStorage.getItem("User") ?? "{}"));

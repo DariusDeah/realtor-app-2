@@ -2,7 +2,6 @@ import { API_KEY, axios, SERVER_API } from "./axios.conif";
 import { Homes } from "../models/home";
 import { SearchParams } from "../types/searchParams";
 import { homeTestData } from "./mock-data";
-import { UserDTO } from "../models/userDTO";
 import { unsplashTestData } from "./unsplash-mockData";
 
 export async function fetchProperties({

@@ -3,7 +3,7 @@ import { User } from "./user";
 export class UserDTO {
   full_name: string;
   email: string;
-  password: string;
+  password?: string;
   profile_img_url: string;
   favorite_homes?: any[];
   membership_status: "premium" | "base";
@@ -12,7 +12,7 @@ export class UserDTO {
   zip_code: string;
   state: string;
   is_active: boolean;
-  searching_for_type: "house" | "apartment";
+  searching_for_type: "House" | "Apartment";
   constructor(data: User) {
     this.full_name = data.fullName;
     this.email = data.email;
