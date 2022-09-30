@@ -10,7 +10,10 @@ function Header() {
   const router = useRouter();
 
   return (
-    <div className="flex lg:flex-col w-screen  lg:justify-between p-2 items-center lg:w-20 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-b-4 border-slate-200 align-middle  ">
+    <div
+      id="header"
+      className="flex bg-white  sticky top-0 lg:flex-col w-screen  lg:justify-between p-2 items-center lg:w-20 lg:h-screen justify-between lg:space-y-9 lg:border-r-2 border-b-4 border-slate-200 align-middle  "
+    >
       <div
         className="lg:align-top inline-flex cursor-pointer flex-col items-center justify-center lg:border-b-2 "
         onClick={() => router.push("/")}

@@ -3,12 +3,12 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { lazy, Suspense, useEffect } from "react";
 import Header from "../components/Header";
-import Navbar from "../components/Navbar";
 import { homeTestData } from "../utils/mock-data";
 
 const Footer = lazy(() => import("../components/Footer"));
 const CTACard = lazy(() => import("../components/CTA-Card"));
 const HouseCard = lazy(() => import("../components/HouseCard"));
+const Navbar = lazy(() => import("../components/Navbar"));
 
 const homes = [homeTestData, homeTestData, homeTestData, homeTestData];
 
@@ -72,9 +72,11 @@ const Home: NextPage = () => {
   useEffect(() => {});
   return (
     <div className="lg:flex">
-      <div className="sticky top-0 ">
-        <Header />
+      <Header />
+      <div className="lg:hidden sticky top-20 " id="nav">
+        <Navbar />
       </div>
+
       <div className="">
         <div className=" w-full relative ">
           {/* Cover */}
@@ -136,16 +138,18 @@ const Home: NextPage = () => {
             width={1920}
           />
         </div>
-        <Navbar />
+        <div className="lg:flex hidden sticky top-0" id="nav">
+          <Navbar />
+        </div>
         <section className="lg:space-y-3 space-y-14 lg:mx-32">
           <Suspense fallback={<h1>Loading Content</h1>}>
-            <div className=" lg:p-24   " id="Explore">
+            <div className=" lg:p-24 " id="Explore">
               <h1 className="lg:text-3xl font-semibold">Explore All</h1>
               <motion.ul
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex justify-between lg:grid grid-cols-4   lg:p-6 scroll-p-3 space-x-6   overflow-x-auto snap-x scrollbar-hide  "
+                className="flex  justify-between lg:grid grid-cols-4   lg:p-6 scroll-p-3 space-x-6   overflow-x-auto snap-x scrollbar-hide  "
               >
                 {list.map((item) => (
                   <CTACard
@@ -158,7 +162,7 @@ const Home: NextPage = () => {
                 ))}
               </motion.ul>
             </div>
-            <div className="mx-auto p-24" id="New">
+            <div className="mx-auto lg:p-24 " id="New">
               <h1 className="text-3xl font-semibold">
                 New Homes {"&"} Apartments
               </h1>
@@ -166,7 +170,7 @@ const Home: NextPage = () => {
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+                className="flex flex-wrap  justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
                 {homes.map((home) => (
                   <motion.li
@@ -191,7 +195,7 @@ const Home: NextPage = () => {
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+                className="flex flex-wrap justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
                 {homes.map((home) => (
                   <motion.li

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 type Props = {
-  icon: any;
+  icon?: any;
   title: string;
   onClick?: () => void;
   link?: string;

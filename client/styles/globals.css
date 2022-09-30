@@ -16,8 +16,18 @@
     border: solid black 2px;
   }
 }
-
+#nav {
+  z-index: 9999 !important;
+}
+#header {
+  z-index: 9999 !important;
+}
 * {
   padding: 0%;
   margin: 0;
+  box-sizing: border-box;
+}
+/* this is to allow sticky navs */
+#__next > div:first-child {
+  overflow: visible !important;
 }
