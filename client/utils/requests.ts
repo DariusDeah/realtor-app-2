@@ -38,6 +38,10 @@ export async function signup(apiData: any) {
   const res = await SERVER_API.post(`/signup`, JSON.stringify(apiData));
   return res;
 }
+export async function login(apiData: any) {
+  const res = await SERVER_API.post(`/login`, JSON.stringify(apiData));
+  return res;
+}
 
 export async function fetchGalleryPhotos() {
   // const res = await SERVER_API.get("/unsplash-proxy");
