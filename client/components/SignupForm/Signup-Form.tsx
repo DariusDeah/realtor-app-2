@@ -127,7 +127,7 @@ function SignupForm({}: Props) {
   );
 
   return (
-    <div className=" border-2 lg:max-w-screen-lg w-screen rounded-lg lg:mx-4 ">
+    <>
       {error && (
         <Alert
           title="Error In Form"
@@ -168,7 +168,7 @@ function SignupForm({}: Props) {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
 

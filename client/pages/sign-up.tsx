@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
+import AuthCard from "../components/AuthCard";
 import Header from "../components/Header";
 import SignupForm from "../components/SignupForm/Signup-Form";
 
@@ -43,7 +44,9 @@ function Signup({}: Props) {
         </div>
         {/* TODO only the form component should be in the sign up form */}
         <div className="my-10 ">
-          <SignupForm />
+          <AuthCard>
+            <SignupForm />
+          </AuthCard>
         </div>
       </div>
     </div>
