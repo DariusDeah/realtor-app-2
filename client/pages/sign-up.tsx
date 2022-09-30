@@ -10,7 +10,8 @@ function Signup({}: Props) {
   const router = useRouter();
   return (
     <div className="lg:flex ">
-      <div className="selectable w-fit h-fit" onClick={() => router.back()}>
+      <section>
+        {/* <div className="selectable w-fit h-fit" onClick={() => router.back()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -18,17 +19,19 @@ function Signup({}: Props) {
           strokeWidth={1.5}
           stroke="currentColor"
           className="w-6 h-6"
-        >
+          >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-          />
+            />
         </svg>
         <p>Back</p>
-      </div>
+      </div> */}
+        <Header />
+      </section>
       <div className="flex w-full flex-col justify-center items-center">
-        <div className=" flex justify-center items-end">
+        <div className=" flex justify-center items-end mt-5">
           <img
             className="object-contain w-20 h-20"
             src="https://cdn-icons-png.flaticon.com/512/2159/2159323.png"
