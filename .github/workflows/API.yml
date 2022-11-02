@@ -1,0 +1,23 @@
+name: deploy to lamba 
+
+on: 
+  push:
+    branches:
+    - API
+    
+jobs:
+
+  deploy_source:
+    name: deploy lambda from source 
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: checkout source code 
+        uses: actions/checkout@1
+      - name: export to zip file
+        run: sam package --s3-bucket realtor-api-prod --output-template-file output.yaml
+        
+        
+      
