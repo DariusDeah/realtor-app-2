@@ -26,7 +26,6 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1200
           role-session-name: MySessionName
-      - run: aws --version
       - name: install node dependencies
         uses: actions/setup-node@v3
         with:
