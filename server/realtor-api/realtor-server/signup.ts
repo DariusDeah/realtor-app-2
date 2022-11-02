@@ -50,14 +50,14 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             path: '/',
         });
         console.log({ jwtToken }, { jwtCookie });
-        const data: Record<string, string[]> = {
-            ['cookies']: [jwtCookie],
+        const otherHeaders: Record<string, any | any[]> = {
+            ['cookies']: jwtCookie,
         };
 
         //api response
         response = {
             statusCode: 200,
-            headers: appendHeaders(data),
+            headers: appendHeaders(otherHeaders),
             body: JSON.stringify({
                 message: 'Successful Signup',
                 data: safeModifiedUser,
@@ -67,8 +67,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
     } catch (err) {
         console.log({ err });
         response = {
-            headers: appendHeaders(),
             statusCode: 500,
+            headers: appendHeaders(),
             body: JSON.stringify({
                 message: err,
             }),
