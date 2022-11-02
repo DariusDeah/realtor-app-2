@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-       shell: zsh
        working-directory: client
     strategy:
       matrix:
