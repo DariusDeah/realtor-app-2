@@ -15,9 +15,10 @@ jobs:
         node-version: [12.x]
     steps:
       - name: checkout source code 
-        uses: actions/checkout@2
+        uses: actions/checkout@v3
       - name: export to zip file
-        run: cd server/realtor-api/ && npm run package
+      - run: cd server/realtor-api
+      - run: npm run package
         
         
       
