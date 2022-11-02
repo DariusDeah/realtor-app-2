@@ -20,9 +20,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install -g yarn
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: cd client && npm install -g yarn
+      - run: cd client && yarn install --frozen-lockfile
+      - run: cd client && yarn build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
