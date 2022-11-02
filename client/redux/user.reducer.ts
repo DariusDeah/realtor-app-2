@@ -1,13 +1,8 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-  Slice,
-} from "@reduxjs/toolkit";
-import { Axios, AxiosResponse } from "axios";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
 import { User } from "../models/user";
 import { UserDTO } from "../models/userDTO";
-import { signup } from "../utils/requests";
+import { login, signup } from "../utils/requests";
 import { RootState } from "./store";
 
 interface UserState {
@@ -35,14 +30,21 @@ const initialState: UserState = {
 };
 
 export const signUpUser = createAsyncThunk(
-  "user/signup",
-  async (userData: any, thunkApi) => {
+  "account/signup",
+  async (userData: any) => {
     const reqBody = new UserDTO(userData);
     const res = await signup({ ...reqBody });
     return res.data;
   }
 );
-
+const loginUser = createAsyncThunk(
+  "account/login",
+  async (userData: any, thunkApi) => {
+    const reqBody = new UserDTO(userData);
+    const res = await login({ ...reqBody });
+    return res.data;
+  }
+);
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -60,9 +62,14 @@ export const userSlice = createSlice({
         const parsedRes: AxiosResponse<User & UserDTO> = JSON.parse(
           action.payload
         );
-        console.log({ parsedRes });
         state.user = { ...new User(parsedRes.data) };
-        console.log({ state });
+      }
+    );
+    builder.addCase(
+      loginUser.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        const parsedRes: AxiosResponse<User | any> = JSON.parse(action.payload);
+        state.user = { ...new User(parsedRes.data) };
       }
     );
   },

@@ -1,14 +1,11 @@
-import { NextPage } from "next";
-import { useRouter } from "next/router";
 import React from "react";
 import AuthCard from "../components/AuthCard";
 import Header from "../components/Header";
-import SignupForm from "../components/SignupForm/Signup-Form";
+import LoginForm from "../components/LoginForm";
 
 type Props = {};
 
-function Signup({}: Props) {
-  const router = useRouter();
+function login({}: Props) {
   return (
     <div className="lg:flex ">
       <section>
@@ -28,7 +25,7 @@ function Signup({}: Props) {
         {/* TODO only the form component should be in the sign up form */}
         <div className="my-10 ">
           <AuthCard>
-            <SignupForm />
+            <LoginForm />
           </AuthCard>
         </div>
       </div>
@@ -36,4 +33,4 @@ function Signup({}: Props) {
   );
 }
 
-export default Signup;
+export default login;

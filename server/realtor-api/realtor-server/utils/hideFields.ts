@@ -1,4 +1,4 @@
-export const hideFields = (target: Record<string, unknown>, fields: string[]) => {
+export const hideFields = (target: any, fields: string[]) => {
     fields.forEach((field) => {
         target[field] = null;
     });

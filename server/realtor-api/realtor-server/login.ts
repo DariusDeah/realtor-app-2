@@ -10,9 +10,6 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         const { id } = JSON.parse(event.body);
         const dbClient = new DynamoDB.DocumentClient();
 
-        // hash users password;
-
-        //store in dynamo async
         const data = await dbClient.get({ TableName: 'UserTable', Key: id }).promise();
         data.$response.data.password = null;
 

@@ -8,6 +8,7 @@ function Navbar({}: Props) {
       {navItems.map((item) => (
         <>
           <a
+            key={item}
             href={`#${item.split(" ").join("")}`}
             className="selectable text-sm lg:text-2xl font-semibold lg:mx-20 "
           >

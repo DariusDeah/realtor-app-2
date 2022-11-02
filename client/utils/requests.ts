@@ -21,7 +21,7 @@ export async function fetchProperties({
 
   const homes = JSON.parse(res.data);
   const modifiedHomes: any[] = homes.props.map((home: any) => new Homes(home));
-  return [homeTestData];
+  return modifiedHomes;
 }
 
 export async function fetchProperty(homeId: string) {
@@ -30,19 +30,27 @@ export async function fetchProperty(homeId: string) {
       zpid: homeId,
     },
   });
-  // return JSON.parse(res.data);
-  return homeTestData;
+  return JSON.parse(res.data);
+}
+
+export async function fetchFavoriteFavorites() {
+  const res = await SERVER_API.get("/favorites", {
+    withCredentials: true,
+  });
+  return res;
 }
 
 export async function signup(apiData: any) {
   const res = await SERVER_API.post(`/signup`, JSON.stringify(apiData));
   return res;
 }
+export async function login(apiData: any) {
+  const res = await SERVER_API.post(`/login`, JSON.stringify(apiData));
+  return res;
+}
 
 export async function fetchGalleryPhotos() {
-  // const res = await SERVER_API.get("/unsplash-proxy");
-  // const imgs = JSON.parse(res.data);
-  // console.log(imgs);
-  // return imgs.data;
-  return unsplashTestData;
+  const res = await SERVER_API.get("/unsplash-proxy");
+  const imgs = JSON.parse(res.data);
+  return imgs.data;
 }

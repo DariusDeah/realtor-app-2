@@ -1,10 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { createApi } from 'unsplash-js';
-import { Random } from 'unsplash-js/dist/methods/photos/types';
-import { URL } from 'url';
-import { headers } from './headers';
-import nodeFetch from 'node-fetch';
 import axios from 'axios';
+import { createClient } from 'redis';
+import { appendHeaders } from './utils/appendHeaders';
 
 /**
  *
@@ -19,28 +16,50 @@ import axios from 'axios';
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) => {
     let response: APIGatewayProxyResult;
     try {
-        const res = await axios.get(
-            `https://api.unsplash.com/photos/random?orientation=squarish&count=30&query=house&client_id=A2HoMb_eT7jMZ5sIxHV-b9CkF9_SzYzsh9tvl8lX_28`,
-        );
+        const client = createClient({
+            url: 'redis://redis-cluster-pillow.rvhfa6.ng.0001.usw2.cache.amazonaws.com:6379',
+        });
 
-        const unsplashResponse = res.data;
-        response = {
-            headers,
+        client.on('error', (err) => console.log('Redis Client Error', err));
+        await client.connect();
+        const cacheData = await client.get('gallery');
+        console.log(cacheData);
+        if (!cacheData?.length) {
+            const res = await axios.get(
+                `https://api.unsplash.com/photos/random?orientation=squarish&count=30&query=house&client_id=A2HoMb_eT7jMZ5sIxHV-b9CkF9_SzYzsh9tvl8lX_28`,
+            );
+
+            await client.set('gallery', res.data, {
+                EX: 20,
+                NX: true,
+            });
+            const unsplashResponse = res.data;
+            return (response = {
+                headers: appendHeaders(),
+                statusCode: 200,
+                body: JSON.stringify({
+                    message: 'successful ',
+                    data: unsplashResponse,
+                }),
+            });
+        }
+        return (response = {
+            headers: appendHeaders(),
             statusCode: 200,
             body: JSON.stringify({
                 message: 'successful ',
-                data: unsplashResponse,
+                data: cacheData,
             }),
-        };
+        });
     } catch (error) {
         console.log(error);
         response = {
-            headers,
+            headers: appendHeaders(),
             statusCode: 500,
             body: JSON.stringify({
                 message: error,
             }),
         };
+        return response;
     }
-    return response;
 };

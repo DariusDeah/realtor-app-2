@@ -97,26 +97,3 @@ function HouseCard({ home, homeImg }: Props) {
 }
 
 export default HouseCard;
-
-/**
- * address: "966 Palisades Beach Rd, Santa Monica, CA 90403"
-bathrooms: 8
-bedrooms: 5
-contingentListingType: null
-country: "USA"
-currency: "USD"
-dateSold: null
-daysOnZillow: -1
-hasImage: true
-imgSrc: "https://photos.zillowstatic.com/fp/64da6094eae05eba27184401e006ee69-p_e.jpg"
-latitude: 34.01869
-listingStatus: "FOR_SALE"
-listingSubType: {is_FSBA: true}
-livingArea: 7043
-longitude: -118.50533
-lotAreaUnit: "sqft"
-lotAreaValue: 5466.78
-price: 25000000
-propertyType: "SINGLE_FAMILY"
-zpid: "20485843"
- */
