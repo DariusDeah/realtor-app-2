@@ -6,21 +6,25 @@ on:
     - Client
     
 jobs:
-
   deploy_source:
     name: deployment
     runs-on: ubuntu-latest
+    defaults:
+      run:
+       working-directory: client
     strategy:
       matrix:
         node-version: [14.x]
     steps:
       - name: checkout source code 
         uses: actions/checkout@v3
-      - name: install dependencies
+      - name: install node dependencies
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -29,4 +33,5 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1200
           role-session-name: MySessionName
-      - run: cd client && npm run build && aws s3 cp /Users/dariusdeah/source/FullStack-TS/realtor-app/client/out/ ${{secrets.S3_URI}} --recursive
+      - run: aws s3 cp out/ ${{secrets.S3_URI}} --recursive
+
