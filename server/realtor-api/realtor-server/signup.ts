@@ -50,8 +50,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             path: '/',
         });
         console.log({ jwtToken }, { jwtCookie });
-        const data: Record<string, string> = {
-            ['Set-Cookie']: jwtCookie,
+        const data: Record<string, string[]> = {
+            ['cookies']: [jwtCookie],
         };
 
         //api response

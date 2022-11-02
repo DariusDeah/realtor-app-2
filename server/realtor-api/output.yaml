@@ -1,18 +1,18 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 'realtor-api
+Description: 'realtor-api-2
 
-  Sample SAM Template for realtor-api
+  Sample SAM Template for realtor-api-2
 
   '
 Globals:
   Function:
     Timeout: 3
 Resources:
-  HelloWorldFunction:
+  LoginFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/6449d3fc40c6d181e726e8eaefcff27e
+      CodeUri: s3://realtor-api-prod/44d073c537f85fb4ad27cb0c5e1a8b11
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -34,11 +34,11 @@ Resources:
         Minify: true
         Sourcemap: true
         Target: es2020
-      SamResourceId: HelloWorldFunction
+      SamResourceId: LoginFunction
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/05522cf185116e7ceccaef35f14e9374
+      CodeUri: s3://realtor-api-prod/1d383dfc90d58b2fc5a8cc81857d65c9
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -94,7 +94,7 @@ Resources:
   UnsplashFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/a236dd808f6ea0e3cf8a26aae1066346
+      CodeUri: s3://realtor-api-prod/22d4ad2e81e58aaddd03663d61313fdd
       Handler: unsplash-proxy.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -120,7 +120,7 @@ Resources:
   AddFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/9dd537b9c7ea4a998419892302997067
+      CodeUri: s3://realtor-api-prod/34ddc818437eb8284f0258d5cfde8d25
       Handler: addFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -146,7 +146,7 @@ Resources:
   GetFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/a2d4b83d5c275c1e06a68ee9da591c77
+      CodeUri: s3://realtor-api-prod/17ae067977065762d712c11e67119e5e
       Handler: getFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -169,20 +169,3 @@ Resources:
         Sourcemap: true
         Target: es2020
       SamResourceId: GetFavoritesFunction
-Outputs:
-  HelloWorldApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
-  HelloWorldFunction:
-    Description: Hello World Lambda Function ARN
-    Value:
-      Fn::GetAtt:
-      - HelloWorldFunction
-      - Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value:
-      Fn::GetAtt:
-      - HelloWorldFunctionRole
-      - Arn
