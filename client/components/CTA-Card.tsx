@@ -7,6 +7,7 @@ type Props = {
   img: string;
   animationDelay: number;
 };
+
 const delayCardVariant = (delay: number) => {
   const cardVariants: Variants = {
     offscreen: {

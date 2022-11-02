@@ -12,7 +12,7 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/970ad9dd6e6abda036b40a8b455544ab
+      CodeUri: s3://realtor-api-prod/6449d3fc40c6d181e726e8eaefcff27e
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -38,7 +38,7 @@ Resources:
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/69b5c3b8ffdda692cac43fc17d91288c
+      CodeUri: s3://realtor-api-prod/05522cf185116e7ceccaef35f14e9374
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -74,10 +74,27 @@ Resources:
         KeyType: HASH
     Metadata:
       SamResourceId: UserTable
+  HomeTableV2:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: HomeTableV3
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: creator_id
+        AttributeType: S
+      - AttributeName: zpid
+        AttributeType: S
+      KeySchema:
+      - AttributeName: creator_id
+        KeyType: HASH
+      - AttributeName: zpid
+        KeyType: RANGE
+    Metadata:
+      SamResourceId: HomeTableV2
   UnsplashFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/68c11aad1e19f1ef24b11eb9427636c3
+      CodeUri: s3://realtor-api-prod/a236dd808f6ea0e3cf8a26aae1066346
       Handler: unsplash-proxy.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -100,6 +117,58 @@ Resources:
         Sourcemap: true
         Target: es2020
       SamResourceId: UnsplashFunction
+  AddFavoritesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://realtor-api-prod/9dd537b9c7ea4a998419892302997067
+      Handler: addFavoriteHomes.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+      - x86_64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /favorites
+            Method: post
+      Environment:
+        Variables:
+          NODE_OPTIONS: ' --enable-source-maps'
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - addFavoriteHomes.ts
+        Minify: true
+        Sourcemap: true
+        Target: es2020
+      SamResourceId: AddFavoritesFunction
+  GetFavoritesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://realtor-api-prod/a2d4b83d5c275c1e06a68ee9da591c77
+      Handler: getFavoriteHomes.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+      - x86_64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /favorites
+            Method: get
+      Environment:
+        Variables:
+          NODE_OPTIONS: ' --enable-source-maps'
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - getFavoriteHomes.ts
+        Minify: true
+        Sourcemap: true
+        Target: es2020
+      SamResourceId: GetFavoritesFunction
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL for Prod stage for Hello World function

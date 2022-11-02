@@ -12,10 +12,15 @@ function useLocalSave() {
     });
   }, []);
 
+  const fetchFromLocalStorage = useCallback(function (key: string) {
+    const item = window.localStorage.getItem(key);
+    return item;
+  }, []);
+
   useEffect(() => {
     setIsSaved(true);
   }, []);
-  return { isSaved, addToLocalStorage };
+  return { isSaved, addToLocalStorage, fetchFromLocalStorage };
 }
 
 export default useLocalSave;

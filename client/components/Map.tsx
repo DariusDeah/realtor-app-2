@@ -5,7 +5,6 @@ import {
   Marker,
   MarkerF,
 } from "@react-google-maps/api";
-import Image from "next/image";
 declare global {
   interface Window {
     initMap: () => void;

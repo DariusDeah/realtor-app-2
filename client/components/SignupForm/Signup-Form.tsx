@@ -15,6 +15,7 @@ type Props = {};
 
 function SignupForm({}: Props) {
   const dispatch = useAppDispatch();
+  const { addToLocalStorage } = useLocalSave();
 
   const [userData, setUserData] = useState<User | any>({});
   let timezone: string;
@@ -22,27 +23,17 @@ function SignupForm({}: Props) {
   const { query } = useRouter();
   const currentStep = parseInt(query["step"] ? query["step"][0] : "1");
   const [error, setError] = useState(false);
+
   const MAX_STEPS = 4;
 
-  const { addToLocalStorage } = useLocalSave();
-
   useEffect(() => {
-    //if there is no current query step set it to the step from local storage
-    if (!query["step"]) {
-      const currentStepInStorage = parseInt(
-        localStorage.getItem("currentStep") ?? "1"
-      );
-      router.push(`/sign-up?step=${currentStepInStorage}`, undefined, {
-        shallow: true,
-      });
-    }
     //only save steps lower than max step count
     if (query["step"] && parseInt(query["step"][0]) < MAX_STEPS) {
       window.localStorage.setItem("currentStep", JSON.stringify(currentStep));
     }
     setUserData(JSON.parse(window.localStorage.getItem("User") ?? "{}"));
     timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  }, [currentStep]);
+  }, []);
 
   const handleNextStep = (e: Event, data?: any) => {
     e.preventDefault();
@@ -70,6 +61,7 @@ function SignupForm({}: Props) {
     addToLocalStorage({
       items: [{ key: "currentStep", item: currentStep }],
     });
+
     router.push(`sign-up/?step=${currentStep - 1}`, undefined, {
       shallow: true,
     });
@@ -77,19 +69,14 @@ function SignupForm({}: Props) {
 
   const handleFormSubmit = async (e: Event) => {
     e.preventDefault();
-
-    setUserData((prevState: any) => {
-      return {
-        ...prevState,
-        timezone: timezone || prevState.timezone,
-      };
-    });
+    const userData = JSON.parse(localStorage.getItem("User") || "");
     // alert("Are you sure you're ready to submit this form?");
     //validate form data
-    if (!isValidFormData()) {
+    if (userData && !isValidUserFormData(userData)) {
       setError(true);
       return;
     }
+
     // throw new Error("fix form");
     const res = await dispatch(signUpUser(userData));
     if (res.meta.requestStatus.includes("fulfilled")) {
@@ -104,7 +91,7 @@ function SignupForm({}: Props) {
     }
   };
 
-  const isValidFormData = () => {
+  const isValidUserFormData = (userData: User) => {
     return (
       userData.email &&
       userData.email.length &&

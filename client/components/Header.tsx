@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import HeaderItem from "./Header-Item";
 import Router, { useRouter } from "next/router";

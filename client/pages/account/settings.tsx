@@ -37,10 +37,8 @@ function settings({}: Props) {
                   alt="avatar"
                 />
                 <span>
-                  <p className="text-xl font-semibold">
-                    Tommy Gennin{user.user.fullName}
-                  </p>
-                  <p>Dommy@gmail.com</p>
+                  <p className="text-xl font-semibold">{user.user.fullName}</p>
+                  <p>{user.user.email}</p>
                 </span>
                 <p>{user.user.membershipStatus}</p>
               </span>
@@ -53,21 +51,17 @@ function settings({}: Props) {
             <div className="rounded-md  grid lg:grid-cols-3 grid-cols-2 lg:flex-col lg:w-2/5 justify-between bg-black p-3 ">
               <span>
                 <label htmlFor="">Address</label>
-                <input
-                  type="text"
-                  value="8966 w candlebrook way"
-                  className="input"
-                />
+                <input type="text" className="input" />
               </span>
               <span>
                 <label htmlFor="city">City</label>
-                <input type="text" value="Eugene" className="input" id="city" />
+                <input type="text" className="input" id="city" />
               </span>
               <span>
                 <label htmlFor="state">State</label>
                 <input
                   type="text"
-                  value="Oregon"
+                  value={user.user.state}
                   className="input"
                   id="state"
                 />

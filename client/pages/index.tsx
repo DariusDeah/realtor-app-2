@@ -131,10 +131,9 @@ const Home: NextPage = () => {
           </div>
           <Image
             src="https://images.unsplash.com/photo-1464082354059-27db6ce50048?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-            alt=""
+            alt="hero"
             className="bg-center h-1/3 "
-            layout="intrinsic"
-            height={700}
+            height={800}
             width={1920}
           />
         </div>

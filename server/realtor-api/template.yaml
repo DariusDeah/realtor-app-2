@@ -66,6 +66,21 @@ Resources:
       KeySchema:
         - AttributeName: id
           KeyType: HASH
+  HomeTableV2:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: HomeTableV3
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: creator_id
+          AttributeType: S
+        - AttributeName: zpid
+          AttributeType: S
+      KeySchema:
+        - AttributeName: creator_id
+          KeyType: HASH
+        - AttributeName: zpid
+          KeyType: RANGE
   UnsplashFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -88,6 +103,50 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - unsplash-proxy.ts
+  AddFavoritesFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: realtor-server/
+      Handler: addFavoriteHomes.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /favorites
+            Method: post
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - addFavoriteHomes.ts
+  GetFavoritesFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: realtor-server/
+      Handler: getFavoriteHomes.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /favorites
+            Method: get
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - getFavoriteHomes.ts
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

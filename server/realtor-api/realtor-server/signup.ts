@@ -1,11 +1,13 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { DynamoDB } from 'aws-sdk';
 import { createHmac } from 'node:crypto';
 import { headers } from './headers';
-import { User, UserFields } from './user.model';
+import { User } from './user.model';
 import { appendHeaders } from './utils/appendHeaders';
 import { hideFields } from './utils/hideFields';
+import { JWTHandler } from './utils/jwtHandler';
 import { PasswordHandler } from './utils/password-handler';
+import cookie from 'cookie';
+import { dbClient } from './utils/dynamo.config';
 
 /**
  *
@@ -20,14 +22,11 @@ import { PasswordHandler } from './utils/password-handler';
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let response: APIGatewayProxyResult;
     try {
-        const env = 'dev';
         console.log({ event }, { context });
 
         if (!event.body) {
             throw new Error('user required');
         }
-
-        const dbClient = new DynamoDB.DocumentClient();
 
         const createdUser = new User(JSON.parse(event.body));
 
@@ -43,24 +42,38 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             .promise();
 
         //hide password field
-        const safeModifiedUser = hideFields(createdUser, UserFields.password);
+        const safeModifiedUser = hideFields(createdUser, ['password']);
+        const jwtToken = JWTHandler.signToken(createdUser);
+        const jwtCookie = cookie.serialize('jwt', jwtToken, {
+            domain: 'https://www.pillow-zillow.com',
+            secure: true,
+            path: '/',
+        });
+        console.log({ jwtToken }, { jwtCookie });
+        const data: Record<string, string> = {
+            ['Set-Cookie']: jwtCookie,
+        };
+
         //api response
         response = {
             statusCode: 200,
-            headers: appendHeaders(),
+            headers: appendHeaders(data),
             body: JSON.stringify({
                 message: 'Successful Signup',
                 data: safeModifiedUser,
             }),
+            isBase64Encoded: false,
         };
     } catch (err) {
         console.log(err);
         response = {
-            headers,
+            headers: appendHeaders(),
             statusCode: 500,
             body: JSON.stringify({
                 message: err,
             }),
+
+            isBase64Encoded: false,
         };
     }
 

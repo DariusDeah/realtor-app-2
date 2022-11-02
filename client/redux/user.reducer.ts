@@ -31,7 +31,7 @@ const initialState: UserState = {
 
 export const signUpUser = createAsyncThunk(
   "account/signup",
-  async (userData: any, thunkApi) => {
+  async (userData: any) => {
     const reqBody = new UserDTO(userData);
     const res = await signup({ ...reqBody });
     return res.data;
@@ -40,7 +40,7 @@ export const signUpUser = createAsyncThunk(
 const loginUser = createAsyncThunk(
   "account/login",
   async (userData: any, thunkApi) => {
-    const reqBody = new UserDTO({ ...userData });
+    const reqBody = new UserDTO(userData);
     const res = await login({ ...reqBody });
     return res.data;
   }
