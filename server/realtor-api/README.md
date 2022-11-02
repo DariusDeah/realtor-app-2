@@ -135,4 +135,4 @@ sam package --s3-bucket realtor-api-prod --output-template-file output.yaml
 
 ## Deploy Command
 
-sam deploy --template-file output.yaml --stack-name realtor-app --capabilities CAPABILITY_IAM
+sam deploy --template-file output.yaml --stack-name realtor-app-2 --capabilities CAPABILITY_IAM
