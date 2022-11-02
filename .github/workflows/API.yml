@@ -24,8 +24,7 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1200
           role-session-name: MySessionName
-      - run: cd server/realtor-api
-      - run: sam build
+      - run: cd server/realtor-api/ && sam build
       - run: sam package --s3-bucket realtor-api-prod --output-template-file output.yaml
       - run: sam deploy --template-file output.yaml --stack-name realtor-app --capabilities CAPABILITY_IAM 
         
