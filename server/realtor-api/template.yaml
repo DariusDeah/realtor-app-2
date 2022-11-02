@@ -23,7 +23,7 @@ Resources:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /login
+            Path: api/v2/login
             Method: post
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
@@ -45,7 +45,7 @@ Resources:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /signup
+            Path: api/v2/signup
             Method: post
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
@@ -93,7 +93,7 @@ Resources:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /unsplash-proxy
+            Path: api/v2/unsplash-proxy
             Method: get
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
@@ -115,7 +115,7 @@ Resources:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /favorites
+            Path: api/v2/favorites
             Method: post
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
@@ -137,7 +137,7 @@ Resources:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /favorites
+            Path: api/v2/favorites
             Method: get
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
