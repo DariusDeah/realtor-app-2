@@ -57,7 +57,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         //api response
         response = {
             statusCode: 200,
-            headers: appendHeaders(otherHeaders),
+            headers: appendHeaders([otherHeaders]),
             body: JSON.stringify({
                 message: 'Successful Signup',
                 data: safeModifiedUser,
