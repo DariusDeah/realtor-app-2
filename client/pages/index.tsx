@@ -86,7 +86,7 @@ const Home: NextPage = () => {
                 Search Pillow
               </h1>
               <p className=" text-lg text-center">
-                we'll help you find the perfect place.
+                we'll help you find the perfect home.
               </p>
             </div>
             <div className=" flex items-center justify-center ">
