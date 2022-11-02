@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x,14.x]
+        node-version: [12.x]
     steps:
       - name: checkout source code 
         uses: actions/checkout@v3
@@ -29,10 +29,7 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1200
           role-session-name: MySessionName
-      - run: cd server/realtor-api/ 
-      - run: sam build
-      - run: sam package --s3-bucket realtor-api-prod --output-template-file output.yaml
-      - run: sam deploy --template-file output.yaml --stack-name realtor-app --capabilities CAPABILITY_IAM 
+      - run: cd server/realtor-api/ && sam build && sam package --s3-bucket realtor-api-prod --output-template-file output.yaml && sam deploy --template-file output.yaml --stack-name realtor-app --capabilities CAPABILITY_IAM 
         
         
       
