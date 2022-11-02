@@ -20,7 +20,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -29,4 +31,4 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1200
           role-session-name: MySessionName
-      - run: cd client && npm run build && aws s3 cp /Users/dariusdeah/source/FullStack-TS/realtor-app/client/out/ ${{secrets.S3_URI}} --recursive
+      - run: cd client && aws s3 cp /Users/dariusdeah/source/FullStack-TS/realtor-app/client/out/ ${{secrets.S3_URI}} --recursive
