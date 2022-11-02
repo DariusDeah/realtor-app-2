@@ -6,10 +6,13 @@ on:
     - Client
     
 jobs:
-
   deploy_source:
     name: deployment
     runs-on: ubuntu-latest
+    defaults:
+      run:
+       shell: zsh
+       working-directory: client
     strategy:
       matrix:
         node-version: [14.x]
@@ -20,9 +23,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd client && npm install -g yarn
-      - run: cd client && yarn install --frozen-lockfile
-      - run: cd client && yarn build
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -31,4 +34,4 @@ jobs:
           aws-region: us-west-2
           role-duration-seconds: 1200
           role-session-name: MySessionName
-      - run: cd client && aws s3 cp /Users/dariusdeah/source/FullStack-TS/realtor-app/client/out/ ${{secrets.S3_URI}} --recursive
+      - run: aws s3 cp /Users/dariusdeah/source/FullStack-TS/realtor-app/client/out/ ${{secrets.S3_URI}} --recursive
