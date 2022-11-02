@@ -1,9 +1,9 @@
 export const appendHeaders = (...headersList: any[]) => {
     const baseHeaders: Record<string, string> = {
-        'Access-Control-Allow-Origin': 'https://www.pillow-zillow.com/*',
+        'access-control-allow-origin': 'https://www.pillow-zillow.com/*',
         'content-type': 'application/json',
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+        'access-control-allow-headers': '*',
+        'access-control-allow-methods': 'OPTIONS,POST,GET,PUT,DELETE',
     };
     if (headersList) {
         const header = { header: headersList }.header['0'];
