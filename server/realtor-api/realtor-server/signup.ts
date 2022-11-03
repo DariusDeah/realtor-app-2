@@ -48,6 +48,9 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             domain: 'https://www.pillow-zillow.com',
             secure: true,
             path: '/',
+            sameSite: 'lax',
+            httpOnly: true,
+            expires: new Date(Date.now() * 60 * 60 * 24 * 12),
         });
         console.log({ jwtToken }, { jwtCookie });
 
@@ -59,7 +62,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-                Cookie: jwtCookie,
+                'Set-Cookie': jwtCookie,
+                'Access-Control-Allow-Credentials': true,
             },
 
             body: JSON.stringify({
