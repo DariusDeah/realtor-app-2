@@ -49,8 +49,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             secure: true,
             path: '/',
             sameSite: 'lax',
-            httpOnly: true,
-            expires: new Date(Date.now() * 60 * 60 * 24 * 12),
+            maxAge: 3600,
         });
         console.log({ jwtToken }, { jwtCookie });
 
@@ -63,13 +62,13 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
                 'Set-Cookie': jwtCookie,
-                'Access-Control-Allow-Credentials': true,
             },
 
             body: JSON.stringify({
                 message: 'Successful Signup',
                 data: safeModifiedUser,
             }),
+
             isBase64Encoded: false,
         };
     } catch (err) {

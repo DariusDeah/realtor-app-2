@@ -12,7 +12,7 @@ Resources:
   LoginFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/9bd8c013a1f953f1675c43cfa96ce8ba
+      CodeUri: s3://realtor-api-prod/fc36a5b47aabaf991206f82ac05334c2
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -38,7 +38,7 @@ Resources:
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/ea7254c1ff847e5ccf778fb51983c238
+      CodeUri: s3://realtor-api-prod/f6c23f8e501c83cd657348133bf1f883
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -94,7 +94,7 @@ Resources:
   UnsplashFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/0019d234b72994314028f8227458019c
+      CodeUri: s3://realtor-api-prod/1284d2ea1f8b0cb34419956e98d30712
       Handler: unsplash-proxy.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -120,7 +120,7 @@ Resources:
   AddFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/f1ec9f20fa8f2995e8aec4d459b8b908
+      CodeUri: s3://realtor-api-prod/2ebc0ecc4ee782b283b345ecf7f6d4c7
       Handler: addFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -146,7 +146,7 @@ Resources:
   GetFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/f05ae2ca4633656dc5d7489b38d7adc0
+      CodeUri: s3://realtor-api-prod/d88decbd9c9affab13d54b94f06331ca
       Handler: getFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
