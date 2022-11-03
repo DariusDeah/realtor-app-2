@@ -59,10 +59,9 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+                'Set-Cookie': jwtCookie,
             },
-            multiValueHeaders: {
-                cookies: [jwtCookie],
-            },
+
             body: JSON.stringify({
                 message: 'Successful Signup',
                 data: safeModifiedUser,
