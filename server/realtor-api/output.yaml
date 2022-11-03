@@ -12,7 +12,7 @@ Resources:
   LoginFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/44d073c537f85fb4ad27cb0c5e1a8b11
+      CodeUri: s3://realtor-api-prod/947700df2b760be814e9e3a14c2d94d9
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -21,7 +21,7 @@ Resources:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /login
+            Path: api/v2/login
             Method: post
       Environment:
         Variables:
@@ -38,7 +38,7 @@ Resources:
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/1d383dfc90d58b2fc5a8cc81857d65c9
+      CodeUri: s3://realtor-api-prod/dc87f3cfb5154a21d3702369740d96f3
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -47,7 +47,7 @@ Resources:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /signup
+            Path: api/v2/signup
             Method: post
       Environment:
         Variables:
@@ -94,7 +94,7 @@ Resources:
   UnsplashFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/22d4ad2e81e58aaddd03663d61313fdd
+      CodeUri: s3://realtor-api-prod/d3fc1fbdfdb8a1d43b7d629a13ddebdf
       Handler: unsplash-proxy.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -103,7 +103,7 @@ Resources:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /unsplash-proxy
+            Path: api/v2/unsplash-proxy
             Method: get
       Environment:
         Variables:
@@ -120,7 +120,7 @@ Resources:
   AddFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/34ddc818437eb8284f0258d5cfde8d25
+      CodeUri: s3://realtor-api-prod/b00b671b8e33808c35f73bb94e994123
       Handler: addFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -129,7 +129,7 @@ Resources:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /favorites
+            Path: api/v2/favorites
             Method: post
       Environment:
         Variables:
@@ -146,7 +146,7 @@ Resources:
   GetFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/17ae067977065762d712c11e67119e5e
+      CodeUri: s3://realtor-api-prod/f2ab95b12d47f6ac951147c7a0d3e9f8
       Handler: getFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -155,7 +155,7 @@ Resources:
         HelloWorld:
           Type: Api
           Properties:
-            Path: /favorites
+            Path: api/v2/favorites
             Method: get
       Environment:
         Variables:

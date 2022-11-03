@@ -57,7 +57,15 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         //api response
         response = {
             statusCode: 200,
-            headers: appendHeaders([otherHeaders]),
+            headers: {
+                'Access-Control-Allow-Origin': 'https://www.pillow-zillow.com',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+            },
+            multiValueHeaders: {
+                cookies: [jwtCookie],
+            },
             body: JSON.stringify({
                 message: 'Successful Signup',
                 data: safeModifiedUser,
