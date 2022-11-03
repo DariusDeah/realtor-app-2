@@ -59,7 +59,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-                'Set-Cookie': jwtCookie,
+                Cookie: jwtCookie,
             },
 
             body: JSON.stringify({
