@@ -45,7 +45,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         const safeModifiedUser = hideFields(createdUser, ['password']);
         const jwtToken = JWTHandler.signToken(createdUser);
         const jwtCookie = cookie.serialize('jwt', jwtToken, {
-            domain: 'https://www.pillow-zillow.com',
+            domain: 'pillow-zillow.com',
             secure: true,
             path: '/',
             sameSite: 'lax',
