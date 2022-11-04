@@ -45,13 +45,13 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         const safeModifiedUser = hideFields(createdUser, ['password']);
         const jwtToken = JWTHandler.signToken(createdUser);
         const jwtCookie = cookie.serialize('jwt', jwtToken, {
-            domain: 'pillow-zillow.com',
+            domain: '.pillow-zillow.com',
             secure: true,
             path: '/',
-            sameSite: 'lax',
-            maxAge: 3600,
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60,
+            priority: 'medium',
         });
-        console.log({ jwtToken }, { jwtCookie });
 
         //api response
         response = {
@@ -61,6 +61,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+                'Access-Control-Allow-Credentials': true,
                 'Set-Cookie': jwtCookie,
             },
 
