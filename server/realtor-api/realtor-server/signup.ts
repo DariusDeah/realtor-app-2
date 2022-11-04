@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { createHmac } from 'node:crypto';
-import { headers } from './headers';
+import { DEFAULT_HEADERS, DEFUALT_HEADERS, headers } from './headers';
 import { User } from './user.model';
 import { appendHeaders } from './utils/appendHeaders';
 import { hideFields } from './utils/hideFields';
@@ -48,7 +48,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             domain: '.pillow-zillow.com',
             secure: true,
             path: '/',
-            sameSite: 'none',
+            sameSite: 'lax',
             maxAge: 24 * 60 * 60,
             priority: 'medium',
         });
@@ -57,11 +57,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         response = {
             statusCode: 200,
             headers: {
-                'Access-Control-Allow-Origin': 'https://www.pillow-zillow.com',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-                'Access-Control-Allow-Credentials': true,
+                ...DEFAULT_HEADERS,
                 'Set-Cookie': jwtCookie,
             },
 
@@ -76,7 +72,9 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         console.log({ err });
         response = {
             statusCode: 500,
-            headers: appendHeaders(),
+            headers: {
+                ...DEFAULT_HEADERS,
+            },
             body: JSON.stringify({
                 message: err,
             }),
