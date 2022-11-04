@@ -10,4 +10,5 @@ export const axios = new Axios({
 export const API_KEY = "yCs1jygXg1aJ1tUOlr2Ll2TdNKWC2Vl7uO4dy8s6";
 export const SERVER_API = new Axios({
   baseURL: `https://api.pillow-zillow.com/api/v2`,
+  withCredentials: true,
 });
