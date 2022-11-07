@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { createHmac } from 'node:crypto';
-import { DEFAULT_HEADERS, DEFUALT_HEADERS, headers } from './headers';
+import { DEFAULT_HEADERS } from './headers';
 import { User } from './user.model';
 import { appendHeaders } from './utils/appendHeaders';
 import { hideFields } from './utils/hideFields';

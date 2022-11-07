@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "realtor-api:SignupFunction",
+      "invokeTarget": {
+        "target": "template",
+        "templatePath": "${workspaceFolder}/template.yaml",
+        "logicalId": "SignupFunction"
+      },
+      "lambda": {
+        "payload": {},
+        "environmentVariables": {}
+      }
+    }
+  ]
+}

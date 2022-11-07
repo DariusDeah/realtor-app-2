@@ -12,7 +12,7 @@ Resources:
   LoginFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/69672cb87ea2b6ddb735d49a6fb5ff04
+      CodeUri: s3://realtor-api-prod/2508f21907852e672051289c9e00507e
       Handler: login.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -38,7 +38,7 @@ Resources:
   SignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/8d9912463147a6364c6c9d33c40f7f1a
+      CodeUri: s3://realtor-api-prod/f67212a9b003e311168df083a953a02e
       Handler: signup.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -74,6 +74,19 @@ Resources:
         KeyType: HASH
     Metadata:
       SamResourceId: UserTable
+  CacheStore:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: CacheStore
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+    Metadata:
+      SamResourceId: CacheStore
   HomeTableV2:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -94,7 +107,7 @@ Resources:
   UnsplashFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/ca9908aca848800f7ffdf1367f4b4e48
+      CodeUri: s3://realtor-api-prod/4254d3e416950a93c2f7744876ef58a2
       Handler: unsplash-proxy.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -120,7 +133,7 @@ Resources:
   AddFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/114e68585efa2435eeb25b5db3b8a119
+      CodeUri: s3://realtor-api-prod/c27bc1d30eaea4fb8176a909847fcc89
       Handler: addFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
@@ -146,7 +159,7 @@ Resources:
   GetFavoritesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://realtor-api-prod/05a6334521526b95deb6d987381943b0
+      CodeUri: s3://realtor-api-prod/f3a3c5d88936863cd648ab141c85f232
       Handler: getFavoriteHomes.lambdaHandler
       Runtime: nodejs14.x
       Architectures:
