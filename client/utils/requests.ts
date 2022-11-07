@@ -50,7 +50,7 @@ export async function login(apiData: any) {
 }
 
 export async function fetchGalleryPhotos() {
-  const res = await SERVER_API.get("/unsplash-proxy");
+  const res = await SERVER_API.get("/unsplash-proxy-req");
   const imgs = JSON.parse(res.data);
   return imgs.data;
 }
