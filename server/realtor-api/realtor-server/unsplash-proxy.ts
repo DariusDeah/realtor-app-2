@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import axios from 'axios';
 import { DEFAULT_HEADERS } from './headers';
+import { unsplashTestData } from './mock-unsplash-res';
 import { cacheHelper } from './utils/cacheHelper';
 /**
  *
@@ -15,12 +16,26 @@ import { cacheHelper } from './utils/cacheHelper';
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) => {
     let response: APIGatewayProxyResult;
     try {
-        const res = await axios.get(
-            `https://api.unsplash.com/photos/random?orientation=squarish&count=30&query=house&client_id=A2HoMb_eT7jMZ5sIxHV-b9CkF9_SzYzsh9tvl8lX_28`,
-        );
+        const cachedData = await cacheHelper.fetchFromCache('unsplash-cache-data');
+        if (cachedData) {
+            return (response = {
+                headers: { ...DEFAULT_HEADERS },
+                statusCode: 200,
+                body: JSON.stringify({
+                    message: 'successful',
+                    data: cachedData.data,
+                }),
+                isBase64Encoded: false,
+            });
+        }
 
+        // const res = await axios.get(
+        //     `https://api.unsplash.com/photos/random?orientation=squarish&count=30&query=house&client_id=A2HoMb_eT7jMZ5sIxHV-b9CkF9_SzYzsh9tvl8lX_28`,
+        // );
+        const res = { data: unsplashTestData };
+        console.log(res);
         const unsplashResponse = res.data;
-        await cacheHelper.addToCache(unsplashResponse);
+        await cacheHelper.addToCache({ id: 'unsplash-cache-data', data: unsplashResponse });
         response = {
             headers: { ...DEFAULT_HEADERS },
             statusCode: 200,
@@ -30,17 +45,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             }),
             isBase64Encoded: false,
         };
-
-        // return (response = {
-        //     headers: { ...DEFAULT_HEADERS },
-        //     statusCode: 200,
-        //     body: JSON.stringify({
-        //         message: 'successful ',
-        //         data: cacheData,
-        //     }),
-        // });
     } catch (error) {
-        console.log(error);
+        console.log({ error });
         response = {
             headers: { ...DEFAULT_HEADERS },
             statusCode: 500,

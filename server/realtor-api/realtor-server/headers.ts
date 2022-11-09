@@ -3,7 +3,7 @@ export const DEFAULT_HEADERS = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
-    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Credentials': true,
     'Cache-Control': 'no-store',
     'Content-Security-Policy': 'frame-ancestors none',
     'X-Frame-Options': 'DENY',
