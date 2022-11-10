@@ -29,10 +29,10 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             });
         }
 
-        // const res = await axios.get(
-        //     `https://api.unsplash.com/photos/random?orientation=squarish&count=30&query=house&client_id=A2HoMb_eT7jMZ5sIxHV-b9CkF9_SzYzsh9tvl8lX_28`,
-        // );
-        const res = { data: unsplashTestData };
+        const res = await axios.get(
+            `https://api.unsplash.com/photos/random?orientation=squarish&count=30&query=house&client_id=A2HoMb_eT7jMZ5sIxHV-b9CkF9_SzYzsh9tvl8lX_28`,
+        );
+
         console.log(res);
         const unsplashResponse = res.data;
         await cacheHelper.addToCache({ id: 'unsplash-cache-data', data: unsplashResponse });

@@ -19,7 +19,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
         console.log({ event }, { context });
         if (!event.headers['Cookie']) {
             return (response = {
-                statusCode: 403,
+                statusCode: 401,
                 body: JSON.stringify({
                     err: {
                         statusCode: 401,
@@ -58,7 +58,6 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             body: JSON.stringify({
                 message: err,
             }),
-
             isBase64Encoded: false,
         };
     }

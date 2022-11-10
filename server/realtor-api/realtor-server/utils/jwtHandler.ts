@@ -10,7 +10,7 @@ export class JWTHandler {
                 photo: user.profile_img_url,
                 state: user.state,
             },
-            'bW96emFyZWxsYV9Jc19Nb19CZXR0YQ==',
+            process.env.JWT_SECRET as string,
             {
                 subject: `pillow|${user.id}`,
                 issuer: 'https://api.pillow-zillow.com',
@@ -19,6 +19,6 @@ export class JWTHandler {
         );
     }
     static verifyToken(token: string) {
-        return jwt.verify(token, 'bW96emFyZWxsYV9Jc19Nb19CZXR0YQ==');
+        return jwt.verify(token, process.env.JWT_SECRET as string);
     }
 }

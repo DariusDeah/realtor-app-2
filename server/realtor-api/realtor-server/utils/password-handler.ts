@@ -15,11 +15,13 @@ export class PasswordHandler {
 
     public static async comparePasswords(storedPassword: string, suppliedPassword: string) {
         try {
+            console.log('comparing  passwords ');
             const [hashedPassword, salt] = storedPassword.split('.');
             const buf = (await scryptAsync(suppliedPassword, salt, 64)) as Buffer;
             return buf.toString('hex') === hashedPassword;
         } catch (error) {
-            throw new Error(JSON.stringify(error));
+            console.log(error);
+            return false;
         }
     }
 }

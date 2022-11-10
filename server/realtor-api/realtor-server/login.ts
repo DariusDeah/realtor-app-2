@@ -1,29 +1,68 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { DynamoDB } from 'aws-sdk';
+import { DEFAULT_HEADERS } from './headers';
+import { User } from './user.model';
+import { dbClient } from './utils/dynamo.config';
+import { PasswordHandler } from './utils/password-handler';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let response: APIGatewayProxyResult;
     try {
+        console.log({ event, context });
         if (!event.body) {
             throw new Error('user required');
         }
-        const { id } = JSON.parse(event.body);
-        const dbClient = new DynamoDB.DocumentClient();
-
-        const data = await dbClient.get({ TableName: 'UserTable', Key: id }).promise();
-        data.$response.data.password = null;
-
+        const res = await dbClient
+            .query({
+                TableName: 'UserTable',
+                IndexName: 'email-id-index',
+                Limit: 1,
+                KeyConditionExpression: 'email  = :user_email',
+                ExpressionAttributeValues: {
+                    ':user_email': JSON.parse(event.body)['email'],
+                },
+            })
+            .promise();
+        console.log(res.Items || res);
+        if (!res.Items) {
+            return (response = {
+                headers: { ...DEFAULT_HEADERS },
+                isBase64Encoded: false,
+                statusCode: 500,
+                body: JSON.stringify({
+                    message: 'incorrect email or password',
+                }),
+            });
+        }
+        const foundUser = res.Items[0] as User;
+        const isValidAuthentication = await PasswordHandler.comparePasswords(
+            foundUser.password,
+            JSON.parse(event.body)['password'],
+        );
+        if (!isValidAuthentication) {
+            return (response = {
+                headers: { ...DEFAULT_HEADERS },
+                isBase64Encoded: false,
+                statusCode: 500,
+                body: JSON.stringify({
+                    message: 'incorrect email or password',
+                }),
+            });
+        }
         //api response
         response = {
             statusCode: 200,
+            headers: { ...DEFAULT_HEADERS },
+            isBase64Encoded: false,
             body: JSON.stringify({
-                message: 'Successful Signup',
-                data: data.$response.data,
+                message: 'Successful Sign in',
+                data: foundUser,
             }),
         };
     } catch (err) {
         console.log(err);
         response = {
+            headers: { ...DEFAULT_HEADERS },
+            isBase64Encoded: false,
             statusCode: 500,
             body: JSON.stringify({
                 message: err,

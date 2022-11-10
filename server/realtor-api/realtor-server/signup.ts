@@ -31,7 +31,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         const createdUser = new User(JSON.parse(event.body));
 
         // hash users password;
-        // createdUser.password = await PasswordHandler.hashPassword(createdUser.password);
+        createdUser.password = await PasswordHandler.hashPassword(createdUser.password);
 
         //store in dynamo async
         await dbClient
@@ -69,16 +69,16 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             isBase64Encoded: false,
         };
     } catch (err) {
-        console.log({ err });
+        console.error({ err });
         response = {
             statusCode: 500,
             headers: {
                 ...DEFAULT_HEADERS,
             },
             body: JSON.stringify({
-                message: err,
+                message: 'Error Signing Up',
+                error: err,
             }),
-
             isBase64Encoded: false,
         };
     }
