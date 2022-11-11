@@ -129,13 +129,22 @@ const Home: NextPage = () => {
               Search
             </button>
           </div>
-          <Image
-            src="https://images.unsplash.com/photo-1464082354059-27db6ce50048?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-            alt="hero"
-            className="bg-center h-1/3 "
-            height={800}
-            width={1920}
-          />
+          <div
+            className="
+          relative 
+          w-screen
+          h-[70vh]
+
+          "
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1517541866997-ea18e32ea9e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+              alt="hero"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+            />
+          </div>
         </div>
         <div className="lg:flex hidden sticky top-0" id="nav">
           <Navbar />
