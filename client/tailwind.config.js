@@ -9,6 +9,29 @@ module.exports = {
   },
   plugins: [require("daisyui"), require("tailwind-scrollbar-hide")],
   daisyui: {
-    themes: ["pastel", "night"],
+    themes: [
+      {
+        mytheme: {
+          primary: "#60a5fa",
+
+          secondary: "#F6CBD1",
+
+          accent: "#B4E9D6",
+
+          neutral: "#70ACC7",
+
+          "base-100": "#FFFFFF",
+
+          info: "#3ABFF8",
+
+          success: "#36D399",
+
+          warning: "#FBBD23",
+
+          error: "#F87272",
+        },
+      },
+    ],
+    darkMode: " night",
   },
 };
