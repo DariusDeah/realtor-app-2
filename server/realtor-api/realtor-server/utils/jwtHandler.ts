@@ -5,7 +5,7 @@ export class JWTHandler {
     static signToken(user: User) {
         return jwt.sign(
             {
-                full_name: user.full_name || user.email,
+                name: user.full_name || user.email,
                 email: user.email,
                 photo: user.profile_img_url,
                 state: user.state,
@@ -15,6 +15,7 @@ export class JWTHandler {
                 subject: `pillow|${user.id}`,
                 issuer: 'https://api.pillow-zillow.com',
                 expiresIn: '7d',
+                audience: 'https://pillow-zillow.com',
             },
         );
     }
