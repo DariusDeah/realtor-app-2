@@ -74,7 +74,7 @@ function SearchFilter({
   );
 
   return (
-    <div className="px-2 space-y-5  ">
+    <div className="space-y-5 w-full  ">
       <div className="flex justify-between   ">
         <div className="p-2 bg-slate-100 w-fit space-x-2 rounded-lg font-semibold ">
           <button className="btn-sm rounded-lg bg-white text-blue-400 active:bg-blue-400 active:text-white">

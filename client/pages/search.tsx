@@ -16,7 +16,6 @@ const Search: NextPage = () => {
   return (
     <div className="lg:flex">
       <Header />
-
       <HomeDisplays
         updateHomeState={setHome}
         mapToggleFunction={handleMapToggle}

@@ -38,13 +38,13 @@ function HomeDisplays({
   }, []);
 
   return (
-    <div className="md:flex-1 space-y-5  max-h-screen">
+    <div className="md:flex-1 space-y-5  max-h-screen ">
       <SearchFilter
         submitRequestFunction={zillowApiCall}
         toggleMapFunction={mapToggleFunction}
         mapToggled={mapToggleState}
       />
-      <div className="flex flex-wrap   overflow-y-scroll max-h-screen m-auto ">
+      <div className="flex flex-wrap   overflow-y-scroll max-h-screen m-auto justify-center ">
         {homes && homes.length ? (
           homes.map((home) => (
             <HouseCard home={home} homeImg={home.imgSrc} key={home.zpId} />
