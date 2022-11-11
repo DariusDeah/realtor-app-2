@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Router, { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useAppSelector } from "../../redux";
 import { selectUser } from "../../redux/user.reducer";
@@ -9,78 +10,202 @@ type Props = {};
 function settings({}: Props) {
   const user = useAppSelector(selectUser);
   const router = useRouter();
+  // const [currentTab, setCurrentTab] = useState(1);
 
-  useEffect(() => {
-    if (!user.user) {
-      router.push("/sign-up");
-    }
-  }, []);
-  return (
-    user.user && (
-      <div className="lg:flex">
-        <Header />
-        <section className="w-full flex flex-col items-center space-y-10">
-          <div className="w-full flex flex-col  items-center mt-6 space-y-6 ">
-            <h1 className="text-4xl font-semibold text-center  ">
-              {" "}
-              My Settings
-            </h1>
+  const ProfileTabContent = (
+    <div className="flex flex-col w-full   ">
+      <div className="flex">
+        <Image
+          src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+          width={100}
+          height={100}
+          className="rounded-full "
+        />
 
-            <div className="rounded-md flex text-white lg:w-2/5 justify-between bg-black p-3   ">
-              <span className="flex items-center space-x-3 ">
-                <img
-                  className="w-14 h-16 rounded-full"
-                  src={
-                    user.user.photoUrl ||
-                    "https://images.unsplash.com/photo-1536164261511-3a17e671d380?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=982&q=80"
-                  }
-                  alt="avatar"
-                />
-                <span>
-                  <p className="text-xl font-semibold">{user.user.fullName}</p>
-                  <p>{user.user.email}</p>
-                </span>
-                <p>{user.user.membershipStatus}</p>
-              </span>
-              <button className=" w-fit">Logout</button>
-            </div>
+        <div className="flex flex-col justify-center ml-5 gap-1">
+          <p>Jimmy Kramer </p>
+          <div className="flex items-center gap-3">
+            <p>Base Account</p>
+            <button className=" btn btn-outline btn-xs">Upgrade</button>
           </div>
+        </div>
+      </div>
+      <div className="divider"></div>
 
-          <div className="w-full flex flex-col  items-center space-y-3  ">
-            <h1 className="text-4xl font-semibold ">Location </h1>
-            <div className="rounded-md  grid lg:grid-cols-3 grid-cols-2 lg:flex-col lg:w-2/5 justify-between bg-black p-3 ">
-              <span>
-                <label htmlFor="">Address</label>
-                <input type="text" className="input" />
-              </span>
-              <span>
-                <label htmlFor="city">City</label>
-                <input type="text" className="input" id="city" />
-              </span>
-              <span>
-                <label htmlFor="state">State</label>
-                <input
-                  type="text"
-                  value={user.user.state}
-                  className="input"
-                  id="state"
-                />
-              </span>
-            </div>
+      {/* inputs */}
+      <div className="lg:flex justify-between ">
+        <h2 className="font-semibold text-xl mb-3 lg:mb-0">User Info</h2>
+        <section className=" grid grid-cols-2 gap-7 lg:w-3/4">
+          <div className="flex flex-col justify-start ">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              className="input input-bordered"
+              name="firstName"
+            />
           </div>
-
-          <h1 className="text-4xl font-semibold">Preferences</h1>
-          <div className="rounded-md flex text-white lg:w-2/5 w-full justify-between bg-black p-3">
-            <div className="btn-group ">
-              <button className="btn-square btn hover:bg-white ">
-                Light☀️
-              </button>
-              <button className="btn-square btn hover:bg-white">Dark🌙</button>
-            </div>
+          <div className="flex flex-col justify-start">
+            <label htmlFor="firstName">Last Name</label>
+            <input type="text" className="input input-bordered" />
+          </div>
+          <div className="flex flex-col justify-start">
+            <label htmlFor="firstName">Email</label>
+            <input type="text" className="input input-bordered" />
+          </div>
+          <div className="flex flex-col justify-start">
+            <label htmlFor="firstName">Phone</label>
+            <input type="text" className="input input-bordered" />
+          </div>
+          <div className="flex flex-col justify-start">
+            <label htmlFor="firstName">Address</label>
+            <input type="text" className="input input-bordered" />
+          </div>
+          <div className="flex flex-col justify-start">
+            <label htmlFor="firstName">State</label>
+            <select className="select select-bordered w-full ">
+              <option disabled selected></option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District Of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+            </select>
           </div>
         </section>
       </div>
-    )
+      {/* inputs */}
+      <div className="divider"></div>
+      <div className="lg:flex justify-between items-center">
+        <h2 className="font-semibold text-xl mb-3 lg:mb-0">Preferences</h2>
+        <div className="lg:flex justify-between lg:w-3/4 flex-wrap gap-x-10 gap-5">
+          <div className="form-control">
+            <label className="label cursor-pointer">
+              <span className="label-text">Dark Mode</span>
+              <input type="checkbox" className="toggle" checked />
+            </label>
+          </div>
+          <div className="flex items-center lg:gap-x-2 ">
+            <label htmlFor="Lang">Language</label>
+            <select className="select select-xs select-bordered  ">
+              <option value="English">English</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+            </select>
+          </div>
+          <div className="form-control">
+            <label className="label cursor-pointer">
+              <span className="label-text">Always Display Filters</span>
+              <input type="checkbox" className="checkbox" />
+            </label>
+          </div>
+          <div className="flex items-center lg:gap-x-2 ">
+            <label htmlFor="salary range">Salary Range</label>
+            <select className="select select-xs select-bordered  ">
+              <option value="0-20,000">0 - 20,000</option>
+              <option value="20,000-40,000">20,000 - 40,000</option>
+              <option value="40,000 - 80,000">40,000 - 80,000</option>
+              <option value=" 80,000 - 100,000+"> 80,000 - 100,000+</option>
+            </select>
+          </div>
+          <div className="flex items-center lg:gap-x-2 ">
+            <label htmlFor="budger">Budget Range</label>
+            <select className="select select-xs select-bordered  ">
+              <option value="0-20,000">0 - 20,000</option>
+              <option value="20,000-40,000">20,000 - 40,000</option>
+              <option value="40,000 - 80,000">40,000 - 80,000</option>
+              <option value=" 80,000 - 100,000+"> 80,000 - 100,000+</option>
+            </select>
+          </div>
+          <div className="flex items-center lg:gap-x-2 ">
+            <label htmlFor="Lang">Searching For</label>
+            <select className="select select-xs select-bordered  ">
+              <option value="Home">Home</option>
+              <option value="Condo">Condo</option>
+              <option value="Apartment">Apartment</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  useEffect(() => {
+    // if (!user.user) {
+    //   router.push("/sign-up");
+    // }
+  }, []);
+  return user.user ? (
+    <div className="lg:flex">
+      <Header />
+      <section className="w-full flex flex-col items-center space-y-10"></section>
+    </div>
+  ) : (
+    <div className="lg:flex">
+      <Header />
+      <section className="w-full flex  flex-col lg:m-10 gap-5 ">
+        <section className=" flex flex-col items-center gap-5">
+          <h1 className="text-3xl lg:text-5xl font-semibold">
+            Settings - Profile
+          </h1>
+          <div className="tabs ">
+            <a className="tab tab-bordered tab-active">Profile </a>
+            <a className="tab tab-bordered ">Payment {"&"} Billing</a>
+            <a className="tab tab-bordered">Account </a>
+          </div>
+        </section>
+        <section className=" flex flex-col gap-10">
+          <div>{ProfileTabContent}</div>
+          <div className="w-full flex justify-end">
+            <button className=" btn   btn-success text-end ">Update</button>
+          </div>
+        </section>
+      </section>
+    </div>
   );
 }
 
