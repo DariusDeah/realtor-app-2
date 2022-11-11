@@ -8,24 +8,37 @@ import { selectUser } from "../../redux/user.reducer";
 type Props = {};
 
 function settings({}: Props) {
-  const user = useAppSelector(selectUser);
+  // const user = useAppSelector(selectUser);
+  const user = {
+    user: {
+      fullName: "Jimmy Kramer",
+      email: "jimmy.kramer@gmail.com",
+      photoUrl:
+        "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+      membershipStatus: "Base",
+      timezone: "Mountain Time / Boise",
+      zipcode: "83709",
+      state: "Idaho",
+      housingPreference: "Apartment",
+    },
+  };
   const router = useRouter();
   // const [currentTab, setCurrentTab] = useState(1);
 
   const ProfileTabContent = (
-    <div className="flex flex-col w-full   ">
+    <div className="flex flex-col w-full  gap-5  ">
       <div className="flex">
         <Image
-          src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+          src={user.user.photoUrl}
           width={100}
           height={100}
           className="rounded-full "
         />
 
         <div className="flex flex-col justify-center ml-5 gap-1">
-          <p>Jimmy Kramer </p>
+          <p>{user.user.fullName.split(" ").join(" ")} </p>
           <div className="flex items-center gap-3">
-            <p>Base Account</p>
+            <p>{user.user.membershipStatus} Account</p>
             <button className=" btn btn-outline btn-xs">Upgrade</button>
           </div>
         </div>
@@ -37,16 +50,23 @@ function settings({}: Props) {
         <h2 className="font-semibold text-xl mb-3 lg:mb-0">User Info</h2>
         <section className=" grid grid-cols-2 gap-7 lg:w-3/4">
           <div className="flex flex-col justify-start ">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              className="input input-bordered"
-              name="firstName"
-            />
+            <label htmlFor="firstName " className="text-gray-500">
+              First Name
+            </label>
+            <div className="flex items-center">
+              <input
+                type="text"
+                className="input input-bordered rounded-md  flex-1  "
+                name="firstName"
+                value={user.user.fullName.split(" ")[0]}
+              />
+              <button className="selectable">Edit</button>
+            </div>
           </div>
+
           <div className="flex flex-col justify-start">
             <label htmlFor="firstName">Last Name</label>
-            <input type="text" className="input input-bordered" />
+            <input type="text" className="input input-bordered rounded-md " />
           </div>
           <div className="flex flex-col justify-start">
             <label htmlFor="firstName">Email</label>
@@ -121,9 +141,9 @@ function settings({}: Props) {
       </div>
       {/* inputs */}
       <div className="divider"></div>
-      <div className="lg:flex justify-between items-center">
+      <div className="lg:flex justify-between items-start">
         <h2 className="font-semibold text-xl mb-3 lg:mb-0">Preferences</h2>
-        <div className="lg:flex justify-between lg:w-3/4 flex-wrap gap-x-10 gap-5">
+        <div className="lg:grid grid-cols-4 justify-between lg:w-3/4  gap-x-10 gap-5">
           <div className="form-control">
             <label className="label cursor-pointer">
               <span className="label-text">Dark Mode</span>
@@ -170,8 +190,29 @@ function settings({}: Props) {
               <option value="Apartment">Apartment</option>
             </select>
           </div>
+          <div className="flex items-center lg:gap-x-2 ">
+            <label htmlFor="Lang">Beds</label>
+            <select className="select select-xs select-bordered rounded-md  ">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5+">5+</option>
+            </select>
+          </div>
+          <div className="flex items-center lg:gap-x-2 ">
+            <label htmlFor="Lang">Baths</label>
+            <select className="select select-xs select-bordered rounded-md  ">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5+">5+</option>
+            </select>
+          </div>
         </div>
       </div>
+      <div className="divider"></div>
     </div>
   );
   useEffect(() => {
@@ -179,7 +220,7 @@ function settings({}: Props) {
     //   router.push("/sign-up");
     // }
   }, []);
-  return user.user ? (
+  return !user.user ? (
     <div className="lg:flex">
       <Header />
       <section className="w-full flex flex-col items-center space-y-10"></section>
