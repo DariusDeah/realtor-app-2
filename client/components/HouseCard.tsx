@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { testUser } from "../utils/mock-user";
 
 type Props = {
   home: any;
@@ -9,7 +10,7 @@ type Props = {
 
 function HouseCard({ home, homeImg }: Props) {
   const [likedCard, setLikedCard] = useState(false);
-
+  const user = testUser;
   let cardHeartIcon = likedCard ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -63,10 +64,30 @@ function HouseCard({ home, homeImg }: Props) {
         <div>
           {typeof home.address === "string" ? (
             <>
-              <h2 className="card-title">
-                {home.address.split(",")[0]}
-                <div className="badge bg-blue-400 border-none">Viewed</div>
-              </h2>
+              <div className="font-semibold  space-x-2">
+                {user.user.recentlyViewed.includes(home.zpid) && (
+                  <div className="badge bg-blue-400 border-none ">
+                    <p>Recently Viewed 👁️ </p>
+                  </div>
+                )}
+                {home.price <= user.user.housingPreferences.budget.max &&
+                  home.price >= user.user.housingPreferences.budget.min && (
+                    <div className="badge bg-success  border-none w-fit">
+                      <p>Within Budget 🥳</p>
+                    </div>
+                  )}
+                {home.bedrooms === user.user.housingPreferences.bed && (
+                  <div className="badge bg-indigo-300  border-none w-fit">
+                    <p>Perfect Match 🤩</p>
+                  </div>
+                )}
+                {home.price > user.user.housingPreferences.budget.max && (
+                  <div className="badge bg-error border-none w-fit">
+                    <p>Over Budget 💸</p>
+                  </div>
+                )}
+              </div>
+              <h2 className="card-title">{home.address.split(",")[0]}</h2>
               <p>
                 {home.address.split(",")[1]} {home.address.split(",")[2]}
               </p>

@@ -4,24 +4,13 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useAppSelector } from "../../redux";
 import { selectUser } from "../../redux/user.reducer";
+import { testUser } from "../../utils/mock-user";
 
 type Props = {};
 
 function settings({}: Props) {
   // const user = useAppSelector(selectUser);
-  const user = {
-    user: {
-      fullName: "Jimmy Kramer",
-      email: "jimmy.kramer@gmail.com",
-      photoUrl:
-        "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-      membershipStatus: "Base",
-      timezone: "Mountain Time / Boise",
-      zipcode: "83709",
-      state: "Idaho",
-      housingPreference: "Apartment",
-    },
-  };
+  const user = testUser;
   const router = useRouter();
   // const [currentTab, setCurrentTab] = useState(1);
 

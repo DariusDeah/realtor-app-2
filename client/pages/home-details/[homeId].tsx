@@ -85,9 +85,7 @@ function HomeDetails({}: Props) {
               ))}
             </section>
             {/* SCHOOLS END */}
-            <div className="overflow-auto">
-              <Map markerObjects={[home, home.nearbyHomes]} />
-            </div>
+            <Map markerObjects={[home, home.nearbyHomes]} />
           </article>
         </div>
         <section className=" mt-7">
