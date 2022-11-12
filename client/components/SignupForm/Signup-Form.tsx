@@ -127,8 +127,9 @@ function SignupForm({}: Props) {
         <Suspense fallback={<div>Loading steps...</div>}>
           <FormSteps currentStep={currentStep} />
         </Suspense>
-        <form>
-          <div className="form-control  space-y-4 w-screen lg:w-full mt-20 p-8 ">
+        <div className="divider"></div>
+        <form className="w-full">
+          <div className="  w-screen lg:w-full  ">
             <Suspense fallback={<div>Loading Form Content</div>}>
               {currentStep === 1 && (
                 <FormStep1

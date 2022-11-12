@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import AuthCard from "../components/AuthCard";
@@ -28,7 +29,18 @@ function Signup({}: Props) {
         {/* TODO only the form component should be in the sign up form */}
         <div className="my-10 ">
           <AuthCard>
-            <SignupForm />
+            <div className="flex ">
+              <div className="w-1/3 h-[70vh] relative">
+                <Image
+                  layout="fill"
+                  objectFit="cover"
+                  src="https://images.unsplash.com/photo-1505819244306-ef53954f9648?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=699&q=80"
+                />
+              </div>
+              <div className="flex-1 lg:mx-20">
+                <SignupForm />
+              </div>
+            </div>
           </AuthCard>
         </div>
       </div>
