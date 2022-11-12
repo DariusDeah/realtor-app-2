@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
-import { fetchProperty } from "../../utils/requests";
+import { fetchProperty, fetchPropertyImages } from "../../utils/requests";
 import Map from "../../components/Map";
 import HouseCard from "../../components/HouseCard";
 
@@ -10,14 +10,21 @@ type Props = {};
 
 function HomeDetails({}: Props) {
   const [home, setHome] = useState<any>(null);
+  const [images, setImages] = useState<any[]>([]);
   const router = useRouter();
   const { homeId } = router.query;
+  async function fetchHome() {
+    const home = await fetchProperty(homeId as string);
+    setHome(home);
+  }
+  async function fetchHomeImages() {
+    const imgs = await fetchPropertyImages(homeId as string);
+    console.log({ imgs });
+    setImages(imgs.images);
+  }
   useEffect(() => {
-    async function fetchHome() {
-      const home = await fetchProperty(homeId as string);
-      setHome(home);
-    }
     fetchHome();
+    fetchHomeImages();
   }, []);
 
   return home ? (
@@ -25,15 +32,38 @@ function HomeDetails({}: Props) {
       <Header />
       <div className="flex flex-col h-full m-5 lg:m-10">
         <div className="">
-          <div className="lg:h-2/4 lg:w-2/4 ">
-            <Image
-              src={home.imgSrc}
-              alt="house"
-              className="rounded-lg align-middle"
-              layout="responsive"
-              height={500}
-              width={600}
-            />
+          <div className="flex  ">
+            <div className=" lg:w-3/4 w-screen relative h-[40vh] ">
+              <Image
+                src={images[0]}
+                alt="house"
+                className="rounded-lg align-middle"
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                // height={500}
+                // width={700}
+              />
+            </div>
+            <div className="flex gap-3 flex-wrap">
+              {images.length &&
+                images.map(
+                  (image, index) =>
+                    index < 10 && (
+                      <div className="lg:w-[10rem] h-[10rem] relative">
+                        <Image
+                          src={image}
+                          alt="house"
+                          className="rounded-lg "
+                          layout="fill"
+
+                          // height={100}
+                          // width={300}
+                        />
+                      </div>
+                    )
+                )}
+            </div>
           </div>
           <article className=" p-5 space-y-10">
             <div>

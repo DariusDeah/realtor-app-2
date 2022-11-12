@@ -49,8 +49,8 @@ function HouseCard({ home, homeImg }: Props) {
         <figure>{<img src={homeImg} alt="home" />}</figure>
       </Link>
       <div className="card-body">
-        <div className="flex justify-between">
-          <div>
+        <div className="flex items-center">
+          <div className="flex-1">
             <h4 className="text-gray-500 font-bold">
               {" "}
               <span className="text-blue-400 text-lg font-semibold">
@@ -59,7 +59,8 @@ function HouseCard({ home, homeImg }: Props) {
               {home.listingStatus === "FOR_RENT" ? "/mo" : ""}- {home.currency}
             </h4>
           </div>
-          <div className="selectable z-50 ">{cardHeartIcon}</div>
+          <div className="divider-vertical "></div>
+          <div className="selectable z-50  ">{cardHeartIcon}</div>
         </div>
         <div>
           {typeof home.address === "string" ? (
@@ -103,6 +104,8 @@ function HouseCard({ home, homeImg }: Props) {
               </p>
             </>
           )}
+          <div className="divider"></div>
+
           <div className="card-actions justify-between mt-5">
             <div className="badge badge-outline">Beds {home.bedrooms}</div>
             <div className="badge badge-outline">Baths {home.bathrooms}</div>
