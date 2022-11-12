@@ -30,7 +30,7 @@ function Signup({}: Props) {
         <div className="my-10 ">
           <AuthCard>
             <div className="flex ">
-              <div className="w-1/3 h-[70vh] relative">
+              <div className="w-1/3 h-[80vh] relative">
                 <Image
                   layout="fill"
                   objectFit="cover"

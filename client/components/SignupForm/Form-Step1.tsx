@@ -33,14 +33,15 @@ function FormStep1({ userData, nextStepFunction }: Props) {
         <h1 className="text-3xl font-medium">Help us get to know you 👏</h1>
         <div className="grid-cols-2 grid gap-5">
           <div className="flex flex-col ">
-            <p className="text-sm">First Name</p>
+            <p className="text-sm text-error">First Name</p>
             <input
               type="text"
               ref={fullNameRef}
               value={userData.fullName.split(" ")[1]}
-              className="input input-bordered"
+              className="input input-bordered input-error "
               required
             />
+            <p className="text-xs text-error">this is the error</p>
           </div>
           <div className="flex flex-col ">
             <p className="text-sm">Last Name</p>
@@ -67,11 +68,11 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           </div>
           <div className="flex flex-col">
             <div className="flex items-start">
-              <p className="text-sm">Password</p>
+              <p className="text-sm">Password {"( 8-64 characters)"}</p>
             </div>
             <div className="form-control">
               <label className="input-group">
-                <span className="w-[25%]">
+                <span className="w-[25%] ">
                   {isViewingPassword ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -115,11 +116,40 @@ function FormStep1({ userData, nextStepFunction }: Props) {
                   type={isViewingPassword ? "text" : "password"}
                   value={userData.password}
                   placeholder="Password"
-                  className="input input-bordered "
+                  className="input input-bordered w-full"
                   ref={passwordRef}
                   required
                 />
               </label>
+            </div>
+          </div>
+        </div>
+        <div className=" form-control flex flex-col gap-2">
+          <p className="text-sm">Address</p>
+          <div className="lg:flex grid grid-cols-1  gap-2">
+            <div className=" flex flex-col ">
+              <p className="text-xs">City</p>
+              <input
+                type="text"
+                className="input input-bordered "
+                ref={photoUrlRef}
+              />
+            </div>
+            <div>
+              <p className="text-xs">State</p>
+              <input
+                type="text"
+                className="input input-bordered "
+                ref={photoUrlRef}
+              />
+            </div>
+            <div>
+              <p className="text-xs">Zip Code</p>
+              <input
+                type="text"
+                className="input input-bordered "
+                ref={photoUrlRef}
+              />
             </div>
           </div>
         </div>
@@ -137,7 +167,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
       <div className="divider"></div>
       <div className="flex justify-end mt-4  ">
         <FormButton
-          style="btn btn-primary"
+          style="btn btn-primary text-white"
           title="Next Step"
           onClick={handleSubmit}
         />
