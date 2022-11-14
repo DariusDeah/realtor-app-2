@@ -30,12 +30,11 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
   };
 
   return (
-    <div className="form-control space-y-3">
+    <div className="form-control flex flex-col justify-between">
       <h1 className="text-3xl font-medium mb-4">
         What can we help you find? 🏡
       </h1>
       <div className="space-y-10">
-        <p className="text-center text-xl">I'm looking for a </p>
         <div className="flex justify-between">
           <OnHoverAnimation
             className={`selectable w-36 ${
@@ -62,7 +61,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
             <p className="font-bold text-xl text-center mt-2">Apartment</p>
           </OnHoverAnimation>
         </div>
-        <p className="text-center text-lg">I'm from </p>
+        {/* <p className="text-center text-lg">I'm from </p>
         <input
           type="text"
           name=""
@@ -124,8 +123,9 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
           <option value="WV">West Virginia</option>
           <option value="WI">Wisconsin</option>
           <option value="WY">Wyoming</option>
-        </select>
+        </select> */}
       </div>
+      <div className="divider"></div>
       <div className="flex justify-between mt-4  ">
         <FormButton
           title="Back"

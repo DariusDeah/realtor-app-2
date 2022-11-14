@@ -1,70 +1,127 @@
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { User } from "../../models/user";
+import useDebounceInput from "../hooks/useDebounceInput";
 import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
 import FormButton from "./FormButton";
 
 type Props = {
-  userData: any;
+  userData: User;
   nextStepFunction: (event: Event, data: any) => void;
 };
 
 function FormStep1({ userData, nextStepFunction }: Props) {
-  const fullNameRef = useRef<HTMLInputElement>(userData.fullName || null);
-  const emailRef = useRef<HTMLInputElement>(userData.email || null);
-  const passwordRef = useRef<HTMLInputElement>(userData.password || null);
-  const photoUrlRef = useRef<HTMLInputElement>(userData.photoUrl || null);
   const addToLocalStorage = useUpdateLocalSave();
+  const {
+    onChangeHandler: firstNameOnChange,
+    value: firstNameValue,
+    error: firstNameError,
+    validInput: firstNameValid,
+    errorMessage: firstNameErrorMessage,
+    onBlurHandler: firstNameOnBlur,
+  } = useDebounceInput({
+    defaultInput: (userData.fullName && userData.fullName.split(" ")[0]) || "",
+    rules: {
+      minLength: 2,
+      maxLength: 50,
+    },
+  });
 
-  const [isViewingPassword, setIsViewingPassword] = useState(false);
-  const handleSubmit = (e: Event) => {
-    const userSubmissionData = {
-      fullName: fullNameRef.current?.value || userData.fullName,
-      email: emailRef.current?.value || userData.email,
-      password: passwordRef.current?.value || userData.password,
-      photoUrl: photoUrlRef.current?.value || userData.photoUrl,
-    };
-    addToLocalStorage("User", userSubmissionData);
-    nextStepFunction(e, userSubmissionData);
+  const {
+    onChangeHandler: lastNameOnChange,
+    value: lastNameValue,
+    error: lastNameError,
+    validInput: lastNameValid,
+    errorMessage: lastNameErrorMessage,
+    onBlurHandler: lastNameOnBlur,
+  } = useDebounceInput({
+    defaultInput: (userData.fullName && userData.fullName.split(" ")[1]) || "",
+    rules: {
+      minLength: 2,
+      maxLength: 70,
+    },
+  });
+
+  const {
+    onChangeHandler: emailOnChange,
+    value: emailValue,
+    error: emailError,
+    validInput: emailValid,
+    errorMessage: emailErrorMessage,
+  } = useDebounceInput({
+    defaultInput: userData.email || "",
+    rules: {
+      minLength: 2,
+      maxLength: 70,
+      isEmail: true,
+      asyncCustom: {
+        asyncCustomValidationFunc: async (input: string) => {
+          return input.includes("darius");
+        },
+        validationErrorMessage: "this is not a valid async email",
+      },
+    },
+  });
+
+  const handleFormSubmit = (e: any) => {
+    nextStepFunction(e, {
+      fullName: `${firstNameValue} ${lastNameValue}`,
+    });
   };
-  const required = null;
+  const [isViewingPassword, setIsViewingPassword] = useState(false);
+
+  const required = <p className="text-error">{"*"}</p>;
+
   return (
     <>
-      <div className="form-control flex gap-10 ">
+      <div className="form-control flex gap-10  ">
         <h1 className="text-3xl font-medium">Help us get to know you 👏</h1>
         <div className="grid-cols-2 grid gap-5">
           <div className="flex flex-col ">
-            <p className="text-sm text-error">First Name</p>
+            <p className="text-sm flex ">First Name {required} </p>
             <input
               type="text"
-              ref={fullNameRef}
-              value={userData.fullName.split(" ")[1]}
-              className="input input-bordered input-error "
+              value={firstNameValue}
+              onChange={firstNameOnChange}
+              className={`input input-bordered ${
+                firstNameError && "input-error"
+              }`}
+              onBlur={firstNameOnBlur}
               required
             />
-            <p className="text-xs text-error">this is the error</p>
+            {firstNameError && (
+              <p className="text-xs text-error">{firstNameErrorMessage}</p>
+            )}
           </div>
           <div className="flex flex-col ">
-            <p className="text-sm">Last Name</p>
+            <p className="text-sm flex">Last Name {required}</p>
             <input
+              value={lastNameValue}
               type="text"
-              ref={fullNameRef}
-              value={userData.fullName.split(" ")[1]}
-              className="input input-bordered"
+              className={`input input-bordered ${
+                lastNameError && "input-error"
+              }`}
               required
+              onChange={lastNameOnChange}
+              onBlur={lastNameOnBlur}
             />
+            {lastNameError && (
+              <p className="text-xs text-error">{lastNameErrorMessage}</p>
+            )}
           </div>
 
           <div className=" flex  flex-col">
-            <p className="text-sm">Email</p>
+            <p className="text-sm flex">Email {required}</p>
             <input
+              value={emailValue}
               type="email"
-              placeholder="Email"
-              value={userData.email}
               className="input input-bordered"
-              ref={emailRef}
               required
+              onChange={emailOnChange}
             />
-            {required}
+            {emailError && (
+              <p className="text-xs text-error">{emailErrorMessage}</p>
+            )}
           </div>
           <div className="flex flex-col">
             <div className="flex items-start">
@@ -117,7 +174,6 @@ function FormStep1({ userData, nextStepFunction }: Props) {
                   value={userData.password}
                   placeholder="Password"
                   className="input input-bordered w-full"
-                  ref={passwordRef}
                   required
                 />
               </label>
@@ -125,31 +181,22 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           </div>
         </div>
         <div className=" form-control flex flex-col gap-2">
-          <p className="text-sm">Address</p>
-          <div className="lg:flex grid grid-cols-1  gap-2">
+          <div className="">
+            <p className="text-sm">Address</p>
+            <input type="text" className="input input-bordered w-full " />
+          </div>
+          <div className="lg:flex grid grid-cols-1  justify-between">
             <div className=" flex flex-col ">
               <p className="text-xs">City</p>
-              <input
-                type="text"
-                className="input input-bordered "
-                ref={photoUrlRef}
-              />
+              <input type="text" className="input input-bordered " />
             </div>
             <div>
               <p className="text-xs">State</p>
-              <input
-                type="text"
-                className="input input-bordered "
-                ref={photoUrlRef}
-              />
+              <input type="text" className="input input-bordered " />
             </div>
             <div>
               <p className="text-xs">Zip Code</p>
-              <input
-                type="text"
-                className="input input-bordered "
-                ref={photoUrlRef}
-              />
+              <input type="text" className="input input-bordered " />
             </div>
           </div>
         </div>
@@ -157,19 +204,17 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           <p className="text-sm">Photo {"(URL)"}</p>
           <input
             type="text"
-            value={userData.photoUrl}
-            placeholder="Photo Url"
+            placeholder={userData.photoUrl}
             className="input input-bordered w-full"
-            ref={photoUrlRef}
           />
         </div>
       </div>
       <div className="divider"></div>
       <div className="flex justify-end mt-4  ">
         <FormButton
-          style="btn btn-primary text-white"
+          style="btn btn-primary text-white    "
           title="Next Step"
-          onClick={handleSubmit}
+          disabled={!firstNameValid && !lastNameValid}
         />
       </div>
     </>

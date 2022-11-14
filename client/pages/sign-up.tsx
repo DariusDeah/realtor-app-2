@@ -16,7 +16,7 @@ function Signup({}: Props) {
         <Header />
       </section>
       <div className="flex w-full flex-col justify-center items-center">
-        <div className=" flex justify-center items-end mt-5">
+        {/* <div className=" flex justify-center items-end mt-5">
           <img
             className="object-contain w-20 h-20"
             src="https://cdn-icons-png.flaticon.com/512/2159/2159323.png"
@@ -25,15 +25,16 @@ function Signup({}: Props) {
             <h1 className="text-4xl font-semibold">Pillow</h1>
             <p>where you rest your head</p>
           </div>
-        </div>
+        </div> */}
         {/* TODO only the form component should be in the sign up form */}
         <div className="my-10 ">
           <AuthCard>
             <div className="flex ">
-              <div className="w-1/3 h-[80vh] relative">
+              <div className="w-[35%] h-[90vh] relative ">
                 <Image
                   layout="fill"
                   objectFit="cover"
+                  className="rounded-l-3xl"
                   src="https://images.unsplash.com/photo-1505819244306-ef53954f9648?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=699&q=80"
                 />
               </div>
