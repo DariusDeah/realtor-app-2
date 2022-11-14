@@ -132,7 +132,7 @@ const Home: NextPage = () => {
           <div
             className="
           relative 
-          w-screen
+          w-[100%]
           h-[70vh]
 
           "

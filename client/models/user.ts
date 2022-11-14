@@ -9,8 +9,12 @@ export class User {
   membershipStatus: "premium" | "base";
   recentlyViewed?: any[];
   timezone: string;
-  zipcode: string;
-  state: string;
+  location: {
+    address: string;
+    state: string;
+    city: string;
+    zipcode: string;
+  };
   password?: string;
   housingPreference: "House" | "Apartment";
   constructor(data: User & UserDTO) {
@@ -24,9 +28,12 @@ export class User {
       data.membershipStatus || data.membership_status || "base";
     this.recentlyViewed = data.recentlyViewed || data.recently_viewed || [];
     this.timezone = data.timezone || "";
-    this.zipcode = data.zipcode || data.zip_code || "";
-    this.state = data.state || "";
     this.housingPreference =
       data.housingPreference || data.housingPreference || "House";
+    this.location = data.location;
+    this.location.address = data.location.address || "";
+    this.location.state = data.location.state || "";
+    this.location.zipcode = data.location.zipcode || "";
+    this.location.city = data.location.city || "";
   }
 }

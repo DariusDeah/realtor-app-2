@@ -12,6 +12,8 @@ type Props = {
 
 function FormStep1({ userData, nextStepFunction }: Props) {
   const addToLocalStorage = useUpdateLocalSave();
+  const [isViewingPassword, setIsViewingPassword] = useState(false);
+
   const {
     onChangeHandler: firstNameOnChange,
     value: firstNameValue,
@@ -20,7 +22,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     errorMessage: firstNameErrorMessage,
     onBlurHandler: firstNameOnBlur,
   } = useDebounceInput({
-    defaultInput: (userData.fullName && userData.fullName.split(" ")[0]) || "",
+    defaultInput: userData.fullName.split(" ")[0] || "",
     rules: {
       minLength: 2,
       maxLength: 50,
@@ -35,7 +37,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     errorMessage: lastNameErrorMessage,
     onBlurHandler: lastNameOnBlur,
   } = useDebounceInput({
-    defaultInput: (userData.fullName && userData.fullName.split(" ")[1]) || "",
+    defaultInput: userData.fullName.split(" ")[1] || "",
     rules: {
       minLength: 2,
       maxLength: 70,
@@ -63,12 +65,96 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     },
   });
 
+  const {
+    onChangeHandler: passwordOnChange,
+    value: passwordValue,
+    error: passwordError,
+    validInput: passwordValid,
+    errorMessage: passwordErrorMessage,
+    onBlurHandler: passwordOnBlur,
+  } = useDebounceInput({
+    defaultInput: userData.password || "",
+    rules: {
+      minLength: 8,
+      maxLength: 65,
+    },
+  });
+  const {
+    onChangeHandler: addressOnChange,
+    value: addressValue,
+    error: addressError,
+    validInput: addressValid,
+    errorMessage: addressErrorMessage,
+    onBlurHandler: addressOnBlur,
+  } = useDebounceInput({
+    defaultInput: userData.location.address || "",
+    rules: null,
+  });
+  const {
+    onChangeHandler: cityOnChange,
+    value: cityValue,
+    error: cityError,
+    validInput: cityValid,
+    errorMessage: cityErrorMessage,
+    onBlurHandler: cityOnBlur,
+  } = useDebounceInput({
+    defaultInput: userData.location.city || "",
+    rules: null,
+  });
+  const {
+    onChangeHandler: stateOnChange,
+    value: stateValue,
+    error: stateError,
+    validInput: stateValid,
+    errorMessage: stateErrorMessage,
+    onBlurHandler: stateOnBlur,
+  } = useDebounceInput({
+    defaultInput: userData.location.state || "",
+    rules: null,
+  });
+  const {
+    onChangeHandler: zipcodeOnChange,
+    value: zipcodeValue,
+    error: zipcodeError,
+    validInput: zipcodeValid,
+    errorMessage: zipcodeErrorMessage,
+    onBlurHandler: zipcodeOnBlur,
+  } = useDebounceInput({
+    defaultInput: userData.location.zipcode || "",
+    rules: {
+      required: true,
+    },
+  });
+
+  const {
+    onChangeHandler: photoOnChange,
+    value: photoValue,
+    error: photoError,
+    validInput: photoValid,
+    errorMessage: photoErrorMessage,
+    onBlurHandler: photoOnBlur,
+  } = useDebounceInput({
+    defaultInput: userData.photoUrl || "",
+    rules: { minLength: 10, isUrl: true },
+  });
+
   const handleFormSubmit = (e: any) => {
-    nextStepFunction(e, {
+    e.preventDefault();
+    const userData = {
       fullName: `${firstNameValue} ${lastNameValue}`,
-    });
+      email: emailValue,
+      password: passwordValue,
+      photoUrl: photoValue,
+      location: {
+        address: addressValue,
+        city: cityValue,
+        state: stateValue,
+        zipcode: zipcodeValue,
+      },
+    };
+    addToLocalStorage("User", userData);
+    nextStepFunction(e, userData);
   };
-  const [isViewingPassword, setIsViewingPassword] = useState(false);
 
   const required = <p className="text-error">{"*"}</p>;
 
@@ -115,7 +201,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             <input
               value={emailValue}
               type="email"
-              className="input input-bordered"
+              className={`input input-bordered ${emailError && "input-error"}`}
               required
               onChange={emailOnChange}
             />
@@ -125,10 +211,12 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           </div>
           <div className="flex flex-col">
             <div className="flex items-start">
-              <p className="text-sm">Password {"( 8-64 characters)"}</p>
+              <p className="text-sm flex">
+                Password {"( 8-64 characters)"} {required}
+              </p>
             </div>
             <div className="form-control">
-              <label className="input-group">
+              <label className="input-group ">
                 <span className="w-[25%] ">
                   {isViewingPassword ? (
                     <svg
@@ -171,42 +259,95 @@ function FormStep1({ userData, nextStepFunction }: Props) {
                 </span>
                 <input
                   type={isViewingPassword ? "text" : "password"}
-                  value={userData.password}
-                  placeholder="Password"
-                  className="input input-bordered w-full"
+                  value={passwordValue}
+                  onChange={passwordOnChange}
+                  onBlur={passwordOnBlur}
+                  className={`input input-bordered w-full ${
+                    passwordError && "input-error"
+                  }`}
                   required
                 />
               </label>
+              {passwordError && (
+                <p className="text-xs text-error">{passwordErrorMessage}</p>
+              )}
             </div>
           </div>
         </div>
         <div className=" form-control flex flex-col gap-2">
           <div className="">
             <p className="text-sm">Address</p>
-            <input type="text" className="input input-bordered w-full " />
+            <input
+              value={addressValue}
+              type="text"
+              className={`input input-bordered w-full ${
+                addressError && "input-error"
+              }`}
+              onChange={addressOnChange}
+              onBlur={addressOnBlur}
+            />
+            {addressError && (
+              <p className="text-xs text-error">{addressErrorMessage}</p>
+            )}
           </div>
           <div className="lg:flex grid grid-cols-1  justify-between">
             <div className=" flex flex-col ">
               <p className="text-xs">City</p>
-              <input type="text" className="input input-bordered " />
+              <input
+                value={cityValue}
+                type="text"
+                className={`input input-bordered ${cityError && "input-error"}`}
+                onChange={cityOnChange}
+                onBlur={cityOnBlur}
+              />
+              {cityError && (
+                <p className="text-xs text-error">{cityErrorMessage}</p>
+              )}
             </div>
             <div>
               <p className="text-xs">State</p>
-              <input type="text" className="input input-bordered " />
+              <input
+                value={stateValue}
+                type="text"
+                className={`input input-bordered ${
+                  stateError && "input-error"
+                }`}
+                onChange={stateOnChange}
+                onBlur={stateOnBlur}
+              />
+              {stateError && (
+                <p className="text-xs text-error">{stateErrorMessage}</p>
+              )}
             </div>
             <div>
               <p className="text-xs">Zip Code</p>
-              <input type="text" className="input input-bordered " />
+              <input
+                value={zipcodeValue}
+                type="text"
+                className={`input input-bordered ${
+                  zipcodeError && "input-error"
+                }`}
+                onChange={zipcodeOnChange}
+                onBlur={zipcodeOnBlur}
+              />
+              {zipcodeError && (
+                <p className="text-xs text-error">{zipcodeErrorMessage}</p>
+              )}
             </div>
           </div>
         </div>
         <div className=" flex flex-col">
           <p className="text-sm">Photo {"(URL)"}</p>
           <input
+            value={photoValue}
             type="text"
-            placeholder={userData.photoUrl}
-            className="input input-bordered w-full"
+            className={`input input-bordered ${photoError && "input-error"}`}
+            onChange={photoOnChange}
+            onBlur={photoOnBlur}
           />
+          {photoError && (
+            <p className="text-xs text-error">{photoErrorMessage}</p>
+          )}
         </div>
       </div>
       <div className="divider"></div>
@@ -214,7 +355,17 @@ function FormStep1({ userData, nextStepFunction }: Props) {
         <FormButton
           style="btn btn-primary text-white    "
           title="Next Step"
-          disabled={!firstNameValid && !lastNameValid}
+          disabled={
+            !firstNameValue.length ||
+            !lastNameValue.length ||
+            !emailValue.length ||
+            !passwordValue.length ||
+            firstNameError ||
+            lastNameError ||
+            emailError ||
+            passwordError
+          }
+          onClick={handleFormSubmit}
         />
       </div>
     </>

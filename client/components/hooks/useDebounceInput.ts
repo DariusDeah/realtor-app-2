@@ -10,6 +10,7 @@ type Props = {
     maxLength?: number;
     isEmail?: boolean;
     isUrl?: boolean;
+    required?: boolean;
     custom?: {
       customValidationFunc: (...args: any[]) => boolean;
       validationErrorMessage: string;
@@ -18,7 +19,7 @@ type Props = {
       asyncCustomValidationFunc: (...args: any[]) => Promise<boolean>;
       validationErrorMessage: string;
     };
-  };
+  } | null;
 };
 
 const useDebounceInput = ({ defaultInput, rules }: Props) => {
@@ -26,7 +27,7 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [validInput, setValidInput] = useState<boolean>(false);
   function onChangeHandler(e: any) {
     setInputValue(e.target.value);
     setIsTouched(true);
@@ -39,46 +40,62 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
 
   const inputValidation = async () => {
     switch (isTouched) {
-      case inputValue.length < rules.minLength:
+      case rules && rules.required && !inputValue.length:
+        setError(true);
+        setErrorMessage("this field is required");
+        setValidInput(false);
+        break;
+      case rules && rules.isUrl && !inputValue.includes("https://"):
+        setError(true);
+        setErrorMessage("not a valid url!");
+        setValidInput(false);
+        break;
+
+      case rules && rules.isEmail && !inputValue.includes("@"):
+        setError(true);
+        setErrorMessage("not a valid email address!");
+        setValidInput(false);
+        break;
+
+      case rules?.minLength && inputValue.length < rules.minLength:
         setError(true);
         setErrorMessage(
           "input value too short, must be at least " +
             rules.minLength +
             " characters"
         );
+        setValidInput(false);
         break;
-      case inputValue.length && inputValue.length > rules.maxLength:
+
+      case rules && inputValue.length && inputValue.length > rules.maxLength:
         setError(true);
         setErrorMessage(
           "input value too long, must be at max " +
             rules.maxLength +
             " characters"
         );
+        setValidInput(false);
         break;
-      case rules.isEmail && !inputValue.includes("@"):
-        setError(true);
-        setErrorMessage("not a valid email address!");
-        break;
-      case rules.isUrl && !inputValue.includes("https://"):
-        setError(true);
-        setErrorMessage("not a valid url!");
-        break;
-      case rules.custom &&
+
+      case rules &&
+        rules.custom &&
         rules.custom.customValidationFunc &&
         !rules.custom.customValidationFunc(inputValue):
         setError(true);
         setErrorMessage(rules.custom.validationErrorMessage);
         break;
-
       default:
+        setValidInput(true);
         setError(false);
         break;
     }
+    setError(false);
+    setValidInput(true);
   };
 
   useEffect(() => {
-    const timeOut = setTimeout(async () => {
-      await inputValidation();
+    const timeOut = setTimeout(() => {
+      inputValidation();
     }, 1000);
     return () => {
       clearTimeout(timeOut);
@@ -89,7 +106,7 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
     onBlurHandler,
     value: inputValue,
     error,
-    validInput: !error,
+    validInput,
     errorMessage,
   };
 };
