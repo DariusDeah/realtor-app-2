@@ -33,7 +33,7 @@ export class User {
     this.location = data.location;
     this.location.address = data.location.address || "";
     this.location.state = data.location.state || "";
-    this.location.zipcode = data.location.zipcode || "";
+    this.location.zipcode = data.location.zip_code || "";
     this.location.city = data.location.city || "";
   }
 }

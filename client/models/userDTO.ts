@@ -8,9 +8,13 @@ export class UserDTO {
   favorite_homes?: any[];
   membership_status: "premium" | "base";
   recently_viewed?: any[];
+  location?: {
+    address?: string;
+    state?: string;
+    city?: string;
+    zip_code?: string;
+  };
   timezone: string;
-  zip_code: string;
-  state: string;
   is_active: boolean;
   searching_for_type: "House" | "Apartment";
   constructor(data: User) {
@@ -22,9 +26,12 @@ export class UserDTO {
     this.membership_status = data.membershipStatus;
     this.recently_viewed = data.recentlyViewed;
     this.timezone = data.timezone;
-    this.zip_code = data.zipcode;
     this.is_active = true;
-    this.state = data.state;
     this.searching_for_type = data.housingPreference;
+    this.location = data.location;
+    this.location.address = data.location.address;
+    this.location.city = data.location.city;
+    this.location.state = data.location.state;
+    this.location.zip_code = data.location.zipcode;
   }
 }
