@@ -1,6 +1,7 @@
 import React, { RefObject, useRef, useState } from "react";
 import { Home_Types } from "../models/homeTypes";
 import { SearchParams } from "../types/searchParams";
+import FilterBadge from "./ui/FilterBadge";
 
 type Props = {
   toggleMapFunction: (isToggled: boolean) => void;
@@ -108,7 +109,24 @@ function SearchFilter({
         </div>
       </div>
       {isShowingFilters && (
-        <div className="bg-slate-100 p-4 font-semibold flex lg:flex-wrap flex-wrap-reverse lg:justify-between lg:items-center space-y-6 ">
+        <div className="bg-slate-100 p-4 font-semibold flex lg:flex-wrap flex-wrap-reverse lg:justify-between lg:items-center  ">
+          <div>
+            <p className="">I'm looking for</p>
+            <ul>
+              <li>
+                <FilterBadge type="Recently Viewed" />
+              </li>
+              <li>
+                <FilterBadge type="Perfect Match" />
+              </li>
+              <li>
+                <FilterBadge type="Within Budget" />
+              </li>
+              <li>
+                <FilterBadge type="Over Budget" />
+              </li>
+            </ul>
+          </div>
           <button className="btn .btn:active:hover" onClick={handleSearch}>
             Search
           </button>

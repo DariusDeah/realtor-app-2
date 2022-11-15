@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { testUser } from "../utils/mock-user";
+import FilterBadge from "./ui/FilterBadge";
 
 type Props = {
   home: any;
@@ -67,25 +68,17 @@ function HouseCard({ home, homeImg }: Props) {
             <>
               <div className="font-semibold  space-x-2">
                 {user.user.recentlyViewed.includes(home.zpid) && (
-                  <div className="badge bg-blue-400 border-none ">
-                    <p>Recently Viewed 👁️ </p>
-                  </div>
+                  <FilterBadge type="Recently Viewed" />
                 )}
                 {home.price <= user.user.housingPreferences.budget.max &&
                   home.price >= user.user.housingPreferences.budget.min && (
-                    <div className="badge bg-success  border-none w-fit">
-                      <p>Within Budget 🥳</p>
-                    </div>
+                    <FilterBadge type="Within Budget" />
                   )}
                 {home.bedrooms === user.user.housingPreferences.bed && (
-                  <div className="badge bg-indigo-300  border-none w-fit">
-                    <p>Perfect Match 🤩</p>
-                  </div>
+                  <FilterBadge type="Perfect Match" />
                 )}
                 {home.price > user.user.housingPreferences.budget.max && (
-                  <div className="badge bg-error border-none w-fit">
-                    <p>Over Budget 💸</p>
-                  </div>
+                  <FilterBadge type="Over Budget" />
                 )}
               </div>
               <h2 className="card-title">{home.address.split(",")[0]}</h2>
