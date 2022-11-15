@@ -18,6 +18,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   //     setTimeout(resolve, ms);
   //   });
   // };
+
   const {
     onChangeHandler: firstNameOnChange,
     value: firstNameValue,

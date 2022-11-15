@@ -1,10 +1,7 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
-  // validateFunc: any;
-  // onChangeFunc: (...args: any[]) => void;
-  // input: any;
-  defaultInput: any;
+  defaultInput: string;
   rules: {
     minLength?: number;
     maxLength?: number;
@@ -39,8 +36,11 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
     inputValidation();
   }
 
-  //currently async as I plan to allow async validation in the future
-  const inputValidation = async () => {
+  const inputValidation = () => {
+    if (!Object.keys(rules).length) {
+      setError(false);
+    }
+
     switch (isTouched) {
       case rules.minLength &&
         inputValue.length &&
@@ -52,7 +52,9 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
             " characters"
         );
         break;
-      case inputValue.length && inputValue.length > rules.maxLength:
+      case rules.maxLength &&
+        inputValue.length &&
+        inputValue.length > rules.maxLength:
         setError(true);
         setErrorMessage(
           "input value too long, must be at max " +
@@ -61,26 +63,25 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
         );
         break;
 
-      case rules && rules.required && !inputValue.length:
+      case rules.required && !inputValue.length:
         setError(true);
         setErrorMessage("this field is required");
         break;
-      case rules && rules.isUrl && !inputValue.includes("https://"):
+      case rules.isUrl && !inputValue.includes("https://"):
         setError(true);
         setErrorMessage("not a valid url!");
         break;
 
-      case rules && rules.isEmail && !inputValue.includes("@"):
+      case rules.isEmail && !inputValue.includes("@"):
         setError(true);
         setErrorMessage("not a valid email address!");
         break;
 
-      case rules &&
-        rules.custom &&
+      case rules.custom &&
         rules.custom.customValidationFunc &&
         !rules.custom.customValidationFunc(inputValue):
         setError(true);
-        setErrorMessage(rules.custom.validationErrorMessage);
+        rules.custom && setErrorMessage(rules.custom.validationErrorMessage);
         break;
 
       default:
@@ -99,6 +100,7 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
       setErrorMessage(rules.asyncCustom.validationErrorMessage);
     }
   };
+
   useEffect(() => {
     const timeOut = setTimeout(async () => {
       inputValidation();
@@ -106,6 +108,7 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
         await asyncInputValidation();
       }
     }, 1000);
+
     return () => {
       clearTimeout(timeOut);
     };
