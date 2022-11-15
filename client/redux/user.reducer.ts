@@ -15,8 +15,12 @@ interface UserState {
     membershipStatus: "premium" | "base";
     recentlyViewed?: any[];
     timezone: string;
-    zipcode: string;
-    state: string;
+    location: {
+      zipcode: string;
+      state: string;
+      city: string;
+      address: string;
+    };
     housingPreference: "House" | "Apartment";
   } | null;
   success?: boolean | null;
