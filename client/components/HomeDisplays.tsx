@@ -4,6 +4,9 @@ import { SearchParams } from "../types/searchParams";
 import HouseCard from "./HouseCard";
 import SearchFilter from "./SearchFilter";
 import Loader from "./ui/Loader";
+import { useAppSelector } from "../redux";
+import { selectUser } from "../redux/user.reducer";
+import { testUser } from "../utils/mock-user";
 
 type Props = {
   mapToggleFunction: (isToggle: boolean) => void;
@@ -17,14 +20,17 @@ function HomeDisplays({
   updateHomeState,
 }: Props) {
   const [homes, setHomes] = useState<any[]>([]);
+  const user = testUser;
 
   async function zillowApiCall(params?: SearchParams) {
     const data = await fetchProperties({
       query: {
-        location: params?.location,
-        minBathroom: params?.minBathroom,
-        minPrice: params?.minPrice,
-        minBed: params?.minBed,
+        location:
+          params?.location ||
+          `${user.user.location.city} ${user.user.location.state}`,
+        minBathroom: params?.minBathroom || user.user.housingPreferences.bath,
+        minPrice: params?.minPrice || user.user.housingPreferences.budget.min,
+        minBed: params?.minBed || user.user.housingPreferences.bed,
         sort: params?.sort,
         homeType: params?.homeType,
       },

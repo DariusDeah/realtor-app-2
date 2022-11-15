@@ -4,17 +4,21 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useAppSelector } from "../../redux";
 import { selectUser } from "../../redux/user.reducer";
-import { testUser } from "../../utils/mock-user";
 
 type Props = {};
 
 function settings({}: Props) {
-  // const user = useAppSelector(selectUser);
-  const user = testUser;
+  const user = useAppSelector(selectUser);
   const router = useRouter();
   // const [currentTab, setCurrentTab] = useState(1);
 
-  const ProfileTabContent = (
+  useEffect(() => {
+    if (!user.user) {
+      router.push("/sign-up");
+    }
+  });
+
+  const ProfileTabContent = user.user && (
     <div className="flex flex-col w-full  gap-5  ">
       <div className="flex">
         <Image
@@ -204,11 +208,7 @@ function settings({}: Props) {
       <div className="divider"></div>
     </div>
   );
-  useEffect(() => {
-    // if (!user.user) {
-    //   router.push("/sign-up");
-    // }
-  }, []);
+
   return !user.user ? (
     <div className="lg:flex">
       <Header />

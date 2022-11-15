@@ -13,12 +13,6 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   const addToLocalStorage = useUpdateLocalSave();
   const [isViewingPassword, setIsViewingPassword] = useState(false);
 
-  // const waiter = async (ms: number) => {
-  //   return new Promise((resolve) => {
-  //     setTimeout(resolve, ms);
-  //   });
-  // };
-
   const {
     onChangeHandler: firstNameOnChange,
     value: firstNameValue,
@@ -84,6 +78,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     defaultInput: userData.location ? userData.location.address : "",
     rules: {},
   });
+
   const {
     onChangeHandler: cityOnChange,
     value: cityValue,
@@ -94,6 +89,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     defaultInput: userData.location ? userData.location.city : "",
     rules: {},
   });
+
   const {
     onChangeHandler: stateOnChange,
     value: stateValue,
@@ -104,6 +100,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     defaultInput: userData.location ? userData.location.state : "",
     rules: {},
   });
+
   const {
     onChangeHandler: zipcodeOnChange,
     value: zipcodeValue,
@@ -302,22 +299,11 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             </div>
             <div>
               <p className="text-xs">State</p>
-              {/* <input
+
+              <input
                 value={stateValue}
                 type="text"
-                className={`input input-bordered ${
-                  stateError && "input-error"
-                }`}
-                onChange={stateOnChange}
-                onBlur={stateOnBlur}
-              />
-              {stateError && (
-                <p className="text-xs text-error">{stateErrorMessage}</p>
-              )} */}
-              <input
-                // value={stateValue}
-                type="text"
-                className={`input input-bordered ${
+                className={`input input-bordered  ${
                   stateError && "input-error"
                 }`}
                 onChange={stateOnChange}
@@ -325,9 +311,9 @@ function FormStep1({ userData, nextStepFunction }: Props) {
                 name="states"
                 list="states"
               />
-              <datalist id="states">
+              <datalist id="states" className="">
                 <option disabled selected />
-                <option value="AL" />
+                <option value="AL" className="list-item" />
                 <option value="AK" />
                 <option value="AZ" />
                 <option value="AR" />

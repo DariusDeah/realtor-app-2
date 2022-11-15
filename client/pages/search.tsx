@@ -8,7 +8,6 @@ import { fetchProperties } from "../utils/requests";
 const Search: NextPage = () => {
   const [mapToggled, setMapToggled] = useState(false);
   const [homes, setHome] = useState(null);
-  console.log(homes);
   const handleMapToggle = (isToggled: boolean) => {
     setMapToggled(isToggled);
   };
