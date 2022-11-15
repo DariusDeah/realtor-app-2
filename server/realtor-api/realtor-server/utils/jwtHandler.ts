@@ -8,7 +8,7 @@ export class JWTHandler {
                 name: user.full_name || user.email,
                 email: user.email,
                 photo: user.profile_img_url,
-                state: user.state,
+                state: user.location.state,
             },
             process.env.JWT_SECRET as string,
             {
