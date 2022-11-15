@@ -57,12 +57,6 @@ function FormStep1({ userData, nextStepFunction }: Props) {
       minLength: 2,
       maxLength: 70,
       isEmail: true,
-      asyncCustom: {
-        asyncCustomValidationFunc: async (input: string) => {
-          return input.includes("darius");
-        },
-        validationErrorMessage: "this is not a valid async email",
-      },
     },
   });
 
@@ -134,7 +128,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   const handleFormSubmit = (e: any) => {
     e.preventDefault();
     const userData = {
-      fullName: `${firstNameValue} ${lastNameValue}`,
+      fullName: firstNameValue + "" + lastNameValue,
       email: emailValue,
       password: passwordValue,
       photoUrl: photoValue,
