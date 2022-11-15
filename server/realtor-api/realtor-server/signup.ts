@@ -48,7 +48,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             domain: '.pillow-zillow.com',
             secure: true,
             path: '/',
-            sameSite: 'lax',
+            sameSite: 'none',
             maxAge: 24 * 60 * 60,
             priority: 'medium',
         });
