@@ -13,6 +13,11 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   const addToLocalStorage = useUpdateLocalSave();
   const [isViewingPassword, setIsViewingPassword] = useState(false);
 
+  // const waiter = async (ms: number) => {
+  //   return new Promise((resolve) => {
+  //     setTimeout(resolve, ms);
+  //   });
+  // };
   const {
     onChangeHandler: firstNameOnChange,
     value: firstNameValue,

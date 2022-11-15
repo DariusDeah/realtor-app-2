@@ -89,9 +89,22 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
     }
   };
 
+  const asyncInputValidation = async () => {
+    if (
+      rules &&
+      rules.asyncCustom &&
+      (await rules.asyncCustom.asyncCustomValidationFunc(inputValue))
+    ) {
+      setError(true);
+      setErrorMessage(rules.asyncCustom.validationErrorMessage);
+    }
+  };
   useEffect(() => {
     const timeOut = setTimeout(async () => {
-      await inputValidation();
+      inputValidation();
+      if (rules.asyncCustom) {
+        await asyncInputValidation();
+      }
     }, 1000);
     return () => {
       clearTimeout(timeOut);
