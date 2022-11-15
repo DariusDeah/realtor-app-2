@@ -59,6 +59,7 @@ export const userSlice = createSlice({
     },
     // change to async await
   },
+
   extraReducers: (builder) => {
     builder.addCase(
       signUpUser.fulfilled,

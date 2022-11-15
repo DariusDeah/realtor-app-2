@@ -302,7 +302,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             </div>
             <div>
               <p className="text-xs">State</p>
-              <input
+              {/* <input
                 value={stateValue}
                 type="text"
                 className={`input input-bordered ${
@@ -313,7 +313,72 @@ function FormStep1({ userData, nextStepFunction }: Props) {
               />
               {stateError && (
                 <p className="text-xs text-error">{stateErrorMessage}</p>
-              )}
+              )} */}
+              <input
+                // value={stateValue}
+                type="text"
+                className={`input input-bordered ${
+                  stateError && "input-error"
+                }`}
+                onChange={stateOnChange}
+                onBlur={stateOnBlur}
+                name="states"
+                list="states"
+              />
+              <datalist id="states">
+                <option disabled selected />
+                <option value="AL" />
+                <option value="AK" />
+                <option value="AZ" />
+                <option value="AR" />
+                <option value="CA" />
+                <option value="CO" />
+                <option value="CT" />
+                <option value="DE" />
+                <option value="DC" />
+                <option value="FL" />
+                <option value="GA" />
+                <option value="HI" />
+                <option value="ID" />
+                <option value="IL" />
+                <option value="IN" />
+                <option value="IA" />
+                <option value="KS" />
+                <option value="KY" />
+                <option value="LA" />
+                <option value="ME" />
+                <option value="MD" />
+                <option value="MA" />
+                <option value="MI" />
+                <option value="MN" />
+                <option value="MS" />
+                <option value="MO" />
+                <option value="MT" />
+                <option value="NE" />
+                <option value="NV" />
+                <option value="NH" />
+                <option value="NJ" />
+                <option value="NM" />
+                <option value="NY" />
+                <option value="NC" />
+                <option value="ND" />
+                <option value="OH" />
+                <option value="OK" />
+                <option value="OR" />
+                <option value="PA" />
+                <option value="RI" />
+                <option value="SC" />
+                <option value="SD" />
+                <option value="TN" />
+                <option value="TX" />
+                <option value="UT" />
+                <option value="VT" />
+                <option value="VA" />
+                <option value="WA" />
+                <option value="WV" />
+                <option value="WI" />
+                <option value="WY" />
+              </datalist>
             </div>
             <div>
               <p className="text-xs">Zip Code</p>
