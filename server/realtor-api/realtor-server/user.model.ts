@@ -9,8 +9,12 @@ export class User {
     membership_status: 'Premium' | 'Base';
     recently_viewed?: any[];
     timezone: string;
-    zip_code: string;
-    state: string;
+    location: {
+        address: string;
+        state: string;
+        city: string;
+        zip_code: string;
+    };
     is_active: boolean;
     searching_for_type: 'Houses' | 'Apartments';
     constructor(data: User) {
@@ -23,10 +27,13 @@ export class User {
         this.membership_status = data.membership_status || 'Base';
         this.recently_viewed = data.recently_viewed || [];
         this.timezone = data.timezone || '';
-        this.zip_code = data.zip_code || '';
         this.is_active = true;
-        this.state = data.state || '';
         this.searching_for_type = data.searching_for_type || 'Houses';
+        this.location = data.location || '';
+        this.location.address = data.location.address || '';
+        this.location.city = data.location.city || '';
+        this.location.state = data.location.state || '';
+        this.location.zip_code = data.location.zip_code || '';
     }
 }
 
