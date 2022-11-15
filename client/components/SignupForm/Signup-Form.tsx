@@ -94,13 +94,11 @@ function SignupForm({}: Props) {
   const isValidUserFormData = (userData: User) => {
     return (
       userData.email &&
-      userData.email.length &&
       userData.fullName &&
-      userData.fullName.length &&
-      userData.state &&
-      userData.state.length &&
-      userData.zipcode &&
-      userData.zipcode.length
+      userData.location.address &&
+      userData.location.city &&
+      userData.location.state &&
+      userData.location.zipcode
     );
   };
 

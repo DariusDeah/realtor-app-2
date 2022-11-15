@@ -1,5 +1,4 @@
-import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { User } from "../../models/user";
 import useDebounceInput from "../hooks/useDebounceInput";
 import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
@@ -18,11 +17,10 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     onChangeHandler: firstNameOnChange,
     value: firstNameValue,
     error: firstNameError,
-    validInput: firstNameValid,
     errorMessage: firstNameErrorMessage,
     onBlurHandler: firstNameOnBlur,
   } = useDebounceInput({
-    defaultInput: userData.fullName.split(" ")[0] || "",
+    defaultInput: (userData.fullName && userData.fullName.split(" ")[0]) || "",
     rules: {
       minLength: 2,
       maxLength: 50,
@@ -33,11 +31,10 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     onChangeHandler: lastNameOnChange,
     value: lastNameValue,
     error: lastNameError,
-    validInput: lastNameValid,
     errorMessage: lastNameErrorMessage,
     onBlurHandler: lastNameOnBlur,
   } = useDebounceInput({
-    defaultInput: userData.fullName.split(" ")[1] || "",
+    defaultInput: userData.fullName ? userData.fullName.split(" ")[1] : "",
     rules: {
       minLength: 2,
       maxLength: 70,
@@ -48,7 +45,6 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     onChangeHandler: emailOnChange,
     value: emailValue,
     error: emailError,
-    validInput: emailValid,
     errorMessage: emailErrorMessage,
   } = useDebounceInput({
     defaultInput: userData.email || "",
@@ -69,7 +65,6 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     onChangeHandler: passwordOnChange,
     value: passwordValue,
     error: passwordError,
-    validInput: passwordValid,
     errorMessage: passwordErrorMessage,
     onBlurHandler: passwordOnBlur,
   } = useDebounceInput({
@@ -83,54 +78,47 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     onChangeHandler: addressOnChange,
     value: addressValue,
     error: addressError,
-    validInput: addressValid,
     errorMessage: addressErrorMessage,
     onBlurHandler: addressOnBlur,
   } = useDebounceInput({
-    defaultInput: userData.location.address || "",
-    rules: null,
+    defaultInput: userData.location ? userData.location.address : "",
+    rules: {},
   });
   const {
     onChangeHandler: cityOnChange,
     value: cityValue,
     error: cityError,
-    validInput: cityValid,
     errorMessage: cityErrorMessage,
     onBlurHandler: cityOnBlur,
   } = useDebounceInput({
-    defaultInput: userData.location.city || "",
-    rules: null,
+    defaultInput: userData.location ? userData.location.city : "",
+    rules: {},
   });
   const {
     onChangeHandler: stateOnChange,
     value: stateValue,
     error: stateError,
-    validInput: stateValid,
     errorMessage: stateErrorMessage,
     onBlurHandler: stateOnBlur,
   } = useDebounceInput({
-    defaultInput: userData.location.state || "",
-    rules: null,
+    defaultInput: userData.location ? userData.location.state : "",
+    rules: {},
   });
   const {
     onChangeHandler: zipcodeOnChange,
     value: zipcodeValue,
     error: zipcodeError,
-    validInput: zipcodeValid,
     errorMessage: zipcodeErrorMessage,
     onBlurHandler: zipcodeOnBlur,
   } = useDebounceInput({
-    defaultInput: userData.location.zipcode || "",
-    rules: {
-      required: true,
-    },
+    defaultInput: userData.location ? userData.location.zipcode : "",
+    rules: {},
   });
 
   const {
     onChangeHandler: photoOnChange,
     value: photoValue,
     error: photoError,
-    validInput: photoValid,
     errorMessage: photoErrorMessage,
     onBlurHandler: photoOnBlur,
   } = useDebounceInput({
@@ -155,6 +143,12 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     addToLocalStorage("User", userData);
     nextStepFunction(e, userData);
   };
+  console.log({
+    firstNameError,
+    lastNameError,
+    emailError,
+    passwordError,
+  });
 
   const required = <p className="text-error">{"*"}</p>;
 
@@ -204,6 +198,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
               className={`input input-bordered ${emailError && "input-error"}`}
               required
               onChange={emailOnChange}
+              autoComplete="email"
             />
             {emailError && (
               <p className="text-xs text-error">{emailErrorMessage}</p>
@@ -265,6 +260,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
                   className={`input input-bordered w-full ${
                     passwordError && "input-error"
                   }`}
+                  autoComplete="current-password"
                   required
                 />
               </label>
@@ -350,8 +346,8 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           )}
         </div>
       </div>
-      <div className="divider"></div>
-      <div className="flex justify-end mt-4  ">
+      {/* <div className="divider"></div> */}
+      <div className="flex justify-end mt-10  ">
         <FormButton
           style="btn btn-primary text-white    "
           title="Next Step"
