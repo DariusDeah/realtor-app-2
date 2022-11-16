@@ -5,21 +5,53 @@ import Header from "../../components/Header";
 import { fetchProperty, fetchPropertyImages } from "../../utils/requests";
 import Map from "../../components/Map";
 import HouseCard from "../../components/HouseCard";
+import Portal from "../../components/Portal";
+
+type ModalProps = {
+  title?: string;
+  content?: any;
+  btnContent?: string;
+};
+const Modal = ({ title, content, btnContent }: ModalProps) => {
+  console.log({ content });
+  console.log("clicked");
+  return (
+    <Portal selector="#modal">
+      {/* Put this part before </body> tag */}
+      <input type="checkbox" id="my-modal" className="modal-toggle" />
+      <div className="modal    bg-black bg-opacity-30   ">
+        <div className="modal-box w-11/12  ">
+          {title && title}
+          {content && content}
+          <div className="modal-action">
+            {btnContent && (
+              <label htmlFor="my-modal" className="btn">
+                {btnContent}
+              </label>
+            )}
+          </div>
+        </div>
+      </div>
+    </Portal>
+  );
+};
 
 type Props = {};
 
 function HomeDetails({}: Props) {
   const [home, setHome] = useState<any>(null);
   const [images, setImages] = useState<any[]>([]);
+  const [currentImg, setCurrentImg] = useState("");
   const router = useRouter();
   const { homeId } = router.query;
+
   async function fetchHome() {
     const home = await fetchProperty(homeId as string);
     setHome(home);
   }
   async function fetchHomeImages() {
     const imgs = await fetchPropertyImages(homeId as string);
-    console.log({ imgs });
+    console.log({ imgs, home });
     setImages(imgs.images);
   }
   useEffect(() => {
@@ -32,7 +64,7 @@ function HomeDetails({}: Props) {
       <Header />
       <div className="flex flex-col h-full m-5 lg:m-10">
         <div className="">
-          <div className="flex  ">
+          <div className="flex  justify-center">
             <div className=" lg:w-3/4 w-screen relative h-[40vh] ">
               <Image
                 src={images[0]}
@@ -41,25 +73,36 @@ function HomeDetails({}: Props) {
                 layout="fill"
                 objectFit="cover"
                 objectPosition="center"
+                onClick={() => setCurrentImg(images[0])}
                 // height={500}
                 // width={700}
               />
             </div>
+
+            <Modal
+              content={<img src={currentImg} className="w-fit rounded-lg " />}
+            />
+
             <div className="flex gap-3 flex-wrap">
               {images.length &&
                 images.map(
                   (image, index) =>
                     index < 10 && (
-                      <div className="lg:w-[10rem] h-[10rem] relative">
-                        <Image
-                          src={image}
-                          alt="house"
-                          className="rounded-lg "
-                          layout="fill"
+                      <div className="lg:w-[10rem] h-[10rem] relative ">
+                        <label htmlFor="my-modal">
+                          <Image
+                            src={image}
+                            alt="house"
+                            className="rounded-lg cursor-pointer   "
+                            layout="fill"
+                            onClick={() => {
+                              setCurrentImg(image);
+                            }}
 
-                          // height={100}
-                          // width={300}
-                        />
+                            // height={100}
+                            // width={300}
+                          />
+                        </label>
                       </div>
                     )
                 )}
@@ -84,7 +127,7 @@ function HomeDetails({}: Props) {
                   <div className="flex justify-center">
                     <div
                       //find a cleaner way to write
-                      // rating cirlce start
+                      // rating circle start
                       className={` text-center p-2  mr-2 lg:p-5 h-16 w-16 lg:h-24 lg:w-24 rounded-full text-white font-semibold ${
                         school.rating >= 8
                           ? "bg-green-500"
@@ -136,4 +179,5 @@ function HomeDetails({}: Props) {
     <h1>Loading</h1>
   );
 }
+
 export default HomeDetails;

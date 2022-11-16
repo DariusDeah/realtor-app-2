@@ -6,6 +6,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
+        <div id="modal" />
         <body>
           <Main />
           <div id="alert" />

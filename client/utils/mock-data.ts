@@ -2060,3 +2060,33 @@ export const homesListTestData = {
   totalResultCount: 13799,
   currentPage: 1,
 };
+
+export const mock_images = {
+  images: [
+    "https://photos.zillowstatic.com/fp/184356e1f8617809b1c4c3e449294f48-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/cd21cefa7b147f73b54a86c267ac7276-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/fa69a6879e3f09c864330328d6a9c33e-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/10e38d9b972f17f29cef07470a3221b8-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/68b453694f380485b62925a3be1588ec-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/ef4f3734cb9de241eb6c921c5b36fcf4-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/ff67ff29cc2e402746e48d14bbc79c56-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/fb9490dfc6f64370dcf92c1eee237870-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/9523f124fb3afee382662e5b5de785ab-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/39011c50492493e1421f824d5ea49e69-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/d8f1a5318ab228c9be50e30e061d42d0-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/c17fc4cb3c31af9dccd88c92e17a0cc0-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/f99fb9f05f16fc7172e75499867c0e07-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/edc913c0505d39fd8107e5dd723f38e3-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/59d2ca813db0a17eae23c1ca0dbafc5f-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/0b3bf4a98f0e8438f1b7425a41bb441f-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/463465d50c34bc0b3263aa6b71dc67b1-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/dbbf67fdc37fdf2f8926880f02ec06c3-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/2cf816f96b486dc144a21151131e0b7d-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/7294712cc1ba10d2323f0d2dd2f3ce30-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/8296197ff3cd299e049a47c08e637e04-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/6c8b84c2066ea8b02987c656c504ffa6-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/63af2a2d38a708f688b12b2478e85609-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/40852bd6c9648a9fd984d26d1074d2d9-cc_ft_1536.jpg",
+    "https://photos.zillowstatic.com/fp/f93a8e5d82389db7111f087d7097ea75-cc_ft_1536.jpg",
+  ],
+};
