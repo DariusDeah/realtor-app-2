@@ -12,6 +12,7 @@ type ModalProps = {
   content?: any;
   btnContent?: string;
 };
+
 const Modal = ({ title, content, btnContent }: ModalProps) => {
   console.log({ content });
   console.log("clicked");
@@ -39,21 +40,23 @@ const Modal = ({ title, content, btnContent }: ModalProps) => {
 type Props = {};
 
 function HomeDetails({}: Props) {
+  const router = useRouter();
+  const { homeId } = router.query;
   const [home, setHome] = useState<any>(null);
   const [images, setImages] = useState<any[]>([]);
   const [currentImg, setCurrentImg] = useState("");
-  const router = useRouter();
-  const { homeId } = router.query;
 
   async function fetchHome() {
     const home = await fetchProperty(homeId as string);
     setHome(home);
   }
+
   async function fetchHomeImages() {
     const imgs = await fetchPropertyImages(homeId as string);
     console.log({ imgs, home });
     setImages(imgs.images);
   }
+
   useEffect(() => {
     fetchHome();
     fetchHomeImages();
@@ -61,48 +64,49 @@ function HomeDetails({}: Props) {
 
   return home ? (
     <div className="lg:flex  h-full  ">
+      <Modal content={<img src={currentImg} className=" rounded-lg " />} />
       <Header />
-      <div className="flex flex-col h-full m-5 lg:m-10">
-        <div className="">
-          <div className="flex  justify-center">
-            <div className=" lg:w-3/4 w-screen relative h-[40vh] ">
-              <Image
-                src={images[0]}
-                alt="house"
-                className="rounded-lg align-middle"
-                layout="fill"
-                objectFit="cover"
-                objectPosition="center"
-                onClick={() => setCurrentImg(images[0])}
-                // height={500}
-                // width={700}
-              />
+      <div className=" flex-col h-full w-full lg:m-5 ">
+        <div className="w-full ">
+          <div
+            className="flex flex-col 
+           "
+          >
+            <div className=" w-full  relative h-[60vh] ">
+              <label htmlFor="my-modal">
+                <Image
+                  src={currentImg || images[0]}
+                  alt="house"
+                  className="lg:rounded-lg r cursor-pointer "
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  // height={500}
+                  // width={700}
+                />
+              </label>
             </div>
 
-            <Modal
-              content={<img src={currentImg} className="w-fit rounded-lg " />}
-            />
-
-            <div className="flex gap-3 flex-wrap">
+            <div
+              id="house-imgs__wrapper"
+              className="flex  lg:flex-wrap gap-1 w-full overflow-auto scrollbar-hide lg:scrollbar-default"
+            >
               {images.length &&
                 images.map(
                   (image, index) =>
-                    index < 10 && (
-                      <div className="lg:w-[10rem] h-[10rem] relative ">
-                        <label htmlFor="my-modal">
-                          <Image
-                            src={image}
-                            alt="house"
-                            className="rounded-lg cursor-pointer   "
-                            layout="fill"
-                            onClick={() => {
-                              setCurrentImg(image);
-                            }}
-
-                            // height={100}
-                            // width={300}
-                          />
-                        </label>
+                    index < 80 && (
+                      <div className=" ">
+                        <Image
+                          src={image}
+                          alt="house"
+                          className="rounded-lg cursor-pointer relative  "
+                          layout="fixed"
+                          onClick={() => {
+                            setCurrentImg(image);
+                          }}
+                          height={150}
+                          width={150}
+                        />
                       </div>
                     )
                 )}
@@ -120,6 +124,9 @@ function HomeDetails({}: Props) {
               <p>{home.bedrooms} beds</p>
               <h1>{home.description}</h1>
             </div>
+
+            <Map markerObjects={[home, home.nearbyHomes]} />
+
             {/* SCHOOLS */}
             <section className="lg:flex grid lg:space-x-7 lg:justify-center   space-y-6 lg:space-y-0 flex-grow flex-wrap">
               {home.schools.map((school: any) => (
@@ -158,7 +165,6 @@ function HomeDetails({}: Props) {
               ))}
             </section>
             {/* SCHOOLS END */}
-            <Map markerObjects={[home, home.nearbyHomes]} />
           </article>
         </div>
         <section className=" mt-7">

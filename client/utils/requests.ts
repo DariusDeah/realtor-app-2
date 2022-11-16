@@ -37,10 +37,10 @@ export async function fetchPropertyImages(homeId: string) {
   // const res = await axios.get("/images", {
   //   params: {
   //     zpid: homeId,
-  // },
+  //   },
   // });
   return mock_images;
-  //  JSON.parse(res.data);
+  // JSON.parse(res.data);
 }
 
 export async function fetchFavoriteFavorites() {
