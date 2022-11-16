@@ -20,7 +20,7 @@ module.exports = {
 
           neutral: "#70ACC7",
 
-          "base-100": "#FFFFFF",
+          "base-100": "#f3f4f6",
 
           info: "#3ABFF8",
 
@@ -32,6 +32,5 @@ module.exports = {
         },
       },
     ],
-    darkMode: " night",
   },
 };

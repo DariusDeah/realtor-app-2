@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useAppSelector } from "../../redux";
 import { selectUser } from "../../redux/user.reducer";
+import { testUser } from "../../utils/mock-user";
 
 type Props = {};
 
 function settings({}: Props) {
-  const user = useAppSelector(selectUser);
+  const user = testUser;
   const router = useRouter();
   // const [currentTab, setCurrentTab] = useState(1);
 

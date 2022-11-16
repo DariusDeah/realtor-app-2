@@ -21,6 +21,7 @@ function HomeDisplays({
 }: Props) {
   const [homes, setHomes] = useState<any[]>([]);
   const user = testUser;
+  const [params, setParams] = useState<SearchParams>(null);
 
   async function zillowApiCall(params?: SearchParams) {
     const data = await fetchProperties({
@@ -35,6 +36,9 @@ function HomeDisplays({
         homeType: params?.homeType,
       },
     });
+    setParams({
+      location: `${user.user.location.city}, ${user.user.location.state}`,
+    });
     setHomes(data);
     updateHomeState(data);
   }
@@ -44,20 +48,33 @@ function HomeDisplays({
   }, []);
 
   return (
-    <div className="md:flex-1 space-y-5  max-h-screen ">
+    <div className="md:flex-1 flex justify-center items-center  flex-col max-[100%]  ">
       <SearchFilter
         submitRequestFunction={zillowApiCall}
         toggleMapFunction={mapToggleFunction}
         mapToggled={mapToggleState}
       />
-      <div className="flex flex-wrap   overflow-y-scroll max-h-screen m-auto justify-center ">
-        {homes && homes.length ? (
-          homes.map((home) => (
-            <HouseCard home={home} homeImg={home.imgSrc} key={home.zpId} />
-          ))
-        ) : (
-          <Loader />
-        )}
+
+      <div className="  overflow-y-scroll max-h-[100%]  justify-center  ">
+        <div className="flex justify-start w-full ">
+          {params && (
+            <div className="text-xl flex gap-2">
+              <h1 className="font-semibold">{homes.length} results in </h1>
+              <span className="text-slate-500 underline">
+                {params.location}{" "}
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap h-[100vh] justify-center   ">
+          {homes && homes.length ? (
+            homes.map((home) => (
+              <HouseCard home={home} homeImg={home.imgSrc} key={home.zpId} />
+            ))
+          ) : (
+            <Loader />
+          )}
+        </div>
       </div>
     </div>
   );

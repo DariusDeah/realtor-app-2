@@ -147,16 +147,10 @@ function Header() {
       ) : (
         <div>
           <button
-            className="btn btn-xs btn-primary"
-            onClick={() => Router.push("/login")}
-          >
-            Login
-          </button>
-          <button
-            className="btn btn-xs btn-primary"
+            className="btn lg:btn-sm  btn-xs btn-primary"
             onClick={() => Router.push("/sign-up")}
           >
-            Sign Up
+            Join
           </button>
         </div>
       )}
