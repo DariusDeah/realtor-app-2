@@ -5,9 +5,9 @@ export class User {
     email: string;
     password: string;
     profile_img_url: string;
-    favorite_homes?: any[];
+    favorite_homes?: string[];
     membership_status: 'Premium' | 'Base';
-    recently_viewed?: any[];
+    recently_viewed?: string[];
     timezone: string;
     location: {
         address: string;
@@ -15,8 +15,17 @@ export class User {
         city: string;
         zip_code: string;
     };
+    housing_preferences: {
+        type: string;
+        budget: {
+            min: number;
+            max: number;
+        };
+        bedrooms: number;
+        bathrooms: number;
+    };
     is_active: boolean;
-    searching_for_type: 'Houses' | 'Apartments';
+
     constructor(data: User) {
         this.full_name = data.full_name;
         this.email = data.email;
@@ -28,7 +37,7 @@ export class User {
         this.recently_viewed = data.recently_viewed || [];
         this.timezone = data.timezone || '';
         this.is_active = true;
-        this.searching_for_type = data.searching_for_type || 'Houses';
+        this.housing_preferences = data.housing_preferences || {};
         this.location = data.location || '';
         this.location.address = data.location.address || '';
         this.location.city = data.location.city || '';
