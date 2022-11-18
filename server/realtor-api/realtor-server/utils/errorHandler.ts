@@ -29,27 +29,7 @@ export class NotFoundError implements LambdaError {
     message: string;
     timeOfError: string;
     constructor(message: string) {
-        this.statusCode = 400;
-        this.message = message;
-        this.timeOfError = new Date(Date.now()).toUTCString();
-        this.throwError();
-    }
-
-    private throwError() {
-        throw {
-            statusCode: this.statusCode,
-            message: this.message,
-            timeOfError: this.timeOfError,
-        };
-    }
-}
-
-export class InternalError implements LambdaError {
-    statusCode: number;
-    message: string;
-    timeOfError: string;
-    constructor(message: string) {
-        this.statusCode = 400;
+        this.statusCode = 404;
         this.message = message;
         this.timeOfError = new Date(Date.now()).toUTCString();
         this.throwError();
