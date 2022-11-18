@@ -31,7 +31,7 @@ export async function fetchProperty(homeId: string) {
   //   },
   // });
   // return JSON.parse(res.data);
-  return homeTestData;
+  return { ...new Homes(homeTestData) };
 }
 export async function fetchPropertyImages(homeId: string) {
   // const res = await axios.get("/images", {

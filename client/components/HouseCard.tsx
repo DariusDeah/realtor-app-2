@@ -64,39 +64,28 @@ function HouseCard({ home, homeImg }: Props) {
           <div className="selectable z-50  ">{cardHeartIcon}</div>
         </div>
         <div>
-          {typeof home.address === "string" ? (
-            <>
-              <div className="font-semibold  space-x-2">
-                {user.user.recentlyViewed.includes(home.zpid) && (
-                  <FilterBadge type="Recently Viewed" />
+          <>
+            <div className="font-semibold  space-x-2">
+              {user.user.recentlyViewed.includes(home.zpid) && (
+                <FilterBadge type="Recently Viewed" />
+              )}
+              {home.price <= user.user.housingPreferences.budget.max &&
+                home.price >= user.user.housingPreferences.budget.min && (
+                  <FilterBadge type="Within Budget" />
                 )}
-                {home.price <= user.user.housingPreferences.budget.max &&
-                  home.price >= user.user.housingPreferences.budget.min && (
-                    <FilterBadge type="Within Budget" />
-                  )}
-                {home.bedrooms === user.user.housingPreferences.bed && (
-                  <FilterBadge type="Perfect Match" />
-                )}
-                {home.price > user.user.housingPreferences.budget.max && (
-                  <FilterBadge type="Over Budget" />
-                )}
-              </div>
-              <h2 className="card-title">{home.address.split(",")[0]}</h2>
-              <p>
-                {home.address.split(",")[1]} {home.address.split(",")[2]}
-              </p>
-            </>
-          ) : (
-            <>
-              <h2 className="card-title">
-                {home.address.streetAddress}
-                <div className="badge bg-blue-400 border-none">Viewed</div>
-              </h2>
-              <p>
-                {home.address.city} {home.address.state} {home.address.zipcode}
-              </p>
-            </>
-          )}
+              {home.bedrooms === user.user.housingPreferences.bed && (
+                <FilterBadge type="Perfect Match" />
+              )}
+              {home.price > user.user.housingPreferences.budget.max && (
+                <FilterBadge type="Over Budget" />
+              )}
+            </div>
+            <h2 className="card-title">{home.address.streetAddress}</h2>
+            <p>
+              {home.address.city} {home.address.state} {home.address.zipcode}
+            </p>
+          </>
+
           <div className="divider"></div>
 
           <div className="card-actions justify-between mt-5">
