@@ -16,7 +16,15 @@ export class UserDTO {
   };
   timezone: string;
   is_active: boolean;
-  searching_for_type: "House" | "Apartment";
+  housing_preferences: {
+    type: string;
+    budget: {
+      min: number;
+      max: number;
+    };
+    bedrooms: number;
+    bathrooms: number;
+  };
   constructor(data: User) {
     this.full_name = data.fullName;
     this.email = data.email;
@@ -27,7 +35,7 @@ export class UserDTO {
     this.recently_viewed = data.recentlyViewed;
     this.timezone = data.timezone;
     this.is_active = true;
-    this.searching_for_type = data.housingPreference;
+    this.housing_preferences = data.housingPreferences;
     this.location = data.location;
     this.location.address = data.location.address;
     this.location.city = data.location.city;

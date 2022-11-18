@@ -16,9 +16,17 @@ export class User {
     zipcode: string;
   };
   password?: string;
-  housingPreference: "House" | "Apartment";
+  housingPreferences: {
+    type: string;
+    budget: {
+      min: number;
+      max: number;
+    };
+    bedrooms: number;
+    bathrooms: number;
+  };
   constructor(data: User & UserDTO) {
-    //user class can be user to convert a assorted set of user realted data into a user object
+    // user class can be user to convert a assorted set of user related data into a user object
     this.fullName = data.fullName || data.full_name;
     this.email = data.email;
     this.id = data.id;
@@ -28,8 +36,8 @@ export class User {
       data.membershipStatus || data.membership_status || "base";
     this.recentlyViewed = data.recentlyViewed || data.recently_viewed || [];
     this.timezone = data.timezone || "";
-    this.housingPreference =
-      data.housingPreference || data.housingPreference || "House";
+    this.housingPreferences =
+      data.housing_preferences || data.housingPreferences;
     this.location = data.location;
     this.location.address = data.location.address || "";
     this.location.state = data.location.state || "";
