@@ -15,6 +15,7 @@ export class User {
         city: string;
         zip_code: string;
     };
+
     housing_preferences: {
         type: string;
         budget: {
@@ -24,6 +25,7 @@ export class User {
         bedrooms: number;
         bathrooms: number;
     };
+
     is_active: boolean;
 
     constructor(data: User) {
@@ -44,21 +46,21 @@ export class User {
     private validateEmail(email: string) {
         const validEmail = email.match(/([@.])\w+/g);
         if (!validEmail) {
-            throw new Error(`Invalid email ${email}`);
+            throw `Invalid email ${email}`;
         }
         return email;
     }
 
     private validatePassword(password: string) {
         if (password.length < 8) {
-            throw new Error(`Invalid password ${password}, must be at least 8 characters`);
+            throw `Invalid password ${password}, must be at least 8 characters`;
         }
         return password;
     }
 
     private validateProfileImage(image: string) {
         if (!image.includes('https://')) {
-            throw new Error(`Invalid profile image  ${image}`);
+            throw `Invalid profile image ${image}`;
         }
         return image;
     }

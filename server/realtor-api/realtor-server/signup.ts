@@ -70,7 +70,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             isBase64Encoded: false,
         };
     } catch (err) {
-        console.error({ err });
+        console.error(err);
         response = {
             statusCode: 500,
             headers: {
