@@ -38,11 +38,7 @@ export class User {
         this.timezone = data.timezone || '';
         this.is_active = true;
         this.housing_preferences = data.housing_preferences || {};
-        this.location = data.location || '';
-        this.location.address = data.location.address || '';
-        this.location.city = data.location.city || '';
-        this.location.state = data.location.state || '';
-        this.location.zip_code = data.location.zip_code || '';
+        this.location = data.location || {};
     }
 }
 
