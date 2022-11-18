@@ -44,8 +44,8 @@ export class User {
     }
 
     private validateEmail(email: string) {
-        const validEmail = email.match(/([@.])\w/g);
-        if (!validEmail || !validEmail.length) {
+        const emailRegex = /([@.])\w/g;
+        if (!emailRegex.test(email)) {
             throw `Invalid email ${email}`;
         }
         return email;
