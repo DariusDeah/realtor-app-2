@@ -1,3 +1,5 @@
+import { BadRequest } from './utils/errorHandler';
+
 //class validation is within model
 export class User {
     id: string;
@@ -46,7 +48,7 @@ export class User {
     private validateEmail(email: string) {
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
         if (!emailRegex.test(email)) {
-            throw `Invalid email ${email}`;
+            throw new BadRequest(`Invalid email ${email}`);
         }
         return email;
     }
