@@ -8,15 +8,15 @@ import SingleHomeUI from "../ui/Single-Home";
 import FormButton from "./FormButton";
 
 type Props = {
-  userData: any;
+  userData: User;
   nextStepFunction: (event: Event, data: any) => void;
   backStepFunction: (e: Event) => void;
 };
 
 function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
-  const [housingPreference, setHousingPreference] = useState<
-    "Houses" | "Apartments"
-  >(userData.housingPreference || "Houses");
+  const [housingPreference, setHousingPreference] = useState<string>(
+    userData.housingPreferences.type ?? "Houses"
+  );
 
   const addToLocalStorage = useUpdateLocalSave();
 
@@ -102,10 +102,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
         <div className="flex justify-between">
           <OnHoverAnimation
             className={`selectable w-36 ${
-              housingPreference === "Houses" ||
-              userData.housingPreference === "Houses"
-                ? "selected"
-                : ""
+              housingPreference === "Houses" ? "selected" : ""
             }`}
             onClick={() => setHousingPreference("Houses")}
           >
@@ -114,10 +111,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
           </OnHoverAnimation>
           <OnHoverAnimation
             className={`selectable w-36 ${
-              housingPreference === "Apartments" ||
-              userData.housingPreference === "Apartment"
-                ? "selected"
-                : ""
+              housingPreference === "Apartments" ? "selected" : ""
             }`}
             onClick={() => setHousingPreference("Apartments")}
           >
@@ -125,6 +119,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
             <p className="font-bold text-xl text-center mt-2">Apartment</p>
           </OnHoverAnimation>
         </div>
+
         <div className="flex flex-col gap-3">
           <p className="font-semibold text-2xl">Preferences</p>
           <div className="flex gap-4 flex-wrap">
