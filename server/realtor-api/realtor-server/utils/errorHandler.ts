@@ -13,16 +13,18 @@ export class BadRequest implements LambdaError {
         this.statusCode = 400;
         this.message = message;
         this.timeOfError = new Date(Date.now()).toUTCString();
+        this.logError();
         this.throwError();
     }
 
+    private logError() {
+        console.error(this);
+    }
     private throwError() {
         throw {
-            error: {
-                statusCode: this.statusCode,
-                message: this.message,
-                timeOfError: this.timeOfError,
-            },
+            statusCode: this.statusCode,
+            message: this.message,
+            timeOfError: this.timeOfError,
         };
     }
 }
