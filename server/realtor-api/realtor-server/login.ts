@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DEFAULT_HEADERS } from './headers';
 import { User } from './user.model';
 import { dbClient } from './utils/dynamo.config';
+import { LambdaProxyErrorHandler } from './utils/errorHandler';
 import { hideFields } from './utils/hideFields';
 import { PasswordHandler } from './utils/password-handler';
 
@@ -62,14 +63,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         };
     } catch (err) {
         console.log(err);
-        response = {
-            headers: { ...DEFAULT_HEADERS },
-            isBase64Encoded: false,
-            statusCode: 500,
-            body: JSON.stringify({
-                message: err,
-            }),
-        };
+        return new LambdaProxyErrorHandler(err).customResponse();
     }
 
     return response;
