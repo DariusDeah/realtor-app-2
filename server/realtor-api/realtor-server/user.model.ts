@@ -30,7 +30,7 @@ export class User {
         this.full_name = data.full_name;
         this.email = data.email;
         this.password = data.password;
-        this.id = nanoid();
+        this.id = data.id;
         this.profile_img_url = data.profile_img_url || '';
         this.favorite_homes = data.favorite_homes || [];
         this.membership_status = data.membership_status || 'Base';

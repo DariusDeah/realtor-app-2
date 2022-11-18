@@ -1,13 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { createHmac } from 'node:crypto';
 import { DEFAULT_HEADERS } from './headers';
 import { User } from './user.model';
-import { appendHeaders } from './utils/appendHeaders';
 import { hideFields } from './utils/hideFields';
 import { JWTHandler } from './utils/jwtHandler';
 import { PasswordHandler } from './utils/password-handler';
 import cookie from 'cookie';
 import { dbClient } from './utils/dynamo.config';
+import { nanoid } from 'nanoid';
 
 /**
  *
@@ -32,6 +31,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
 
         // hash users password;
         createdUser.password = await PasswordHandler.hashPassword(createdUser.password);
+        //set a new id for the user
+        createdUser.id = nanoid();
 
         //store in dynamo async
         await dbClient
