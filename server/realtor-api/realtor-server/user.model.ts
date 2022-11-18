@@ -44,7 +44,7 @@ export class User {
     }
 
     private validateEmail(email: string) {
-        const emailRegex = /([@.])\w/g;
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
         if (!emailRegex.test(email)) {
             throw `Invalid email ${email}`;
         }
