@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DEFAULT_HEADERS } from './headers';
 import { User } from './user.model';
 import { dbClient } from './utils/dynamo.config';
+import { hideFields } from './utils/hideFields';
 import { PasswordHandler } from './utils/password-handler';
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
@@ -49,6 +50,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             });
         }
         //api response
+        hideFields(foundUser, ['password']);
         response = {
             statusCode: 200,
             headers: { ...DEFAULT_HEADERS },
