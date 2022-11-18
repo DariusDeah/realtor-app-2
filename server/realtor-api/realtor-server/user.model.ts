@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+//class validation is within model
 export class User {
     id: string;
     full_name: string;
@@ -28,10 +28,10 @@ export class User {
 
     constructor(data: User) {
         this.full_name = data.full_name;
-        this.email = data.email;
-        this.password = data.password;
+        this.email = this.validateEmail(data.email.toLowerCase());
+        this.password = this.validatePassword(data.password);
         this.id = data.id;
-        this.profile_img_url = data.profile_img_url || '';
+        this.profile_img_url = this.validateProfileImage(data.profile_img_url) || '';
         this.favorite_homes = data.favorite_homes || [];
         this.membership_status = data.membership_status || 'Base';
         this.recently_viewed = data.recently_viewed || [];
@@ -39,6 +39,28 @@ export class User {
         this.is_active = true;
         this.housing_preferences = data.housing_preferences || {};
         this.location = data.location || {};
+    }
+
+    private validateEmail(email: string) {
+        const validEmail = email.match(/([@.])\w+/g);
+        if (!validEmail) {
+            throw new Error(`Invalid email ${email}`);
+        }
+        return email;
+    }
+
+    private validatePassword(password: string) {
+        if (password.length < 8) {
+            throw new Error(`Invalid password ${password}, must be at least 8 characters`);
+        }
+        return password;
+    }
+
+    private validateProfileImage(image: string) {
+        if (!image.includes('https://')) {
+            throw new Error(`Invalid profile image  ${image}`);
+        }
+        return image;
     }
 }
 
