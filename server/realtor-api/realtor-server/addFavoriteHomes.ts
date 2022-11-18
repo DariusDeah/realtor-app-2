@@ -5,6 +5,7 @@ import { dbClient } from './utils/dynamo.config';
 import cookie from 'cookie';
 import { JWTHandler } from './utils/jwtHandler';
 import { JwtPayload } from 'jsonwebtoken';
+import { LambdaProxyErrorHandler } from './utils/errorHandler';
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -88,15 +89,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             isBase64Encoded: false,
         };
     } catch (err) {
-        response = {
-            headers: appendHeaders(),
-            statusCode: 500,
-            body: JSON.stringify({
-                message: err,
-            }),
-
-            isBase64Encoded: false,
-        };
+        console.error(err);
+        return new LambdaProxyErrorHandler(err).customResponse();
     }
     return response;
 };

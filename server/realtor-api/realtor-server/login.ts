@@ -62,7 +62,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             }),
         };
     } catch (err) {
-        console.log(err);
+        console.error(err);
         return new LambdaProxyErrorHandler(err).customResponse();
     }
 

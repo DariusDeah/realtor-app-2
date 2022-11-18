@@ -3,6 +3,7 @@ import axios from 'axios';
 import { DEFAULT_HEADERS } from './headers';
 import { unsplashTestData } from './mock-unsplash-res';
 import { cacheHelper } from './utils/cacheHelper';
+import { LambdaProxyErrorHandler } from './utils/errorHandler';
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -46,15 +47,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             isBase64Encoded: false,
         };
     } catch (error) {
-        console.log({ error });
-        response = {
-            headers: { ...DEFAULT_HEADERS },
-            statusCode: 500,
-            body: JSON.stringify({
-                message: error,
-            }),
-            isBase64Encoded: false,
-        };
+        console.error(error);
+        return new LambdaProxyErrorHandler(error).customResponse();
     }
     return response;
 };

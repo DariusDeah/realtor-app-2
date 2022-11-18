@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { appendHeaders } from './utils/appendHeaders';
 import { AuthHandler } from './utils/authHandler';
 import { dbClient } from './utils/dynamo.config';
+import { LambdaProxyErrorHandler } from './utils/errorHandler';
 
 /**
  *
@@ -52,14 +53,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             isBase64Encoded: false,
         };
     } catch (err) {
-        response = {
-            headers: appendHeaders(),
-            statusCode: 500,
-            body: JSON.stringify({
-                message: err,
-            }),
-            isBase64Encoded: false,
-        };
+        console.error(err);
+        return new LambdaProxyErrorHandler(err).customResponse();
     }
     return response;
 };
