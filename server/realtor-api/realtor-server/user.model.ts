@@ -30,7 +30,7 @@ export class User {
 
     constructor(data: User) {
         this.full_name = data.full_name;
-        this.email = this.validateEmail(data.email.toLowerCase());
+        this.email = this.validateEmail(data.email.toLowerCase().trim());
         this.password = this.validatePassword(data.password);
         this.id = data.id;
         this.profile_img_url = this.validateProfileImage(data.profile_img_url) || '';
@@ -44,8 +44,8 @@ export class User {
     }
 
     private validateEmail(email: string) {
-        const validEmail = email.match(/([@.])\w+/g);
-        if (!validEmail) {
+        const validEmail = email.match(/([@.])\w/g);
+        if (!validEmail || !validEmail.length) {
             throw `Invalid email ${email}`;
         }
         return email;
