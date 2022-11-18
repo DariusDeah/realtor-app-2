@@ -59,12 +59,11 @@ export class LambdaProxyErrorHandler implements LambdaError {
 
     customResponse() {
         return {
-            statusCode: 500,
+            statusCode: this.statusCode,
             headers: {
                 ...DEFAULT_HEADERS,
             },
             body: JSON.stringify({
-                status: 'Error Signing Up',
                 error: {
                     statusCode: this.statusCode,
                     message: this.message,
