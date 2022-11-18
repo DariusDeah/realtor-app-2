@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DEFAULT_HEADERS } from './headers';
 import { User } from './user.model';
 import { dbClient } from './utils/dynamo.config';
-import { LambdaProxyErrorHandler } from './utils/errorHandler';
+import { BadRequestError, LambdaProxyErrorHandler } from './utils/errorHandler';
 import { hideFields } from './utils/hideFields';
 import { PasswordHandler } from './utils/password-handler';
 
@@ -11,8 +11,9 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
     try {
         console.log({ event, context });
         if (!event.body) {
-            throw new Error('user required');
+            throw new BadRequestError('user date required');
         }
+
         const res = await dbClient
             .query({
                 TableName: 'UserTable',
@@ -41,15 +42,9 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
             JSON.parse(event.body)['password'],
         );
         if (!isValidAuthentication) {
-            return (response = {
-                headers: { ...DEFAULT_HEADERS },
-                isBase64Encoded: false,
-                statusCode: 500,
-                body: JSON.stringify({
-                    message: 'incorrect email or password',
-                }),
-            });
+            throw new BadRequestError('incorrect email or password');
         }
+
         //api response
         hideFields(foundUser, ['password']);
         response = {
