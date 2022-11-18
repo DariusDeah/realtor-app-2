@@ -21,7 +21,7 @@ function HomeDisplays({
 }: Props) {
   const [homes, setHomes] = useState<any[]>([]);
   const user = testUser;
-  const [params, setParams] = useState<SearchParams>(null);
+  const [params, setParams] = useState<SearchParams | null>(null);
 
   async function zillowApiCall(params?: SearchParams) {
     const data = await fetchProperties({

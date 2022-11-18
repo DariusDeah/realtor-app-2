@@ -21,10 +21,18 @@ interface UserState {
       city: string;
       address: string;
     };
-    housingPreference: "House" | "Apartment";
+    housingPreferences: {
+      type: string;
+      budget: {
+        min: number;
+        max: number;
+      };
+      bedrooms: number;
+      bathrooms: number;
+    };
   } | null;
-  success?: boolean | null;
-  error?: boolean | null;
+  success: boolean | null;
+  error: boolean | null;
 }
 
 const initialState: UserState = {
