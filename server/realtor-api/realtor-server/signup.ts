@@ -7,6 +7,7 @@ import { PasswordHandler } from './utils/password-handler';
 import cookie from 'cookie';
 import { dbClient } from './utils/dynamo.config';
 import { nanoid } from 'nanoid';
+import { BadRequestError, LambdaProxyErrorHandler } from './utils/errorHandler';
 
 /**
  *
@@ -21,10 +22,8 @@ import { nanoid } from 'nanoid';
 export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let response: APIGatewayProxyResult;
     try {
-        console.log({ event }, { context });
-
         if (!event.body) {
-            throw new Error('user required');
+            throw new BadRequestError('user data required');
         }
 
         const createdUser = new User(JSON.parse(event.body));
@@ -71,17 +70,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
         };
     } catch (err) {
         console.error(err);
-        response = {
-            statusCode: 500,
-            headers: {
-                ...DEFAULT_HEADERS,
-            },
-            body: JSON.stringify({
-                message: 'Error Signing Up',
-                error: err,
-            }),
-            isBase64Encoded: false,
-        };
+        return new LambdaProxyErrorHandler(err).customResponse();
     }
 
     return response;

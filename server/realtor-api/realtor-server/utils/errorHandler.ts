@@ -1,4 +1,6 @@
-interface LambdaError {
+import { DEFAULT_HEADERS } from '../headers';
+
+export interface LambdaError {
     statusCode: number;
     message: string;
     timeOfError: string;
@@ -24,6 +26,7 @@ export class BadRequestError implements LambdaError {
         };
     }
 }
+
 export class NotFoundError implements LambdaError {
     statusCode: number;
     message: string;
@@ -40,6 +43,35 @@ export class NotFoundError implements LambdaError {
             statusCode: this.statusCode,
             message: this.message,
             timeOfError: this.timeOfError,
+        };
+    }
+}
+
+export class LambdaProxyErrorHandler implements LambdaError {
+    statusCode: number;
+    message: string;
+    timeOfError: string;
+    constructor(error: any) {
+        this.message = error.message || 'internal server error';
+        this.statusCode = error.statusCode || 500;
+        this.timeOfError = error.timeOfError || new Date(Date.now()).toUTCString();
+    }
+
+    customResponse() {
+        return {
+            statusCode: 500,
+            headers: {
+                ...DEFAULT_HEADERS,
+            },
+            body: JSON.stringify({
+                status: 'Error Signing Up',
+                error: {
+                    statusCode: this.statusCode,
+                    message: this.message,
+                    timeOfError: this.timeOfError,
+                },
+            }),
+            isBase64Encoded: false,
         };
     }
 }
