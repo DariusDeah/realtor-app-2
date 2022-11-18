@@ -140,12 +140,6 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     addToLocalStorage("User", userData);
     nextStepFunction(e, userData);
   };
-  console.log({
-    firstNameError,
-    lastNameError,
-    emailError,
-    passwordError,
-  });
 
   const required = <p className="text-error">{"*"}</p>;
 
