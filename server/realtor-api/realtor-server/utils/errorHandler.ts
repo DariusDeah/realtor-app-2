@@ -5,7 +5,7 @@ interface LambdaError {
     location?: string;
 }
 
-export class BadRequest implements LambdaError {
+export class BadRequestError implements LambdaError {
     statusCode: number;
     message: string;
     timeOfError: string;
@@ -13,13 +13,48 @@ export class BadRequest implements LambdaError {
         this.statusCode = 400;
         this.message = message;
         this.timeOfError = new Date(Date.now()).toUTCString();
-        this.logError();
         this.throwError();
     }
 
-    private logError() {
-        console.error(this);
+    private throwError() {
+        throw {
+            statusCode: this.statusCode,
+            message: this.message,
+            timeOfError: this.timeOfError,
+        };
     }
+}
+export class NotFoundError implements LambdaError {
+    statusCode: number;
+    message: string;
+    timeOfError: string;
+    constructor(message: string) {
+        this.statusCode = 400;
+        this.message = message;
+        this.timeOfError = new Date(Date.now()).toUTCString();
+        this.throwError();
+    }
+
+    private throwError() {
+        throw {
+            statusCode: this.statusCode,
+            message: this.message,
+            timeOfError: this.timeOfError,
+        };
+    }
+}
+
+export class InternalError implements LambdaError {
+    statusCode: number;
+    message: string;
+    timeOfError: string;
+    constructor(message: string) {
+        this.statusCode = 400;
+        this.message = message;
+        this.timeOfError = new Date(Date.now()).toUTCString();
+        this.throwError();
+    }
+
     private throwError() {
         throw {
             statusCode: this.statusCode,
