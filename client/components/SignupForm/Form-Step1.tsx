@@ -378,9 +378,8 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           onChange={photoOnChange}
           onBlur={photoOnBlur}
         />
-        <div className="flex lg:justify-end  ">
+        <div className="flex justify-end  ">
           <FormButton
-            style="btn btn-primary text-white btn-sm lg:btn-md  "
             title="Next Step"
             disabled={isNextStepDisabled()}
             onClick={handleFormSubmit}

@@ -15,7 +15,9 @@ type Props = {
 
 function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
   const [housingPreference, setHousingPreference] = useState<string>(
-    userData.housingPreferences.type ?? "Houses"
+    () =>
+      (userData.housingPreferences && userData.housingPreferences.type) ||
+      "Houses"
   );
 
   const addToLocalStorage = useUpdateLocalSave();
@@ -94,7 +96,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
   };
 
   return (
-    <div className="form-control flex flex-col justify-between gap-3 p-5">
+    <div className="form-control flex flex-col justify-between gap-4 p-5">
       <h1 className="lg:text-3xl font-medium mb-4 mobile-title">
         What can we help you find? 🏡
       </h1>
@@ -129,7 +131,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
                 <span>$</span>
                 <input
                   type="number"
-                  className="input input-bordered"
+                  className="input input-bordered "
                   onChange={budgetMinOnChange}
                   onBlur={budgetMinOnBlur}
                   value={budgetMinValue}
@@ -176,26 +178,24 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
               />
             </div>
           </div>
+          <p className="text-xs">
+            Filling out this information will help us provide you with homes or
+            apartments based around your preferences and or goals{" "}
+          </p>
+          <div className="flex justify-between mt-4  ">
+            <FormButton
+              title="Back"
+              style={`${"btn"}`}
+              onClick={(e) => backStepFunction(e)}
+            />
+            <FormButton
+              style="btn btn-primary"
+              title="Next"
+              disabled={!housingPreference}
+              onClick={handleSubmit}
+            />
+          </div>
         </div>
-
-        <p className="text-xs">
-          Filling out this information will help us provide you with homes or
-          apartments based around your preferences and or goals{" "}
-        </p>
-      </div>
-      <div className="divider"></div>
-      <div className="flex justify-between mt-4  ">
-        <FormButton
-          title="Back"
-          style={`${"btn"}`}
-          onClick={(e) => backStepFunction(e)}
-        />
-        <FormButton
-          style="btn btn-primary"
-          title="Next"
-          disabled={!housingPreference}
-          onClick={handleSubmit}
-        />
       </div>
     </div>
   );

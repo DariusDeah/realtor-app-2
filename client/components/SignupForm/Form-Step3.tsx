@@ -26,10 +26,12 @@ function FormStep3({ userData, nextStepFunction, backStepFunction }: Props) {
     nextStepFunction(e, userSubmissionData);
   };
   return (
-    <form className="form-control space-y-3 ">
-      <h1 className="text-3xl font-medium text-center ">Membership Status</h1>
+    <div className="form-control flex gap-y-5 ">
+      <h1 className="lg:text-3xl font-medium text-center ">
+        Membership Status
+      </h1>
       <div>
-        <div className="flex flex-col   ">
+        <div className="flex flex-col ">
           <div className="flex justify-between">
             <div>
               <OnHoverAnimation
@@ -69,21 +71,16 @@ function FormStep3({ userData, nextStepFunction, backStepFunction }: Props) {
             </div>
           </Suspense>
         </div>
-        <div className="overflow-x-auto border-t-4 border-black p-5 mt-5"></div>
+        <div className="flex justify-between  ">
+          <FormButton title="Back" onClick={(e) => backStepFunction(e)} />
+          <FormButton
+            title="Next"
+            disabled={!membershipStatus}
+            onClick={handleSubmit}
+          />
+        </div>
       </div>
-      <div className="flex justify-between mt-4  ">
-        <FormButton
-          title="Back"
-          style={`${"btn"}`}
-          onClick={(e) => backStepFunction(e)}
-        />
-        <FormButton
-          style="btn btn-primary"
-          title="Next"
-          onClick={handleSubmit}
-        />
-      </div>
-    </form>
+    </div>
   );
 }
 
