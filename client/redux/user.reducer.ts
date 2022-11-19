@@ -78,6 +78,7 @@ export const userSlice = createSlice({
         state.user = { ...new User(parsedRes.data) };
       }
     );
+
     builder.addCase(
       loginUser.fulfilled,
       (state, action: PayloadAction<string>) => {

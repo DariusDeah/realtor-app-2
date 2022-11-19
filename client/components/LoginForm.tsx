@@ -12,7 +12,7 @@ function LoginForm({}: Props) {
 
   return (
     <>
-      <div className="form-control lg:space-y-14 lg:p-12 p-3 lg:mt-20 flex flex-col justify-center  ">
+      <div className="form-control lg:space-y-14 lg:p-12 p-3  flex flex-col justify-center  ">
         <h1 className="lg:text-5xl text-2xl font-semibold text-center h-20">
           Welcome Back
         </h1>

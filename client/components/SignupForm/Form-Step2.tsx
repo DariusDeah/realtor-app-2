@@ -94,14 +94,14 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
   };
 
   return (
-    <div className="form-control flex flex-col justify-between gap-3 ">
-      <h1 className="text-3xl font-medium mb-4">
+    <div className="form-control flex flex-col justify-between gap-3 p-5">
+      <h1 className="lg:text-3xl font-medium mb-4 mobile-title">
         What can we help you find? 🏡
       </h1>
       <div className=" flex flex-col gap-10">
         <div className="flex justify-between">
           <OnHoverAnimation
-            className={`selectable w-36 ${
+            className={`selectable lg:w-36 w-15 ${
               housingPreference === "Houses" ? "selected" : ""
             }`}
             onClick={() => setHousingPreference("Houses")}
@@ -110,7 +110,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
             <p className="font-bold text-xl text-center mt-2">Home</p>
           </OnHoverAnimation>
           <OnHoverAnimation
-            className={`selectable w-36 ${
+            className={`selectable lg:w-36 w-15 ${
               housingPreference === "Apartments" ? "selected" : ""
             }`}
             onClick={() => setHousingPreference("Apartments")}
@@ -121,7 +121,7 @@ function FormStep2({ userData, nextStepFunction, backStepFunction }: Props) {
         </div>
 
         <div className="flex flex-col gap-3">
-          <p className="font-semibold text-2xl">Preferences</p>
+          <p className="font-semibold lg:text-2xl mobile-title">Preferences</p>
           <div className="flex gap-4 flex-wrap">
             <div className="">
               <p>Budget Min.</p>

@@ -9,10 +9,10 @@
     border-radius: 0.375rem /* 6px */;
   }
   .selectable:hover {
-    background-color: rgb(241 245 249);
+    background-color: #d8dcdd;
   }
   .selected {
-    background-color: rgb(241 245 249);
+    background-color: #d8dcdd;
     border: solid black 2px;
   }
   .input-error {
@@ -24,6 +24,9 @@
 }
 #header {
   z-index: 9999 !important;
+}
+.mobile-title {
+  font-size: larger;
 }
 * {
   padding: 0%;

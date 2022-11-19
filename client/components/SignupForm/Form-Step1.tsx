@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { User } from "../../models/user";
 import useDebounceInput from "../hooks/useDebounceInput";
 import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
+import Input from "../ui/Input";
 import FormButton from "./FormButton";
 
 type Props = {
@@ -68,6 +69,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
       maxLength: 65,
     },
   });
+
   const {
     onChangeHandler: addressOnChange,
     value: addressValue,
@@ -98,7 +100,9 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     onBlurHandler: stateOnBlur,
   } = useDebounceInput({
     defaultInput: userData.location ? userData.location.state : "",
-    rules: {},
+    rules: {
+      maxLength: 2,
+    },
   });
 
   const {
@@ -141,65 +145,67 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     nextStepFunction(e, userData);
   };
 
+  const isNextStepDisabled = () => {
+    return (
+      (!firstNameValue && !firstNameValue?.length) ||
+      (!lastNameValue && !lastNameValue?.length) ||
+      (!emailValue && !emailValue?.length) ||
+      !passwordValue.length ||
+      firstNameError ||
+      lastNameError ||
+      emailError ||
+      passwordError
+    );
+  };
+
   const required = <p className="text-error">{"*"}</p>;
 
   return (
     <>
-      <div className="form-control flex gap-10  ">
-        <h1 className="text-3xl font-medium">Help us get to know you 👏</h1>
+      <div className="form-control flex gap-10  p-5  ">
+        <h1 className="text-3xl font-medium mobile-title">
+          Help us get to know you 👏
+        </h1>
         <div className="grid-cols-2 grid gap-5">
-          <div className="flex flex-col ">
-            <p className="text-sm flex ">First Name {required} </p>
-            <input
-              type="text"
-              value={firstNameValue}
-              onChange={firstNameOnChange}
-              className={`input input-bordered ${
-                firstNameError && "input-error"
-              }`}
-              onBlur={firstNameOnBlur}
-              required
-            />
-            {firstNameError && (
-              <p className="text-xs text-error">{firstNameErrorMessage}</p>
-            )}
-          </div>
-          <div className="flex flex-col ">
-            <p className="text-sm flex">Last Name {required}</p>
-            <input
-              value={lastNameValue}
-              type="text"
-              className={`input input-bordered ${
-                lastNameError && "input-error"
-              }`}
-              required
-              onChange={lastNameOnChange}
-              onBlur={lastNameOnBlur}
-            />
-            {lastNameError && (
-              <p className="text-xs text-error">{lastNameErrorMessage}</p>
-            )}
-          </div>
+          <Input
+            label="First Name"
+            type="text"
+            value={firstNameValue}
+            onChange={firstNameOnChange}
+            errorCondition={firstNameError}
+            errorMessage={firstNameErrorMessage}
+            onBlur={firstNameOnBlur}
+            required
+          />
 
-          <div className=" flex  flex-col">
-            <p className="text-sm flex">Email {required}</p>
-            <input
-              value={emailValue}
-              type="email"
-              className={`input input-bordered ${emailError && "input-error"}`}
-              required
-              onChange={emailOnChange}
-              autoComplete="email"
-            />
-            {emailError && (
-              <p className="text-xs text-error">{emailErrorMessage}</p>
-            )}
-          </div>
+          <Input
+            errorCondition={lastNameError}
+            errorMessage={lastNameErrorMessage}
+            label="Last Name"
+            value={lastNameValue}
+            type="text"
+            required
+            onChange={lastNameOnChange}
+            onBlur={lastNameOnBlur}
+          />
+
+          <Input
+            errorCondition={emailError}
+            errorMessage={emailErrorMessage}
+            label="Email"
+            value={emailValue}
+            type="email"
+            className={`input input-bordered input-sm  ${
+              emailError && "input-error"
+            }`}
+            required
+            onChange={emailOnChange}
+            autoComplete="email"
+          />
+
           <div className="flex flex-col">
             <div className="flex items-start">
-              <p className="text-sm flex">
-                Password {"( 8-64 characters)"} {required}
-              </p>
+              <p className="text-sm flex">Password {required}</p>
             </div>
             <div className="form-control">
               <label className="input-group ">
@@ -262,44 +268,33 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           </div>
         </div>
         <div className=" form-control flex flex-col gap-2">
-          <div className="">
-            <p className="text-sm">Address</p>
-            <input
-              value={addressValue}
+          <Input
+            errorCondition={addressError}
+            errorMessage={addressErrorMessage}
+            label="Address"
+            value={addressValue}
+            type="text"
+            onChange={addressOnChange}
+            onBlur={addressOnBlur}
+          />
+          <div className="lg:flex gap-y-3  justify-between">
+            <Input
+              errorCondition={cityError}
+              errorMessage={cityErrorMessage}
+              label="City"
+              value={cityValue}
               type="text"
-              className={`input input-bordered w-full ${
-                addressError && "input-error"
-              }`}
-              onChange={addressOnChange}
-              onBlur={addressOnBlur}
+              onChange={cityOnChange}
+              onBlur={cityOnBlur}
             />
-            {addressError && (
-              <p className="text-xs text-error">{addressErrorMessage}</p>
-            )}
-          </div>
-          <div className="lg:flex grid grid-cols-1  justify-between">
-            <div className=" flex flex-col ">
-              <p className="text-xs">City</p>
-              <input
-                value={cityValue}
-                type="text"
-                className={`input input-bordered ${cityError && "input-error"}`}
-                onChange={cityOnChange}
-                onBlur={cityOnBlur}
-              />
-              {cityError && (
-                <p className="text-xs text-error">{cityErrorMessage}</p>
-              )}
-            </div>
-            <div>
-              <p className="text-xs">State</p>
 
-              <input
-                value={stateValue}
+            <div>
+              <Input
+                errorCondition={stateError}
+                errorMessage={stateErrorMessage}
+                label="State"
+                value={stateValue.toUpperCase()}
                 type="text"
-                className={`input input-bordered  ${
-                  stateError && "input-error"
-                }`}
                 onChange={stateOnChange}
                 onBlur={stateOnBlur}
                 name="states"
@@ -361,53 +356,36 @@ function FormStep1({ userData, nextStepFunction }: Props) {
               </datalist>
             </div>
             <div>
-              <p className="text-xs">Zip Code</p>
-              <input
+              <Input
+                errorCondition={zipcodeError}
+                errorMessage={zipcodeErrorMessage}
+                label="Zip Code"
                 value={zipcodeValue}
                 type="text"
-                className={`input input-bordered ${
-                  zipcodeError && "input-error"
-                }`}
                 onChange={zipcodeOnChange}
                 onBlur={zipcodeOnBlur}
               />
-              {zipcodeError && (
-                <p className="text-xs text-error">{zipcodeErrorMessage}</p>
-              )}
             </div>
           </div>
         </div>
-        <div className=" flex flex-col">
-          <p className="text-sm">Photo {"(URL)"}</p>
-          <input
-            value={photoValue}
-            type="text"
-            className={`input input-bordered ${photoError && "input-error"}`}
-            onChange={photoOnChange}
-            onBlur={photoOnBlur}
-          />
-          {photoError && (
-            <p className="text-xs text-error">{photoErrorMessage}</p>
-          )}
-        </div>
-      </div>
-      {/* <div className="divider"></div> */}
-      <div className="flex justify-end mt-10  ">
-        <FormButton
-          style="btn btn-primary text-white    "
-          title="Next Step"
-          disabled={
-            !firstNameValue.length ||
-            !lastNameValue.length ||
-            !emailValue.length ||
-            !passwordValue.length ||
-            firstNameError ||
-            lastNameError ||
-            emailError ||
-            passwordError
-          }
-          onClick={handleFormSubmit}
+        <Input
+          errorCondition={photoError}
+          errorMessage={photoErrorMessage}
+          label="Photo(url)"
+          value={photoValue}
+          type="url"
+          className={`input input-bordered ${photoError && "input-error"}`}
+          onChange={photoOnChange}
+          onBlur={photoOnBlur}
         />
+        <div className="flex lg:justify-end  ">
+          <FormButton
+            style="btn btn-primary text-white btn-sm lg:btn-md  "
+            title="Next Step"
+            disabled={isNextStepDisabled()}
+            onClick={handleFormSubmit}
+          />
+        </div>
       </div>
     </>
   );
