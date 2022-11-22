@@ -32,7 +32,7 @@ interface UserState {
     };
   } | null;
   success: boolean | null;
-  error: boolean | null;
+  error: any | null;
 }
 
 const initialState: UserState = {
@@ -76,6 +76,12 @@ export const userSlice = createSlice({
           action.payload
         );
         state.user = { ...new User(parsedRes.data) };
+      }
+    );
+    builder.addCase(
+      signUpUser.rejected,
+      (state, action: PayloadAction<any>) => {
+        state.error = action.error;
       }
     );
 

@@ -42,9 +42,7 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
     }
 
     switch (isTouched) {
-      case rules.minLength &&
-        inputValue.length &&
-        inputValue.length < rules.minLength:
+      case rules.minLength && inputValue && inputValue.length < rules.minLength:
         setError(true);
         setErrorMessage(
           "input value too short, must be at least " +
@@ -52,9 +50,7 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
             " characters"
         );
         break;
-      case rules.maxLength &&
-        inputValue.length &&
-        inputValue.length > rules.maxLength:
+      case rules.maxLength && inputValue && inputValue.length > rules.maxLength:
         setError(true);
         setErrorMessage(
           "input value too long, must be at max " +
@@ -63,11 +59,11 @@ const useDebounceInput = ({ defaultInput, rules }: Props) => {
         );
         break;
 
-      case rules.required && !inputValue.length:
+      case rules.required && inputValue && !inputValue.length:
         setError(true);
         setErrorMessage("this field is required");
         break;
-      case rules.isUrl && !inputValue.includes("https://"):
+      case rules.isUrl && inputValue && !inputValue.includes("https://"):
         setError(true);
         setErrorMessage("not a valid url!");
         break;

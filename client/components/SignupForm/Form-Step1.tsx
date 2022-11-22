@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "../../models/user";
 import useDebounceInput from "../hooks/useDebounceInput";
 import useUpdateLocalSave from "../hooks/useUpdateLocalSave";
@@ -21,7 +21,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     errorMessage: firstNameErrorMessage,
     onBlurHandler: firstNameOnBlur,
   } = useDebounceInput({
-    defaultInput: (userData.fullName && userData.fullName.split(" ")[0]) || "",
+    defaultInput: userData.fullName && userData.fullName.split(" ")[0],
     rules: {
       minLength: 2,
       maxLength: 50,
@@ -130,7 +130,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
   const handleFormSubmit = (e: any) => {
     e.preventDefault();
     const userData = {
-      fullName: firstNameValue + "" + lastNameValue,
+      fullName: firstNameValue + " " + lastNameValue,
       email: emailValue,
       password: passwordValue,
       photoUrl: photoValue,
@@ -160,6 +160,9 @@ function FormStep1({ userData, nextStepFunction }: Props) {
 
   const required = <p className="text-error">{"*"}</p>;
 
+  useEffect(() => {
+    console.log({ userData });
+  });
   return (
     <>
       <div className="form-control flex gap-10  p-5  ">

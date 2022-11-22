@@ -7,6 +7,7 @@ import Loader from "./ui/Loader";
 import { useAppSelector } from "../redux";
 import { selectUser } from "../redux/user.reducer";
 import { testUser } from "../utils/mock-user";
+import { useRouter } from "next/router";
 
 type Props = {
   mapToggleFunction: (isToggle: boolean) => void;
@@ -22,22 +23,23 @@ function HomeDisplays({
   const [homes, setHomes] = useState<any[]>([]);
   const user = testUser;
   const [params, setParams] = useState<SearchParams | null>(null);
+  const router = useRouter();
 
   async function zillowApiCall(params?: SearchParams) {
-    const data = await fetchProperties({
-      query: {
-        location:
-          params?.location ||
-          `${user.user.location.city} ${user.user.location.state}`,
-        minBathroom: params?.minBathroom || user.user.housingPreferences.bath,
-        minPrice: params?.minPrice || user.user.housingPreferences.budget.min,
-        minBed: params?.minBed || user.user.housingPreferences.bed,
-        sort: params?.sort,
-        homeType: params?.homeType,
-      },
-    });
+    const query: SearchParams = {
+      location:
+        params?.location ||
+        router.query.location?.toString() ||
+        `${user.user.location.city} ${user.user.location.state}`,
+      minBathroom: params?.minBathroom || user.user.housingPreferences.bath,
+      minPrice: params?.minPrice || user.user.housingPreferences.budget.min,
+      minBed: params?.minBed || user.user.housingPreferences.bed,
+      sort: params?.sort,
+      homeType: params?.homeType,
+    };
+    const data = await fetchProperties(query);
     setParams({
-      location: `${user.user.location.city}, ${user.user.location.state}`,
+      location: query.location,
     });
     setHomes(data);
     updateHomeState(data);
@@ -57,7 +59,7 @@ function HomeDisplays({
 
       <div className="  overflow-y-scroll max-h-[100%]  justify-center  ">
         <div className="flex justify-start w-full ">
-          {params && (
+          {params && homes && homes.length && (
             <div className="text-xl flex gap-2">
               <h1 className="font-semibold">{homes.length} results in </h1>
               <span className="text-slate-500 underline">

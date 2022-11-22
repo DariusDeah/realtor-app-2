@@ -1,4 +1,5 @@
-import React, { RefObject, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Home_Types } from "../models/homeTypes";
 import { SearchParams } from "../types/searchParams";
 import FilterBadge from "./ui/FilterBadge";
@@ -39,7 +40,7 @@ function SearchFilter({
     });
 
     const filterValues = Object.values(filters).filter(
-      (filterValue) => filterValue !== null && filterValue.toString().length
+      (filterValue) => filterValue && filterValue.toString().length
     );
     setCurrentFilters(filterValues);
   };

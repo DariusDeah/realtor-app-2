@@ -22,7 +22,10 @@ function SignupForm({}: Props) {
   const router = useRouter();
   const { query } = useRouter();
   const currentStep = parseInt(query["step"] ? query["step"][0] : "1");
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState({ type: "", message: "" });
+  const [alertNotifications, setAlertNotifications] = useState<JSX.Element[]>(
+    []
+  );
 
   const MAX_STEPS = 4;
 
@@ -31,7 +34,7 @@ function SignupForm({}: Props) {
     if (query["step"] && parseInt(query["step"][0]) < MAX_STEPS) {
       window.localStorage.setItem("currentStep", JSON.stringify(currentStep));
     }
-    setUserData(JSON.parse(window.localStorage.getItem("User") ?? "{}"));
+    setUserData(JSON.parse(window.localStorage.getItem("User") || "{}"));
     timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   }, []);
 
@@ -73,13 +76,22 @@ function SignupForm({}: Props) {
     // alert("Are you sure you're ready to submit this form?");
     //validate form data
     if (userData && !isValidUserFormData(userData)) {
-      setError(true);
+      // setError({ type: "erorr", message: "erorr form data" });
+
       return;
     }
 
     // throw new Error("fix form");
     const res = await dispatch(signUpUser(userData));
     if (res.meta.requestStatus.includes("fulfilled")) {
+      setAlertNotifications((prevState: JSX.Element[]) => [
+        ...prevState,
+        <Alert
+          title="Signup Success"
+          description={`welcome ${userData.fullName}`}
+          type={AlertTypes.Success}
+        />,
+      ]);
       router.push("/sign-up?step=4", undefined, { shallow: true });
 
       window.localStorage.removeItem("User");
@@ -88,18 +100,29 @@ function SignupForm({}: Props) {
       setTimeout(() => {
         router.push("/");
       }, 4000);
+    } else {
+      console.log({ res });
+      setAlertNotifications((prevState: JSX.Element[]) => [
+        ...prevState,
+        <Alert
+          title={res.error.name}
+          description={res.error.message}
+          type={AlertTypes.Error}
+        />,
+      ]);
     }
   };
 
   const isValidUserFormData = (userData: User) => {
-    return (
-      userData.email &&
-      userData.fullName &&
-      userData.location.address &&
-      userData.location.city &&
-      userData.location.state &&
-      userData.location.zipcode
-    );
+    // return (
+    //   userData.email &&
+    //   userData.fullName &&
+    //   userData.location.address &&
+    //   userData.location.city &&
+    //   userData.location.state &&
+    //   userData.location.zipcode
+    // );
+    return true;
   };
 
   const step4Content = (
@@ -113,13 +136,10 @@ function SignupForm({}: Props) {
 
   return (
     <>
-      {error && (
-        <Alert
-          title="Error In Form"
-          description="please check the information you inputted into the forms "
-          type={AlertTypes.Error}
-        />
-      )}
+      {/* {alertNotifications.map((notification) => {
+        <div>{notification}</div>;
+      })} */}
+      {alertNotifications}
       <div className="flex flex-col items-center mt-4 ">
         {/* Steps */}
         <Suspense fallback={<div>Loading steps...</div>}>
@@ -129,7 +149,7 @@ function SignupForm({}: Props) {
         <form className="w-full">
           <div className="  w-screen lg:w-full  ">
             <Suspense fallback={<div>Loading Form Content</div>}>
-              {currentStep === 1 && (
+              {currentStep === 1 && userData && (
                 <FormStep1
                   userData={userData}
                   nextStepFunction={handleNextStep}

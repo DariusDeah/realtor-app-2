@@ -1,7 +1,8 @@
 import { motion, Variants } from "framer-motion";
 import { NextPage } from "next";
 import Image from "next/image";
-import { lazy, Suspense, useEffect } from "react";
+import Link from "next/link";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
 import { homeTestData } from "../utils/mock-data";
 
@@ -31,12 +32,12 @@ const blockVariant = (delay: number) => {
   };
   return cardVariants;
 };
-
 type list = {
   title: string;
   subtitle: string;
   img: string;
   animationDelay: number;
+  query: string;
 }[];
 
 const list: list = [
@@ -45,6 +46,7 @@ const list: list = [
     subtitle: "Many homes to find for really awesome prices",
     img: "https://opendoodles.s3-us-west-1.amazonaws.com/plant.svg",
     animationDelay: 0.1,
+    query: "Home",
   },
   {
     title: "Rent a place",
@@ -52,6 +54,7 @@ const list: list = [
   cover search from our 1000+ apartments and condos`,
     img: "https://opendoodles.s3-us-west-1.amazonaws.com/reading-side.svg",
     animationDelay: 0.3,
+    query: "Rent",
   },
   {
     title: "Sell your place",
@@ -59,6 +62,7 @@ const list: list = [
   easy as opening boxes`,
     img: "https://opendoodles.s3-us-west-1.amazonaws.com/unboxing.svg",
     animationDelay: 0.5,
+    query: "Sell",
   },
   {
     title: "Search",
@@ -66,9 +70,13 @@ const list: list = [
     expansive catalogue of homes,condos, and apartments`,
     img: "https://opendoodles.s3-us-west-1.amazonaws.com/clumsy.svg",
     animationDelay: 0.7,
+    query: "",
   },
 ];
 const Home: NextPage = () => {
+  const [housingPreference, setHousingPreference] = useState<string>("");
+  const addressRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {});
   return (
     <div className="lg:flex">
@@ -80,7 +88,7 @@ const Home: NextPage = () => {
       <div className="">
         <div className=" w-full relative ">
           {/* Cover */}
-          <div className=" lg:flex justify-between flex-col absolute hidden z-50 top-24 left-40 h-96 bg-white p-5 rounded-md w-1/3">
+          <div className=" flex gap-5 opacity-90  flex-col absolute z-50 lg:top-24 lg:right-[60%] bottom-10 right-10  lg:left-40 h-fit bg-white p-5 rounded-md ">
             <div>
               <h1 className="font-semibold text-5xl text-center">
                 Search Pillow
@@ -111,6 +119,7 @@ const Home: NextPage = () => {
               </svg>
 
               <input
+                ref={addressRef}
                 type="text"
                 className="border-none p-1 input-ghost w-1/2"
                 placeholder="enter address, city, or zip"
@@ -119,22 +128,39 @@ const Home: NextPage = () => {
             <div className="flex flex-col items-center space-y-4">
               <p className="text-lg">What is your housing preference? </p>
               <div className=" w-1/2 flex justify-evenly">
-                <button className="btn btn-outline btn-square ">Buy</button>
-                <button className="btn btn-outline hover btn-square">
+                <button
+                  className={`btn btn-outline  btn-square ${
+                    housingPreference === "Buy" && "bg-slate-800 text-white"
+                  }`}
+                  onClick={() => setHousingPreference("Buy")}
+                >
+                  Buy
+                </button>
+                <button
+                  className={`btn btn-outline  btn-square ${
+                    housingPreference === "Rent" && "bg-slate-800 text-white"
+                  }`}
+                  onClick={() => setHousingPreference("Rent")}
+                >
                   Rent
                 </button>
               </div>
             </div>
-            <button className=" btn-block btn-primary btn btn-square">
-              Search
-            </button>
+            <Link
+              href={`search?pricing=${housingPreference}&location=${
+                addressRef.current && addressRef.current.value
+              }`}
+            >
+              <button className=" btn-block btn-primary btn btn-square">
+                Search
+              </button>
+            </Link>
           </div>
           <div
             className="
           relative 
-          w-[100%]
+          w-full
           h-[70vh]
-
           "
           >
             <Image
@@ -149,36 +175,42 @@ const Home: NextPage = () => {
         <div className="lg:flex hidden sticky top-0" id="nav">
           <Navbar />
         </div>
-        <section className="lg:space-y-3 space-y-14 lg:mx-32">
+        <section className="lg:space-y-3 space-y-14 lg:mx-16 mx-8  ">
           <Suspense fallback={<h1>Loading Content</h1>}>
             <div className=" lg:p-24 " id="Explore">
-              <h1 className="lg:text-3xl font-semibold">Explore All</h1>
-              <motion.ul
-                initial="offscreen"
-                whileInView="onscreen"
-                viewport={{ once: true, amount: 0.8 }}
-                className="flex  justify-between lg:grid grid-cols-4   lg:p-6 scroll-p-3 space-x-6   overflow-x-auto snap-x scrollbar-hide  "
-              >
-                {list.map((item) => (
-                  <CTACard
-                    key={item.title}
-                    title={item.title}
-                    animationDelay={item.animationDelay}
-                    img={item.img}
-                    subtitle={item.subtitle}
-                  />
-                ))}
-              </motion.ul>
+              <h1 className="lg:text-3xl font-semibold text-2xl  my-5 ">
+                Explore All
+              </h1>
+              <div className=" w-full ">
+                <motion.ul
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  viewport={{ once: true, amount: 0.8 }}
+                  className="flex w-full  gap-5 lg:grid grid-cols-4   lg:p-6 scroll-p-3   overflow-x-auto scrollbar-hide  "
+                >
+                  {list.map((item) => (
+                    <CTACard
+                      query={item.query}
+                      key={item.title}
+                      title={item.title}
+                      animationDelay={item.animationDelay}
+                      img={item.img}
+                      subtitle={item.subtitle}
+                    />
+                  ))}
+                </motion.ul>
+              </div>
             </div>
+            <div className="divider"></div>
             <div className="mx-auto lg:p-24 " id="New">
-              <h1 className="text-3xl font-semibold">
+              <h1 className="lg:text-3xl font-semibold text-2xl">
                 New Homes {"&"} Apartments
               </h1>
               <motion.ul
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex flex-wrap  justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+                className="flex flex-wrap  justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
                 {homes.map((home) => (
                   <motion.li
@@ -203,7 +235,7 @@ const Home: NextPage = () => {
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex flex-wrap justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+                className="flex flex-wrap justify-between lg:grid grid-cols-4   scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
                 {homes.map((home) => (
                   <motion.li
@@ -228,7 +260,7 @@ const Home: NextPage = () => {
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+                className="flex flex-wrap justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
                 {homes.map((home) => (
                   <motion.li
@@ -253,7 +285,7 @@ const Home: NextPage = () => {
                 initial="offscreen"
                 whileInView="onscreen"
                 viewport={{ once: true, amount: 0.8 }}
-                className="flex justify-between lg:grid grid-cols-4  p-6 scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
+                className="flex flex-wrap justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
                 {homes.map((home) => (
                   <motion.li

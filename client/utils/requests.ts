@@ -20,7 +20,8 @@ export async function fetchProperties({
   });
   // console.log("/homes called");
   const homes = JSON.parse(res.data);
-  const modifiedHomes: any[] = homes.props.map((home: any) => new Homes(home));
+  const modifiedHomes: any[] =
+    homes.props && homes.props.map((home: any) => new Homes(home));
   return modifiedHomes;
 }
 
