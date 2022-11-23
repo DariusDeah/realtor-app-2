@@ -4,6 +4,7 @@ import { User } from "../models/user";
 import { UserDTO } from "../models/userDTO";
 import { login, signup } from "../utils/requests";
 import { RootState } from "./store";
+import jwt_decode from "jwt-decode";
 
 interface UserState {
   user: {
@@ -49,6 +50,7 @@ export const signUpUser = createAsyncThunk(
     return res.data;
   }
 );
+
 const loginUser = createAsyncThunk(
   "account/login",
   async (userData: any, thunkApi) => {
@@ -57,6 +59,15 @@ const loginUser = createAsyncThunk(
     return res.data;
   }
 );
+
+export const refreshUser = createAsyncThunk("account/refresh", () => {
+  console.log("decoding token");
+  const decodedUser = jwt_decode(document.cookie);
+
+  console.log({ decodedUser }, "test decoding");
+  return decodedUser;
+});
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -84,7 +95,12 @@ export const userSlice = createSlice({
         state.error = action.error;
       }
     );
-
+    builder.addCase(
+      refreshUser.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.user = { ...new User(action.payload) };
+      }
+    );
     builder.addCase(
       loginUser.fulfilled,
       (state, action: PayloadAction<string>) => {

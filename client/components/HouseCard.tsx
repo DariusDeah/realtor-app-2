@@ -11,7 +11,7 @@ type Props = {
 
 function HouseCard({ home, homeImg }: Props) {
   const [likedCard, setLikedCard] = useState(false);
-  const user = testUser;
+  const user = null;
   let cardHeartIcon = likedCard ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -65,21 +65,23 @@ function HouseCard({ home, homeImg }: Props) {
         </div>
         <div>
           <>
-            <div className="font-semibold  space-x-2">
-              {user.user.recentlyViewed.includes(home.zpid) && (
-                <FilterBadge type="Recently Viewed" />
-              )}
-              {home.price <= user.user.housingPreferences.budget.max &&
-                home.price >= user.user.housingPreferences.budget.min && (
-                  <FilterBadge type="Within Budget" />
+            {user && (
+              <div className="font-semibold  space-x-2">
+                {user.user.recentlyViewed.includes(home.zpid) && (
+                  <FilterBadge type="Recently Viewed" />
                 )}
-              {home.bedrooms === user.user.housingPreferences.bed && (
-                <FilterBadge type="Perfect Match" />
-              )}
-              {home.price > user.user.housingPreferences.budget.max && (
-                <FilterBadge type="Over Budget" />
-              )}
-            </div>
+                {home.price <= user.user.housingPreferences.budget.max &&
+                  home.price >= user.user.housingPreferences.budget.min && (
+                    <FilterBadge type="Within Budget" />
+                  )}
+                {home.bedrooms === user.user.housingPreferences.bed && (
+                  <FilterBadge type="Perfect Match" />
+                )}
+                {home.price > user.user.housingPreferences.budget.max && (
+                  <FilterBadge type="Over Budget" />
+                )}
+              </div>
+            )}
             <h2 className="card-title">{home.address.streetAddress}</h2>
             <p>
               {home.address.city} {home.address.state} {home.address.zipcode}
@@ -93,7 +95,7 @@ function HouseCard({ home, homeImg }: Props) {
             <div className="badge badge-outline">Baths {home.bathrooms}</div>
             <div className="badge badge-outline"> {home.propertyType}</div>
             <div className="badge badge-outline">
-              {home.lotAreaValue} {home.lotAreaUnit}
+              {home.size} {home.lotAreaUnit}
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ export class User {
   fullName: string;
   email: string;
   photoUrl: string;
+  photo: string;
   favoriteHomes?: any[];
   membershipStatus: "premium" | "base";
   recentlyViewed?: any[];
@@ -30,7 +31,7 @@ export class User {
     this.fullName = data.fullName || data.full_name;
     this.email = data.email;
     this.id = data.id;
-    this.photoUrl = data.photoUrl || data.profile_img_url;
+    this.photoUrl = data.photoUrl || data.profile_img_url || data.photo;
     this.favoriteHomes = data.favoriteHomes || data.favorite_homes || [];
     this.membershipStatus =
       data.membershipStatus || data.membership_status || "base";
@@ -38,10 +39,6 @@ export class User {
     this.timezone = data.timezone || "";
     this.housingPreferences =
       data.housing_preferences || data.housingPreferences;
-    this.location = data.location;
-    this.location.address = data.location.address || "";
-    this.location.state = data.location.state || "";
-    this.location.zipcode = data.location.zip_code || "";
-    this.location.city = data.location.city || "";
+    this.location = data.location || "";
   }
 }

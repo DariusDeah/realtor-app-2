@@ -42,7 +42,9 @@ export class Homes {
   constructor(data: any) {
     this.zpid = data.zpid;
     this.address = this.formatAddress(data.address);
-    this.imgSrc = data.imgSrc;
+    this.imgSrc = data.imgSrc.length
+      ? data.imgSrc
+      : "https://images.unsplash.com/photo-1511452885600-a3d2c9148a31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1021&q=80";
     this.price = data.price;
     this.listingStatus = data.listingStatus;
     this.hasImage = data.hasImage;

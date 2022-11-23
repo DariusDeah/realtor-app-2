@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
+import { useAppDispatch } from "../redux";
+import { refreshUser } from "../redux/user.reducer";
 import { homeTestData } from "../utils/mock-data";
 
 const Footer = lazy(() => import("../components/Footer"));
@@ -212,9 +214,9 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap  justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home) => (
+                {homes.map((home, index) => (
                   <motion.li
-                    variants={blockVariant(Math.random() * 1)}
+                    variants={blockVariant(index * 0.2)}
                     className="flex overflow-x-auto"
                     key={home.zpid}
                   >
@@ -237,9 +239,9 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap justify-between lg:grid grid-cols-4   scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home) => (
+                {homes.map((home, index) => (
                   <motion.li
-                    variants={blockVariant(Math.random() * 1)}
+                    variants={blockVariant(index * 0.2)}
                     className="flex overflow-x-auto"
                     key={home.zpid}
                   >
@@ -262,9 +264,9 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home) => (
+                {homes.map((home, index) => (
                   <motion.li
-                    variants={blockVariant(Math.random() * 1)}
+                    variants={blockVariant(index * 0.3)}
                     className="flex overflow-x-auto"
                     key={home.zpid}
                   >
@@ -287,9 +289,9 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home) => (
+                {homes.map((home, index) => (
                   <motion.li
-                    variants={blockVariant(Math.random() * 1)}
+                    variants={blockVariant(index * 0.3)}
                     className="flex overflow-x-auto"
                     key={home.zpid}
                   >

@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeaderItem from "./Header-Item";
 import Router, { useRouter } from "next/router";
-import { useAppSelector } from "../redux";
-import { selectUser } from "../redux/user.reducer";
+import { useAppDispatch, useAppSelector } from "../redux";
+import { refreshUser, selectUser } from "../redux/user.reducer";
 
 function Header() {
   const user = useAppSelector(selectUser);
   const router = useRouter();
-
+  const dispatch = useAppDispatch();
+  async function refreshUserFunc() {
+    await dispatch(refreshUser());
+  }
+  useEffect(() => {
+    refreshUserFunc();
+  }, []);
   return (
     <div
       id="header"

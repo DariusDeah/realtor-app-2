@@ -18,8 +18,6 @@ type ModalProps = {
 };
 
 const Modal = ({ title, content, btnContent }: ModalProps) => {
-  console.log({ content });
-  console.log("clicked");
   return (
     <Portal selector="#modal">
       {/* Put this part before </body> tag */}
@@ -56,7 +54,7 @@ function HomeDetails({}: Props) {
     image: images[0],
   });
   const [limit, setLimit] = useState(8);
-  const user = testUser;
+  const user = null;
 
   async function fetchHome() {
     const home = await fetchProperty(homeId as string);
@@ -112,8 +110,6 @@ function HomeDetails({}: Props) {
                   layout="fill"
                   objectFit="cover"
                   objectPosition="center"
-                  // height={500}
-                  // width={700}
                 />
               </label>
             </div>
@@ -173,21 +169,23 @@ function HomeDetails({}: Props) {
                 {home.address.city}, {home.address.state} -{" "}
                 {home.address.zipcode}
               </h4>
-              <div className="font-semibold  space-x-2">
-                {user.user.recentlyViewed.includes(home.zpid) && (
-                  <FilterBadge type="Recently Viewed" />
-                )}
-                {home.price <= user.user.housingPreferences.budget.max &&
-                  home.price >= user.user.housingPreferences.budget.min && (
-                    <FilterBadge type="Within Budget" />
+              {user && (
+                <div className="font-semibold  space-x-2">
+                  {user.user.recentlyViewed.includes(home.zpid) && (
+                    <FilterBadge type="Recently Viewed" />
                   )}
-                {home.bedrooms === user.user.housingPreferences.bed && (
-                  <FilterBadge type="Perfect Match" />
-                )}
-                {home.price > user.user.housingPreferences.budget.max && (
-                  <FilterBadge type="Over Budget" />
-                )}
-              </div>
+                  {home.price <= user.user.housingPreferences.budget.max &&
+                    home.price >= user.user.housingPreferences.budget.min && (
+                      <FilterBadge type="Within Budget" />
+                    )}
+                  {home.bedrooms === user.user.housingPreferences.bed && (
+                    <FilterBadge type="Perfect Match" />
+                  )}
+                  {home.price > user.user.housingPreferences.budget.max && (
+                    <FilterBadge type="Over Budget" />
+                  )}
+                </div>
+              )}
               <div className="flex lg:gap-5  w-full">
                 <div className="flex items-center gap-2">
                   <p>{home.bedrooms} beds</p>
@@ -225,8 +223,8 @@ function HomeDetails({}: Props) {
                 <Image
                   src={home.primaryAgentInfo.imgSrc}
                   layout="fixed"
-                  height={100}
-                  width={100}
+                  height={80}
+                  width={80}
                   className="rounded-full"
                 />
               </div>

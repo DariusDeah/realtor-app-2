@@ -31,7 +31,7 @@ export async function fetchProperty(homeId: string) {
   //     zpid: homeId,
   //   },
   // });
-  // return JSON.parse(res.data);
+  // return { ...new Homes(JSON.parse(res.data)) };
   return { ...new Homes(homeTestData) };
 }
 export async function fetchPropertyImages(homeId: string) {
@@ -40,8 +40,8 @@ export async function fetchPropertyImages(homeId: string) {
   //     zpid: homeId,
   //   },
   // });
-  return mock_images;
   // JSON.parse(res.data);
+  return mock_images;
 }
 
 export async function fetchFavoriteFavorites() {
