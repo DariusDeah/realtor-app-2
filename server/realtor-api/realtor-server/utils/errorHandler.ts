@@ -47,6 +47,45 @@ export class NotFoundError implements LambdaError {
     }
 }
 
+export class UnAuthorizedError implements LambdaError {
+    statusCode: number;
+    message: string;
+    timeOfError: string;
+    location?: string | undefined;
+    constructor(message: string) {
+        this.statusCode = 401;
+        this.message = message;
+        this.timeOfError = new Date(Date.now()).toUTCString();
+        this.throwError();
+    }
+    private throwError() {
+        throw {
+            statusCode: this.statusCode,
+            message: this.message,
+            timeOfError: this.timeOfError,
+        };
+    }
+}
+export class ForbiddenError implements LambdaError {
+    statusCode: number;
+    message: string;
+    timeOfError: string;
+    location?: string | undefined;
+    constructor(message: string) {
+        this.statusCode = 403;
+        this.message = message;
+        this.timeOfError = new Date(Date.now()).toUTCString();
+        this.throwError();
+    }
+    private throwError() {
+        throw {
+            statusCode: this.statusCode,
+            message: this.message,
+            timeOfError: this.timeOfError,
+        };
+    }
+}
+
 export class LambdaProxyErrorHandler implements LambdaError {
     statusCode: number;
     message: string;

@@ -1,8 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { DEFAULT_HEADERS } from './headers';
 import { appendHeaders } from './utils/appendHeaders';
 import { AuthHandler } from './utils/authHandler';
 import { dbClient } from './utils/dynamo.config';
-import { LambdaProxyErrorHandler } from './utils/errorHandler';
+import { LambdaProxyErrorHandler, NotFoundError, UnAuthorizedError } from './utils/errorHandler';
 
 /**
  *
@@ -17,24 +18,14 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
     let response: APIGatewayProxyResult;
 
     try {
-        console.log({ event }, { context });
         if (!event.headers['Cookie']) {
-            return (response = {
-                statusCode: 401,
-                body: JSON.stringify({
-                    err: {
-                        statusCode: 401,
-                        message: 'unauthorized action,please authenticate and try again',
-                    },
-                }),
-                headers: appendHeaders(),
-                isBase64Encoded: false,
-            });
+            return new UnAuthorizedError('unauthorized action,please authenticate and try again');
         }
         const userId = AuthHandler.getUserIdFromJwtCookieHeader(event);
         //Read cookie from header, deserialize, add to home object as creator_id
         if (!userId) {
-            throw new Error(` invalid id`);
+            console.error(`${userId} is invalid id`);
+            throw new NotFoundError('no user found');
         }
 
         const results = await dbClient
@@ -47,7 +38,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
             })
             .promise();
         response = {
-            headers: appendHeaders(),
+            headers: { ...DEFAULT_HEADERS },
             body: JSON.stringify(results.Items),
             statusCode: 200,
             isBase64Encoded: false,
