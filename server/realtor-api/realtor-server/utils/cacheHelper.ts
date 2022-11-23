@@ -24,6 +24,7 @@ class CacheHelper {
                     Item: { ...item, expireAt: one_epoch_day_from_current_time },
                 })
                 .promise();
+            console.log(res);
             return res;
         } catch (error) {
             console.log(error);
@@ -45,7 +46,7 @@ class CacheHelper {
                 console.log({ cacheRes });
                 return cacheRes.Item;
             } else {
-                console.log('no cache');
+                console.log('no cache', { cacheRes });
                 return null;
             }
         } catch (error) {

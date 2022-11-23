@@ -24,7 +24,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any) =
                 statusCode: 200,
                 body: JSON.stringify({
                     message: 'successful',
-                    data: cachedData.data,
+                    data: cachedData,
                 }),
                 isBase64Encoded: false,
             });

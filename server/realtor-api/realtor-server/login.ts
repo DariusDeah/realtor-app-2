@@ -25,8 +25,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent, context: any): 
                 },
             })
             .promise();
-        console.log(res.Items || res);
-        if (!res.Items) {
+        console.log(res.Items);
+        if (!res.Items || !res.Items.length) {
             return (response = {
                 headers: { ...DEFAULT_HEADERS },
                 isBase64Encoded: false,
