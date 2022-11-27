@@ -101,7 +101,6 @@ function SignupForm({}: Props) {
         router.push("/");
       }, 4000);
     } else {
-      console.log({ res });
       setAlertNotifications((prevState: JSX.Element[]) => [
         ...prevState,
         <Alert

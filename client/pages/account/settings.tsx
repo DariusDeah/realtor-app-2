@@ -9,15 +9,14 @@ import { testUser } from "../../utils/mock-user";
 type Props = {};
 
 function settings({}: Props) {
-  const user = testUser;
-  const router = useRouter();
-  // const [currentTab, setCurrentTab] = useState(1);
+  const user = useAppSelector(selectUser);
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (!user.user) {
-      router.push("/sign-up");
-    }
-  });
+  // // useEffect(() => {
+  // //   if (!user.user) {
+  // //     router.push("/sign-up");
+  // //   }
+  // // });
 
   const ProfileTabContent = user.user && (
     <div className="flex flex-col w-full  gap-5  ">

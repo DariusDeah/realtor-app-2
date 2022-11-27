@@ -5,6 +5,7 @@ type Props = {
   errorMessage: string;
   label: string;
   style?: string;
+  pending?: boolean;
 } & JSX.IntrinsicElements["input"];
 
 function Input({
@@ -18,6 +19,7 @@ function Input({
   required,
   style,
   list,
+  pending,
 }: Props) {
   return (
     <div className="flex flex-col ">
@@ -33,7 +35,10 @@ function Input({
         } ${style}`}
         list={list}
       />
-      {errorCondition && <p className="text-xs text-error">{errorMessage}</p>}
+      {(pending && <p className="text-xs ">validating..</p>) ||
+        (errorCondition && (
+          <p className="text-xs text-error">{errorMessage}</p>
+        ))}
     </div>
   );
 }

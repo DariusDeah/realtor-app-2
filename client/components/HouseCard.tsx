@@ -1,6 +1,9 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { useAppSelector } from "../redux";
+import { selectUser, userSlice } from "../redux/user.reducer";
 import { testUser } from "../utils/mock-user";
+import Alert, { AlertTypes } from "./ui/Alert";
 import FilterBadge from "./ui/FilterBadge";
 
 type Props = {
@@ -11,14 +14,18 @@ type Props = {
 
 function HouseCard({ home, homeImg }: Props) {
   const [likedCard, setLikedCard] = useState(false);
-  const user = null;
+  const [toastAlert, setToastAlert] = useState<JSX.Element>();
+  const user = useAppSelector(selectUser);
   let cardHeartIcon = likedCard ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="h-7 w-7  text-red-500 cursor-pointer"
       viewBox="0 0 24 24"
       fill="currentColor"
-      onClick={() => setLikedCard(false)}
+      onClick={() => {
+        setLikedCard(false);
+        handleUnlikeBtn();
+      }}
     >
       <path
         fillRule="evenodd"
@@ -34,7 +41,10 @@ function HouseCard({ home, homeImg }: Props) {
       viewBox="0 0 24 24"
       stroke="currentColor"
       strokeWidth={2}
-      onClick={() => setLikedCard(true)}
+      onClick={() => {
+        setLikedCard(true);
+        handleLikeBtn();
+      }}
     >
       <path
         strokeLinecap="round"
@@ -44,8 +54,28 @@ function HouseCard({ home, homeImg }: Props) {
     </svg>
   );
 
+  const handleLikeBtn = () => {
+    setToastAlert(
+      <Alert
+        title="Item Added to Favorites"
+        type={AlertTypes.Success}
+        updateFunc={setToastAlert}
+      />
+    );
+  };
+
+  const handleUnlikeBtn = () => {
+    setToastAlert(
+      <Alert
+        title="Item Removed from Favorites"
+        type={AlertTypes.Info}
+        updateFunc={setToastAlert}
+      />
+    );
+  };
   return (
-    <div className="card w-96 mx-1 my-2 bg-base-100 shadow-xl cursor-pointer">
+    <div className="card w-96 mx-1 my-2 bg-base-100 shadow-md cursor-pointer ">
+      {toastAlert}
       <Link href={`/home-details/${home.zpid}`}>
         <figure>{<img src={homeImg} alt="home" />}</figure>
       </Link>
@@ -65,23 +95,24 @@ function HouseCard({ home, homeImg }: Props) {
         </div>
         <div>
           <>
-            {user && (
+            {/* {user.user && (
               <div className="font-semibold  space-x-2">
-                {user.user.recentlyViewed.includes(home.zpid) && (
+              {user.user.recentlyViewed &&
+                user.user.recentlyViewed.includes(home.zpid) && (
                   <FilterBadge type="Recently Viewed" />
-                )}
-                {home.price <= user.user.housingPreferences.budget.max &&
-                  home.price >= user.user.housingPreferences.budget.min && (
-                    <FilterBadge type="Within Budget" />
                   )}
-                {home.bedrooms === user.user.housingPreferences.bed && (
-                  <FilterBadge type="Perfect Match" />
-                )}
-                {home.price > user.user.housingPreferences.budget.max && (
-                  <FilterBadge type="Over Budget" />
-                )}
-              </div>
-            )}
+                  {home.price <= user.user.housingPreferences.budget.max &&
+                    home.price >= user.user.housingPreferences.budget.min && (
+                      <FilterBadge type="Within Budget" />
+                      )}
+                      {home.bedrooms === user.user.housingPreferences.bedrooms && (
+                        <FilterBadge type="Perfect Match" />
+                        )}
+                        {home.price > user.user.housingPreferences.budget.max && (
+                          <FilterBadge type="Over Budget" />
+                          )}
+                          </div>
+                        )} */}
             <h2 className="card-title">{home.address.streetAddress}</h2>
             <p>
               {home.address.city} {home.address.state} {home.address.zipcode}
@@ -90,7 +121,7 @@ function HouseCard({ home, homeImg }: Props) {
 
           <div className="divider"></div>
 
-          <div className="card-actions justify-between mt-5">
+          <div className="card-actions  mt-5  ">
             <div className="badge badge-outline">Beds {home.bedrooms}</div>
             <div className="badge badge-outline">Baths {home.bathrooms}</div>
             <div className="badge badge-outline"> {home.propertyType}</div>

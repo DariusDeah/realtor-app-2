@@ -33,7 +33,9 @@ interface UserState {
     };
   } | null;
   success: boolean | null;
-  error: any | null;
+  error: {
+    message: string | null;
+  } | null;
 }
 
 const initialState: UserState = {
@@ -47,24 +49,20 @@ export const signUpUser = createAsyncThunk(
   async (userData: any) => {
     const reqBody = new UserDTO(userData);
     const res = await signup({ ...reqBody });
-    return res.data;
+    return res;
   }
 );
 
-const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   "account/login",
-  async (userData: any, thunkApi) => {
-    const reqBody = new UserDTO(userData);
-    const res = await login({ ...reqBody });
-    return res.data;
+  async (userData: any) => {
+    const res = await login(userData);
+    return res;
   }
 );
 
 export const refreshUser = createAsyncThunk("account/refresh", () => {
-  console.log("decoding token");
   const decodedUser = jwt_decode(document.cookie);
-
-  console.log({ decodedUser }, "test decoding");
   return decodedUser;
 });
 
@@ -82,30 +80,43 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       signUpUser.fulfilled,
-      (state, action: PayloadAction<string>) => {
+      (state, action: PayloadAction<AxiosResponse>) => {
         const parsedRes: AxiosResponse<User & UserDTO> = JSON.parse(
-          action.payload
+          action.payload.data
         );
         state.user = { ...new User(parsedRes.data) };
       }
     );
     builder.addCase(
       signUpUser.rejected,
-      (state, action: PayloadAction<any>) => {
-        state.error = action.error;
+      (state, action: PayloadAction<AxiosResponse | any>) => {
+        state.error = {
+          message: action.payload.status,
+        };
       }
     );
+
     builder.addCase(
       refreshUser.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.user = { ...new User(action.payload) };
       }
     );
+
     builder.addCase(
       loginUser.fulfilled,
-      (state, action: PayloadAction<string>) => {
-        const parsedRes: AxiosResponse<User | any> = JSON.parse(action.payload);
-        state.user = { ...new User(parsedRes.data) };
+      (state, action: PayloadAction<AxiosResponse | any>) => {
+        state.success = true;
+        state.user = { ...new User(action.payload.data) };
+      }
+    );
+
+    builder.addCase(
+      loginUser.rejected,
+      (state, action: PayloadAction<AxiosResponse | any>) => {
+        state.error = {
+          message: action.payload,
+        };
       }
     );
   },

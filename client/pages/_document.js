@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import React from "react";
+import React, { useEffect } from "react";
 
 class MyDocument extends Document {
   render() {
@@ -8,6 +8,7 @@ class MyDocument extends Document {
         <Head />
         <div id="modal" />
         <div id="alert" />
+        <div id="tooltip" />
         <body>
           <Main />
           <NextScript />

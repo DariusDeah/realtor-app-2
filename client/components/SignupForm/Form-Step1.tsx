@@ -20,6 +20,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: firstNameError,
     errorMessage: firstNameErrorMessage,
     onBlurHandler: firstNameOnBlur,
+    pending: firstNamePending,
   } = useDebounceInput({
     defaultInput: userData.fullName && userData.fullName.split(" ")[0],
     rules: {
@@ -34,6 +35,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: lastNameError,
     errorMessage: lastNameErrorMessage,
     onBlurHandler: lastNameOnBlur,
+    pending: lastNamePending,
   } = useDebounceInput({
     defaultInput: userData.fullName ? userData.fullName.split(" ")[1] : "",
     rules: {
@@ -47,6 +49,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     value: emailValue,
     error: emailError,
     errorMessage: emailErrorMessage,
+    pending: emailPending,
   } = useDebounceInput({
     defaultInput: userData.email || "",
     rules: {
@@ -61,6 +64,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     value: passwordValue,
     error: passwordError,
     errorMessage: passwordErrorMessage,
+    pending: passwordPending,
     onBlurHandler: passwordOnBlur,
   } = useDebounceInput({
     defaultInput: userData.password || "",
@@ -76,6 +80,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: addressError,
     errorMessage: addressErrorMessage,
     onBlurHandler: addressOnBlur,
+    pending: addressPending,
   } = useDebounceInput({
     defaultInput: userData.location ? userData.location.address : "",
     rules: {},
@@ -87,6 +92,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: cityError,
     errorMessage: cityErrorMessage,
     onBlurHandler: cityOnBlur,
+    pending: cityPending,
   } = useDebounceInput({
     defaultInput: userData.location ? userData.location.city : "",
     rules: {},
@@ -98,6 +104,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: stateError,
     errorMessage: stateErrorMessage,
     onBlurHandler: stateOnBlur,
+    pending: statePending,
   } = useDebounceInput({
     defaultInput: userData.location ? userData.location.state : "",
     rules: {
@@ -111,6 +118,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: zipcodeError,
     errorMessage: zipcodeErrorMessage,
     onBlurHandler: zipcodeOnBlur,
+    pending: zipcodePending,
   } = useDebounceInput({
     defaultInput: userData.location ? userData.location.zipcode : "",
     rules: {},
@@ -122,6 +130,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
     error: photoError,
     errorMessage: photoErrorMessage,
     onBlurHandler: photoOnBlur,
+    pending: photoPending,
   } = useDebounceInput({
     defaultInput: userData.photoUrl || "",
     rules: { minLength: 10, isUrl: true },
@@ -177,6 +186,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             onChange={firstNameOnChange}
             errorCondition={firstNameError}
             errorMessage={firstNameErrorMessage}
+            pending={firstNamePending}
             onBlur={firstNameOnBlur}
             required
           />
@@ -186,6 +196,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             errorMessage={lastNameErrorMessage}
             label="Last Name"
             value={lastNameValue}
+            pending={lastNamePending}
             type="text"
             required
             onChange={lastNameOnChange}
@@ -197,6 +208,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             errorMessage={emailErrorMessage}
             label="Email"
             value={emailValue}
+            pending={emailPending}
             type="email"
             className={`input input-bordered input-sm  ${
               emailError && "input-error"
@@ -274,6 +286,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
           <Input
             errorCondition={addressError}
             errorMessage={addressErrorMessage}
+            pending={addressPending}
             label="Address"
             value={addressValue}
             type="text"
@@ -284,6 +297,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
             <Input
               errorCondition={cityError}
               errorMessage={cityErrorMessage}
+              pending={cityPending}
               label="City"
               value={cityValue}
               type="text"
@@ -295,6 +309,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
               <Input
                 errorCondition={stateError}
                 errorMessage={stateErrorMessage}
+                pending={statePending}
                 label="State"
                 value={stateValue.toUpperCase()}
                 type="text"
@@ -362,6 +377,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
               <Input
                 errorCondition={zipcodeError}
                 errorMessage={zipcodeErrorMessage}
+                pending={zipcodePending}
                 label="Zip Code"
                 value={zipcodeValue}
                 type="text"
@@ -374,6 +390,7 @@ function FormStep1({ userData, nextStepFunction }: Props) {
         <Input
           errorCondition={photoError}
           errorMessage={photoErrorMessage}
+          pending={photoPending}
           label="Photo(url)"
           value={photoValue}
           type="url"

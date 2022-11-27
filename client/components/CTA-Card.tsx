@@ -34,7 +34,7 @@ const delayCardVariant = (delay: number) => {
 
 function CTACard({ title, subtitle, img, animationDelay, query }: Props) {
   return (
-    <Link href={`/search?${query}`}>
+    <Link href={`/search?lookingTo=${query}`}>
       <motion.div
         className="flex snap-center cursor-pointer bg-slate-200 rounded-lg  w-full p-10 "
         variants={delayCardVariant(animationDelay)}

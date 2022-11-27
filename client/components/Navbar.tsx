@@ -6,15 +6,14 @@ function Navbar({}: Props) {
   return (
     <nav className="navbar  lg:border-b-2 bg-white flex justify-center   ">
       {navItems.map((item) => (
-        <>
+        <div key={item}>
           <a
-            key={item}
             href={`#${item.split(" ").join("")}`}
             className="selectable text-sm lg:text-2xl font-semibold lg:mx-20 "
           >
             {item}
           </a>
-        </>
+        </div>
       ))}
     </nav>
   );

@@ -26,7 +26,7 @@ function HomeDisplays({
   const router = useRouter();
 
   async function zillowApiCall(params?: SearchParams) {
-    const query: SearchParams = {
+    const query: SearchParams | undefined = {
       location:
         params?.location ||
         router.query.location?.toString() ||

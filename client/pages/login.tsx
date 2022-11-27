@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import AuthCard from "../components/AuthCard";
 import Header from "../components/Header";
@@ -15,17 +17,23 @@ function login({}: Props) {
         {/* TODO only the form component should be in the sign up form */}
         <div className=" ">
           <AuthCard>
-            <div className=" flex justify-center items-end ">
-              <img
-                className="object-contain w-20 h-20"
-                src="https://cdn-icons-png.flaticon.com/512/2159/2159323.png"
-              />
+            <div className=" flex  justify-center">
               <div>
                 <h1 className="text-4xl font-semibold">Pillow</h1>
                 <p>where you rest your head</p>
               </div>
             </div>
-            <LoginForm />
+            <div className="lg:mx-20 ">
+              <LoginForm />
+              <div className="flex items-center justify-center">
+                <p className="text-sm">New to Pillow? </p>
+                <Link href="/sign-up">
+                  <button className="underline btn-ghost selectable">
+                    sign up now
+                  </button>
+                </Link>
+              </div>
+            </div>
           </AuthCard>
         </div>
       </div>

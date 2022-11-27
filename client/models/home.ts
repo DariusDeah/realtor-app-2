@@ -51,7 +51,7 @@ export class Homes {
     this.currency = data.currency;
     this.bedrooms = data.bedrooms;
     this.bathrooms = data.bathrooms;
-    this.propertyType = data.propertyType;
+    this.propertyType = data.propertyType || data.propertyTypeDimension;
     this.lotAreaValue = data.lotAreaValue;
     this.lotAreaUnit = data.lotAreaUnit;
     this.latitude = data.latitude;
@@ -82,7 +82,7 @@ export class Homes {
     this.schools = data.schools || "";
     this.nearbyHomes = data.nearbyHomes || [];
     this.description = data.description;
-    this.size = data.livingArea;
+    this.size = data.livingArea || data.livingAreaValue;
   }
 
   private formatAddress(
@@ -90,20 +90,19 @@ export class Homes {
       | string
       | { streetAddress: string; city: string; state: string; zipcode: string }
   ) {
-    let formattedAddress;
     if (typeof address === "string") {
-      return (formattedAddress = {
+      return {
         streetAddress: address.split(",")[0],
         city: address.split(",")[1],
         state: address.split(",")[2],
         zipcode: address.split(",")[3],
-      });
+      };
     }
-    return (formattedAddress = {
+    return {
       streetAddress: address.streetAddress,
       city: address.city,
       state: address.state,
       zipcode: address.zipcode,
-    });
+    };
   }
 }

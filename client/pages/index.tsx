@@ -4,16 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
+import { Homes } from "../models/home";
 import { useAppDispatch } from "../redux";
 import { refreshUser } from "../redux/user.reducer";
-import { homeTestData } from "../utils/mock-data";
+import { homesListTestData, homeTestData } from "../utils/mock-data";
 
 const Footer = lazy(() => import("../components/Footer"));
 const CTACard = lazy(() => import("../components/CTA-Card"));
 const HouseCard = lazy(() => import("../components/HouseCard"));
 const Navbar = lazy(() => import("../components/Navbar"));
 
-const homes = [homeTestData, homeTestData, homeTestData, homeTestData];
+const homes = [...homesListTestData.props].map((home) => new Homes(home));
 
 const blockVariant = (delay: number) => {
   const cardVariants: Variants = {
@@ -72,14 +73,13 @@ const list: list = [
     expansive catalogue of homes,condos, and apartments`,
     img: "https://opendoodles.s3-us-west-1.amazonaws.com/clumsy.svg",
     animationDelay: 0.7,
-    query: "",
+    query: "Search",
   },
 ];
 const Home: NextPage = () => {
   const [housingPreference, setHousingPreference] = useState<string>("");
   const addressRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {});
   return (
     <div className="lg:flex">
       <Header />
@@ -214,19 +214,22 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap  justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home, index) => (
-                  <motion.li
-                    variants={blockVariant(index * 0.2)}
-                    className="flex overflow-x-auto"
-                    key={home.zpid}
-                  >
-                    <HouseCard
-                      home={home}
-                      homeImg={home.imgSrc}
-                      key={home.zpid}
-                    />
-                  </motion.li>
-                ))}
+                {homes.map(
+                  (home, index) =>
+                    index < 4 && (
+                      <motion.li
+                        variants={blockVariant(index * 0.2)}
+                        className="flex overflow-x-auto"
+                        key={home.zpid}
+                      >
+                        <HouseCard
+                          home={home}
+                          homeImg={home.imgSrc}
+                          key={home.zpid}
+                        />
+                      </motion.li>
+                    )
+                )}
               </motion.ul>
             </div>
             <div className=" lg:p-24 " id="Featured">
@@ -239,19 +242,22 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap justify-between lg:grid grid-cols-4   scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home, index) => (
-                  <motion.li
-                    variants={blockVariant(index * 0.2)}
-                    className="flex overflow-x-auto"
-                    key={home.zpid}
-                  >
-                    <HouseCard
-                      home={home}
-                      homeImg={home.imgSrc}
-                      key={home.zpid}
-                    />
-                  </motion.li>
-                ))}
+                {homes.map(
+                  (home, index) =>
+                    index < 4 && (
+                      <motion.li
+                        variants={blockVariant(index * 0.2)}
+                        className="flex overflow-x-auto"
+                        key={home.zpid}
+                      >
+                        <HouseCard
+                          home={home}
+                          homeImg={home.imgSrc}
+                          key={home.zpid}
+                        />
+                      </motion.li>
+                    )
+                )}
               </motion.ul>
             </div>
             <div className=" lg:p-24 " id="ForRent">
@@ -264,19 +270,22 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home, index) => (
-                  <motion.li
-                    variants={blockVariant(index * 0.3)}
-                    className="flex overflow-x-auto"
-                    key={home.zpid}
-                  >
-                    <HouseCard
-                      home={home}
-                      homeImg={home.imgSrc}
-                      key={home.zpid}
-                    />
-                  </motion.li>
-                ))}
+                {homes.map(
+                  (home, index) =>
+                    index < 4 && (
+                      <motion.li
+                        variants={blockVariant(index * 0.3)}
+                        className="flex overflow-x-auto"
+                        key={home.zpid}
+                      >
+                        <HouseCard
+                          home={home}
+                          homeImg={home.imgSrc}
+                          key={home.zpid}
+                        />
+                      </motion.li>
+                    )
+                )}
               </motion.ul>
             </div>
             <div className=" lg:p-24 " id="ForSale">
@@ -289,19 +298,22 @@ const Home: NextPage = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 className="flex flex-wrap justify-between lg:grid grid-cols-4  scroll-p-3 space-x-2   overflow-x-auto snap-x scrollbar-hide   "
               >
-                {homes.map((home, index) => (
-                  <motion.li
-                    variants={blockVariant(index * 0.3)}
-                    className="flex overflow-x-auto"
-                    key={home.zpid}
-                  >
-                    <HouseCard
-                      home={home}
-                      homeImg={home.imgSrc}
-                      key={home.zpid}
-                    />
-                  </motion.li>
-                ))}
+                {homes.map(
+                  (home, index) =>
+                    index < 4 && (
+                      <motion.li
+                        variants={blockVariant(index * 0.3)}
+                        className="flex overflow-x-auto"
+                        key={home.zpid}
+                      >
+                        <HouseCard
+                          home={home}
+                          homeImg={home.imgSrc}
+                          key={home.zpid}
+                        />
+                      </motion.li>
+                    )
+                )}
               </motion.ul>
             </div>
           </Suspense>

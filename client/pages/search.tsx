@@ -7,8 +7,8 @@ import { fetchProperties } from "../utils/requests";
 
 const Search: NextPage = () => {
   const [mapToggled, setMapToggled] = useState(false);
-  const [homes, setHome] = useState(null);
-  const handleMapToggle = (isToggled: boolean) => {
+  const [homes, setHomes] = useState(null);
+  const handleMapToggle = async (isToggled: boolean) => {
     setMapToggled(isToggled);
   };
 
@@ -16,7 +16,7 @@ const Search: NextPage = () => {
     <div className="lg:flex">
       <Header />
       <HomeDisplays
-        updateHomeState={setHome}
+        updateHomeState={setHomes}
         mapToggleFunction={handleMapToggle}
         mapToggleState={mapToggled}
       />
